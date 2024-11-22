@@ -1,6 +1,8 @@
 using FSD_Project.Components;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -24,4 +26,8 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
-app.Run();
+app.Run(); 
+
+app.UseRouting();
+app.MapBlazorHub();
+app.MapFallbackToPage("/_Host");
