@@ -11,9 +11,8 @@ h1 {
     align-items: center; /* Centers content vertically */
     margin: 0; /* Removes default body margin */
     font-family: 'Cinzel', serif;
-    position: absolute;
+    position: relative;
     top: 100px;
-    left: 800px;
 }
 
 /* use justify-content for containers like headers and buttons, use text-align for block-level containers like <div>, <p>, <h1> */
@@ -24,9 +23,8 @@ h1 {
 
     margin: 1px 0 0 0; /* Removes default margin */
     font-family: 'Cinzel', serif;
-    position: absolute;
-    top: 140px;
-    left: 745px;
+    position: relative;
+    top: 100px;
 }
 
 .subheading {
@@ -36,9 +34,8 @@ h1 {
 
     margin: 1px 0 0 0; /* Removes default margin */
     font-family: 'Cinzel', serif;
-    position: absolute;
-    top: 250px;
-    left: 815px;
+    position: relative;
+    top: 150px;
 }
 
 .form-container {
@@ -48,9 +45,8 @@ h1 {
 
     margin: 1px 0 0 0; /* Removes default margin */
     font-family: 'Cinzel', serif;
-    position: absolute;
-    top: 300px;
-    left: 720px;
+    position: relative;
+    top: 150px;
 }
 
 .username {
