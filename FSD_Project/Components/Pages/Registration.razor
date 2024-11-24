@@ -12,22 +12,29 @@
 
 	<h2 class="subheading">Register</h2>
 
-	<div class="form-container">
-		<div class="username">
-			<label for="username">Username:ㅤ</label>
-			<input type="text" id="username" name="username" class="text-field">
-		</div>
+	<form onsubmit="return validatePassword()">
+		<div class="form-container">
+			<div class="username">
+				<label for="username">Username:ㅤ</label>
+				<input type="text" id="username" name="username" class="text-field">
+			</div>
 
-		<div class="password">
-			<label for="password">Password:ㅤ</label>
-			<input type="password" id="password" name="password" class="text-field">
+			<div class="password">
+				<label for="password">Password:ㅤ</label>
+				<input type="password" id="password" name="password" class="text-field">
+			</div>
+	
+			<div class="reenter-password">
+				<label for="reenter-password">Re-Enter Password:ㅤ</label>
+				<input type="password" id="reenter-password" name="reenter-password" class="text-field">
+			</div>
 
+			<div class="submit-button-container">
+				<button type="submit">Submit</button>
+			</div>
 		</div>
+	</form>
 
-		<div class="submit-button-container">
-			<button type="submit">Submit</button>
-		</div>
-	</div>
 
 	<div class="button-container">
 		<button type="backbutton" onclick="window.location.href='/'">Back</button>
@@ -38,5 +45,38 @@
 	<footer>
 		<small><i>Copyright &copy; 2024 Ruben x John</i></small> <!-- Add your name -->
 	</footer>
+
+	<!--below lies the javascript function for password and re-enter password validation -->
+	<script>
+		function validatePassword(){
+			var password = document.getElementById('password').value;
+			var passwordLength = document.getElementById('password').value.length;
+
+			var reenterPassword = document.getElementById('reenter-password').value;
+
+
+			if (password != reenterPassword)
+			{
+				alert("Please ensure that your passwords match!");
+				return false;
+			}
+
+			else if (passwordLength<8){
+				alert("Please ensure that your password has a minimum length of 8")
+				return false;
+			}
+
+			else {
+				alert("Password matches")
+				return true;
+			}
+		}
+
+	
+	</script>
+
+
+
+
 
 </body>
