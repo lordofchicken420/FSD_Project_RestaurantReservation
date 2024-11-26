@@ -1,5 +1,4 @@
 using FSD_Project.Components;
-
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
