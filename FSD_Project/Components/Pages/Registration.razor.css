@@ -18,6 +18,12 @@ h1 {
     top: 100px;
 }
 
+.alert {
+    position: relative;
+    top: 50px;
+    font-family: 'Cinzel', serif;
+}
+
 .paragraph,
 .subheading {
     text-align: center;
@@ -42,6 +48,7 @@ h1 {
     top: 150px;
 }
 
+.email,
 .username,
 .password,
 .reenter-password,

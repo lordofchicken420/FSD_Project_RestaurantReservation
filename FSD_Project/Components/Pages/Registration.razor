@@ -1,13 +1,13 @@
-﻿<div id="liveAlertPlaceholder"></div>
-
-@page "/Registration"
+﻿@page "/Registration"
 
 <PageTitle>Registration</PageTitle>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 <body>
-
+	<div class="alert">
+		<div id="liveAlertPlaceholder"></div>
+	</div>
 	<header>
 
 		<h1>Athens.</h1>
@@ -16,8 +16,14 @@
 
 	<h2 class="subheading">Register</h2>
 
+
+
 	<form onsubmit="return validatePassword()">
 		<div class="form-container">
+			<div class="email">
+				<label for="email">Email:ㅤ</label>
+				<input type="text" id="email" name="email" class="text-field">
+			</div>
 			<div class="username">
 				<label for="username">Username:ㅤ</label>
 				<input type="text" id="username" name="username" class="text-field">
@@ -34,9 +40,8 @@
 			</div>
 
 			<div class="submit-button-container">
-				
 				<button type="submit" id="Submit">Submit</button>
-				</div>
+			</div>
 		</div>
 
 	</form>
@@ -72,13 +77,22 @@
 		};
 
 		function validatePassword() {
+			var email = document.getElementById('email').value;
+
 			var username = document.getElementById('username').value;
 			var usernameLength = username.length;
 			var password = document.getElementById('password').value;
 			var passwordLength = password.length;
 			var reenterPassword = document.getElementById('reenter-password').value;
 
-			if (password != reenterPassword) {
+			let allowedDomains = ["gmail.com", "yahoo.com", "hotmail.com", "icloud.com", "outlook.com"];
+
+
+			if (!allowedDomains.some(domain => email.includes(domain))){
+				appendAlert('This is not a valid email format.', 'danger');
+				return false;
+			}
+			else if (password != reenterPassword) {
 				appendAlert('Passwords do not match! Please ensure they are identical.', 'danger');
 				return false;
 			} 
