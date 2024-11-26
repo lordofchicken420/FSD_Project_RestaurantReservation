@@ -94,6 +94,12 @@ button {
     left: 10px;
 }
 
+.register-button-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
 .back-button {
     padding: 10px 20px;
     background-color: #444444;
