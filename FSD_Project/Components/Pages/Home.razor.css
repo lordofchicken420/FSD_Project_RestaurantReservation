@@ -1,47 +1,59 @@
-﻿body {
+﻿/* General Styles */
+body {
     background-color: #2C2C2C;
     margin: 0;
+    font-family: 'Cinzel', serif;
+    color: #E7E2B5;
 }
 
+/* Main Heading */
 h1 {
     background-color: #2C2C2C;
     color: #E7E2B5;
-    display: flex; /* Enables Flexbox (which allows you to use justify-content to align stuff (next line)*/
-    justify-content: center; /* Centers content horizontally */
-    align-items: center; /* Centers content vertically */
-    margin: 200px 0 0 0; /* Removes default body margin */
+    display: flex; /* Flexbox for centering */
+    justify-content: center;
+    align-items: center;
+    margin: 200px 0 0 0; /* Top margin for spacing */
     font-family: 'Cinzel', serif;
+    font-size: 3rem; /* Larger font for prominence */
 }
 
-/* use justify-content for containers like headers and buttons, use text-align for block-level containers like <div>, <p>, <h1> */
+/* Paragraph/Subheading Text */
 .paragraph {
     background-color: #2C2C2C;
     color: #E7E2B5;
-    text-align: center; /* Centers text within the paragraph */
-    padding: 20px; /* Adds some padding for spacing */
-    margin: 1px 0 0 0; /* Removes default margin */
+    text-align: center; /* Centers text within the block */
+    padding: 20px; /* Adds padding for better readability */
+    margin: 10px auto; /* Centers the paragraph with auto margins */
     font-family: 'Cinzel', serif;
+    font-size: 1.2rem; /* Slightly larger text for emphasis */
 }
 
-.button-container { /*this is the container for the button, so any aesthetic changes will have to go to button{} */
-
+/* Button Containers */
+.button-container,
+.register-button-container {
     display: flex;
-    justify-content: center;
+    justify-content: center; /* Centers buttons horizontally */
     margin: 20px 0;
 }
 
-.register-button-container { /*this is the container for the button, so any aesthetic changes will have to go to button{} */
-
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-}
-
+/* Button Styles */
 button {
     font-family: 'Cinzel', serif;
+    padding: 10px 20px;
+    background-color: #444444;
+    color: #E7E2B5;
+    border: 1px solid #E7E2B5;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
+    button:hover {
+        background-color: #666666;
+    }
 
+/* Footer Styles */
 footer {
     background-color: #2C2C2C;
     color: #E7E2B5;
@@ -52,9 +64,22 @@ footer {
     left: 0;
     bottom: 0;
     width: 100%;
+    font-size: 0.9rem;
 }
 
+/* Responsive Design for Smaller Screens */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2rem; /* Smaller font size for headings */
+        margin-top: 150px; /* Adjusted spacing for smaller viewports */
+    }
 
-/*.feature { color: #FF0000; }
-/*#content {background-color: #F6F6FD; }*/
+    .paragraph {
+        font-size: 1rem; /* Adjust paragraph text size */
+        padding: 10px;
+    }
 
+    button {
+        padding: 8px 16px; /* Smaller buttons for mobile */
+    }
+}

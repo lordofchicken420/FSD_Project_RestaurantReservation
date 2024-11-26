@@ -1,146 +1,144 @@
-﻿body {
+﻿/* General Styles */
+body {
     background-color: #2C2C2C;
     margin: 0;
+    font-family: 'Cinzel', serif;
+    color: #E7E2B5;
 }
 
 h1 {
     background-color: #2C2C2C;
     color: #E7E2B5;
-    display: flex; /* Enables Flexbox (which allows you to use justify-content to align stuff (next line)*/
-    justify-content: center; /* Centers content horizontally */
-    align-items: center; /* Centers content vertically */
-    margin: 0; /* Removes default body margin */
+    display: flex; /* Flexbox for centering */
+    justify-content: center;
+    align-items: center;
+    margin: 0;
     font-family: 'Cinzel', serif;
     position: relative;
     top: 100px;
 }
 
-/* use justify-content for containers like headers and buttons, use text-align for block-level containers like <div>, <p>, <h1> */
-.paragraph {
-    background-color: #2C2C2C;
-    color: #E7E2B5;
-    text-align: center; /* Centers text within the paragraph */
-
-    margin: 1px 0 0 0; /* Removes default margin */
-    font-family: 'Cinzel', serif;
-    position: relative;
-    top: 100px;
-}
-
+.paragraph,
 .subheading {
-    background-color: #2C2C2C;
-    color: #E7E2B5;
-    text-align: center; /* Centers text within the paragraph */
-
-    margin: 1px 0 0 0; /* Removes default margin */
-    font-family: 'Cinzel', serif;
+    text-align: center;
+    margin: 10px 0;
     position: relative;
+    top: 100px;
+    font-family: 'Cinzel', serif;
+}
+
+/* Subheading specific offset */
+.subheading {
     top: 150px;
 }
 
+/* Form Container Styling */
 .form-container {
-    background-color: #2C2C2C;
-    color: #E7E2B5;
-    text-align: center; /* Centers text within the paragraph */
-
-    margin: 1px 0 0 0; /* Removes default margin */
-    font-family: 'Cinzel', serif;
+    text-align: center;
+    margin: 20px auto;
+    width: 100%;
+    max-width: 400px;
     position: relative;
     top: 150px;
 }
 
-.username {
-    background-color: #2C2C2C;
-    color: #E7E2B5;
-    text-align: center; /* Centers text within the paragraph */
-
-    margin: 1px 0 0 0; /* Removes default margin */
-    font-family: 'Cinzel', serif;
-    position: relative;
-    top: 50px;
-    right: 2px;
-}
-
-
-.password {
-    background-color: #2C2C2C;
-    color: #E7E2B5;
-    text-align: center; /* Centers text within the paragraph */
-
-    margin: 1px 0 0 0; /* Removes default margin */
-    font-family: 'Cinzel', serif;
-    position: relative;
-    top: 50px;
-    right: 0px;
-}
-
-.reenter-password {
-    background-color: #2C2C2C;
-    color: #E7E2B5;
-    text-align: center; /* Centers text within the paragraph */
-
-    margin: 1px 0 0 0; /* Removes default margin */
-    font-family: 'Cinzel', serif;
-    position: relative;
-    top: 50px;
-    right: 31px;
-}
-
+.username,
+.password,
+.reenter-password,
 .submit-button-container {
-    background-color: #2C2C2C;
+    margin: 15px 0;
+}
+
+label {
+    display: inline-block;
+    margin-bottom: 5px;
+    text-align: left;
+    width: 120px; /* Aligns labels uniformly */
+}
+
+.text-field {
+    width: calc(100% - 130px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #1F1F1F;
     color: #E7E2B5;
-    text-align: center; /* Centers text within the paragraph */
-
-    margin: 1px 0 0 0; /* Removes default margin */
-    font-family: 'Cinzel', serif;
-    position: relative;
-    top: 70px;
-    left: 0px;
+    outline: none;
 }
 
+    .text-field:focus {
+        border-color: #E7E2B5;
+        background-color: #2C2C2C;
+    }
 
-.button-container { /*this is the container for the button, so any aesthetic changes will have to go to button{} */
-
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-    position: absolute;
-    top: 80px;
-    left: 300px;
-}
-
-.register-button-container { /*this is the container for the button, so any aesthetic changes will have to go to button{} */
-
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-}
-
-
-
+/* Button Styling */
 button {
     font-family: 'Cinzel', serif;
+    padding: 10px 15px;
+    border: 1px solid #E7E2B5;
+    border-radius: 5px;
+    background-color: #1F1F1F;
+    color: #E7E2B5;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
+    button:hover {
+        background-color: #444444;
+    }
 
+/* Back Button Styling */
+.button-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.back-button {
+    padding: 10px 20px;
+    background-color: #444444;
+    border: 1px solid #E7E2B5;
+    border-radius: 5px;
+    color: #E7E2B5;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .back-button:hover {
+        background-color: #666666;
+    }
+
+/* Footer Styling */
 footer {
     background-color: #2C2C2C;
     color: #E7E2B5;
     text-align: left;
     padding: 20px;
-    margin: 0;
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
 }
 
+/* Responsive Design */
+@media (max-width: 600px) {
+    .form-container {
+        width: 90%;
+        top: 120px;
+    }
 
+    .text-field {
+        width: 100%;
+    }
 
-/*.feature { color: #FF0000; }
-/*#content {background-color: #F6F6FD; }*/
+    label {
+        width: auto;
+        display: block;
+        text-align: center;
+    }
 
-
-/*.feature { color: #FF0000; }
-/*#content {background-color: #F6F6FD; }*/
-
+    .button-container {
+        left: 10px;
+        top: 20px;
+    }
+}
