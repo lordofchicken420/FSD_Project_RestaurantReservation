@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using FSD_Project.Domain;
+using FSD_Project.Configurations.Entities;
 
 namespace FSD_Project.Data
 {
@@ -19,5 +20,11 @@ namespace FSD_Project.Data
         public DbSet<FSD_Project.Domain.Reservation> Reservation { get; set; } = default!;
         public DbSet<FSD_Project.Domain.Staff> Staff { get; set; } = default!;
         public DbSet<FSD_Project.Domain.Table> Table { get; set; } = default!;
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.ApplyConfiguration(new BranchSeed());
+        }
     }
 }
