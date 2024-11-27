@@ -1,0 +1,74 @@
+﻿@page "/tables/create"
+@using Microsoft.EntityFrameworkCore
+@using FSD_Project.Domain
+@inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h2>Table</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="Table" OnValidSubmit="AddTable" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" role="alert"/>
+            <div class="mb-3">
+                <label for="capacity" class="form-label">Capacity:</label> 
+                <InputNumber id="capacity" @bind-Value="Table.Capacity" class="form-control" /> 
+                <ValidationMessage For="() => Table.Capacity" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="status" class="form-label">Status:</label> 
+                <InputCheckbox id="status" @bind-Value="Table.Status" class="form-check-input" /> 
+                <ValidationMessage For="() => Table.Status" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="branchid" class="form-label">BranchId:</label> 
+                <InputNumber id="branchid" @bind-Value="Table.BranchId" class="form-control" /> 
+                <ValidationMessage For="() => Table.BranchId" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="datecreated" class="form-label">DateCreated:</label> 
+                <InputDate id="datecreated" @bind-Value="Table.DateCreated" class="form-control" /> 
+                <ValidationMessage For="() => Table.DateCreated" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="dateupdated" class="form-label">DateUpdated:</label> 
+                <InputDate id="dateupdated" @bind-Value="Table.DateUpdated" class="form-control" /> 
+                <ValidationMessage For="() => Table.DateUpdated" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="createdby" class="form-label">CreatedBy:</label> 
+                <InputText id="createdby" @bind-Value="Table.CreatedBy" class="form-control" /> 
+                <ValidationMessage For="() => Table.CreatedBy" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="updatedby" class="form-label">UpdatedBy:</label> 
+                <InputText id="updatedby" @bind-Value="Table.UpdatedBy" class="form-control" /> 
+                <ValidationMessage For="() => Table.UpdatedBy" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/tables">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private Table Table { get; set; } = new();
+
+    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task AddTable()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Table.Add(Table);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/tables");
+    }
+}

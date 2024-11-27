@@ -1,0 +1,119 @@
+﻿@page "/tables/edit"
+@using Microsoft.EntityFrameworkCore
+@using FSD_Project.Domain
+@inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h2>Table</h2>
+<hr />
+@if (Table is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="Table" OnValidSubmit="UpdateTable" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary role="alert"/>
+                <input type="hidden" name="Table.Id" value="@Table.Id" />
+                <div class="mb-3">
+                    <label for="capacity" class="form-label">Capacity:</label>
+                    <InputNumber id="capacity" @bind-Value="Table.Capacity" class="form-control" />
+                    <ValidationMessage For="() => Table.Capacity" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status:</label>
+                    <InputCheckbox id="status" @bind-Value="Table.Status" class="form-check-input" />
+                    <ValidationMessage For="() => Table.Status" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="branchid" class="form-label">BranchId:</label>
+                    <InputNumber id="branchid" @bind-Value="Table.BranchId" class="form-control" />
+                    <ValidationMessage For="() => Table.BranchId" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="datecreated" class="form-label">DateCreated:</label>
+                    <InputDate id="datecreated" @bind-Value="Table.DateCreated" class="form-control" />
+                    <ValidationMessage For="() => Table.DateCreated" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="dateupdated" class="form-label">DateUpdated:</label>
+                    <InputDate id="dateupdated" @bind-Value="Table.DateUpdated" class="form-control" />
+                    <ValidationMessage For="() => Table.DateUpdated" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="createdby" class="form-label">CreatedBy:</label>
+                    <InputText id="createdby" @bind-Value="Table.CreatedBy" class="form-control" />
+                    <ValidationMessage For="() => Table.CreatedBy" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="updatedby" class="form-label">UpdatedBy:</label>
+                    <InputText id="updatedby" @bind-Value="Table.UpdatedBy" class="form-control" />
+                    <ValidationMessage For="() => Table.UpdatedBy" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/tables">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    private Table? Table { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        Table ??= await context.Table.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (Table is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task UpdateTable()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(Table!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!TableExists(Table!.Id))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/tables");
+    }
+
+    private bool TableExists(int id)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.Table.Any(e => e.Id == id);
+    }
+}

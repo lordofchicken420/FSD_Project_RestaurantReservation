@@ -1,0 +1,42 @@
+﻿@page "/tables"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using FSD_Project.Domain
+@using FSD_Project.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="tables/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="context.Table">
+    <PropertyColumn Property="table => table.Capacity" />
+    <PropertyColumn Property="table => table.Status" />
+    <PropertyColumn Property="table => table.BranchId" />
+    <PropertyColumn Property="table => table.DateCreated" />
+    <PropertyColumn Property="table => table.DateUpdated" />
+    <PropertyColumn Property="table => table.CreatedBy" />
+    <PropertyColumn Property="table => table.UpdatedBy" />
+
+    <TemplateColumn Context="table">
+        <a href="@($"tables/edit?id={table.Id}")">Edit</a> |
+        <a href="@($"tables/details?id={table.Id}")">Details</a> |
+        <a href="@($"tables/delete?id={table.Id}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+
+@code {
+    private FSD_ProjectContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}
