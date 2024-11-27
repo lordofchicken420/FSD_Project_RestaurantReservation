@@ -21,7 +21,9 @@ namespace FSD_Project.Data
             builder.ApplyConfiguration(new ReservationSeed());
             builder.ApplyConfiguration(new StaffSeed());
             builder.ApplyConfiguration(new TableSeed());
-
+            builder.ApplyConfiguration(new RoleSeed());
+            builder.ApplyConfiguration(new UserRoleSeed());
+            builder.ApplyConfiguration(new UserSeed());
         }
     }
 }
