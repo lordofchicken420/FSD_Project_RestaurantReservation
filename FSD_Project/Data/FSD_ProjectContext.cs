@@ -25,6 +25,11 @@ namespace FSD_Project.Data
         {
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new BranchSeed());
+            builder.ApplyConfiguration(new CustomerSeed());
+            builder.ApplyConfiguration(new ReservationSeed());
+            builder.ApplyConfiguration(new StaffSeed());
+            builder.ApplyConfiguration(new TableSeed());
+
         }
     }
 }

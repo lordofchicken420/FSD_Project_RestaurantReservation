@@ -4,17 +4,18 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FSD_Project.Configurations.Entities
 {
-    public class BranchSeed : IEntityTypeConfiguration<Branch>
+    public class StaffSeed : IEntityTypeConfiguration<Staff>
     {
-        public void Configure(EntityTypeBuilder<Branch> builder)
+        public void Configure(EntityTypeBuilder<Staff> builder)
         {
             builder.HasData(
-                new Branch
+                new Staff
                 {
                     Id = 1,
-                    Name = "Branch 1",
-                    Location = "Woodlands",
-                    contactNumber = 61234567,
+                    Name = "Gordon Sim",
+                    Gender = "Male",
+                    contactNumber = 97581578,
+                    BranchId = 1,
 
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
@@ -22,12 +23,14 @@ namespace FSD_Project.Configurations.Entities
                     UpdatedBy = "System"
 
                 },
-                new Branch
+                new Staff
                 {
                     Id = 2,
-                    Name = "Branch 2",
-                    Location = "Punggol",
-                    contactNumber = 61234566, 
+                    Name = "En Xuan",
+                    Gender = "Female",
+                    contactNumber = 98886482,
+                    BranchId = 1,
+
 
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,

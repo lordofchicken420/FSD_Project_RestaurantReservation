@@ -4,17 +4,17 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FSD_Project.Configurations.Entities
 {
-    public class BranchSeed : IEntityTypeConfiguration<Branch>
+    public class CustomerSeed : IEntityTypeConfiguration<Customer>
     {
-        public void Configure(EntityTypeBuilder<Branch> builder)
+        public void Configure(EntityTypeBuilder<Customer> builder)
         {
             builder.HasData(
-                new Branch
+                new Customer
                 {
                     Id = 1,
-                    Name = "Branch 1",
-                    Location = "Woodlands",
-                    contactNumber = 61234567,
+                    Name = "David Lee",
+                    Gender = "Male",
+                    contactNumber = 91234567,
 
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
@@ -22,12 +22,12 @@ namespace FSD_Project.Configurations.Entities
                     UpdatedBy = "System"
 
                 },
-                new Branch
+                new Customer
                 {
                     Id = 2,
-                    Name = "Branch 2",
-                    Location = "Punggol",
-                    contactNumber = 61234566, 
+                    Name = "John Matthew",
+                    Gender = "Male",
+                    contactNumber = 91234566,
 
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
