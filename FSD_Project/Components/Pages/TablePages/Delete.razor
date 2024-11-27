@@ -1,0 +1,79 @@
+﻿@page "/tables/delete"
+@using Microsoft.EntityFrameworkCore
+@using FSD_Project.Domain
+@inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Delete</PageTitle>
+
+<h1>Delete</h1>
+
+<p>Are you sure you want to delete this?</p>
+<div>
+    <h2>Table</h2>
+    <hr />
+    @if (table is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Capacity</dt>
+            <dd class="col-sm-10">@table.Capacity</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Status</dt>
+            <dd class="col-sm-10">@table.Status</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">BranchId</dt>
+            <dd class="col-sm-10">@table.BranchId</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">DateCreated</dt>
+            <dd class="col-sm-10">@table.DateCreated</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">DateUpdated</dt>
+            <dd class="col-sm-10">@table.DateUpdated</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">CreatedBy</dt>
+            <dd class="col-sm-10">@table.CreatedBy</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">UpdatedBy</dt>
+            <dd class="col-sm-10">@table.UpdatedBy</dd>
+        </dl>
+        <EditForm method="post" Model="table" OnValidSubmit="DeleteTable" FormName="delete" Enhance>
+            <button type="submit" class="btn btn-danger" disabled="@(table is null)">Delete</button> |
+            <a href="/tables">Back to List</a>
+        </EditForm>
+    }
+</div>
+
+@code {
+    private Table? table;
+
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        table = await context.Table.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (table is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    private async Task DeleteTable()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Table.Remove(table!);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/tables");
+    }
+}

@@ -1,0 +1,58 @@
+﻿@page "/tables/details"
+@using Microsoft.EntityFrameworkCore
+@using FSD_Project.Domain
+@inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>Table</h2>
+    <hr />
+    @if (table is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Capacity</dt>
+            <dd class="col-sm-10">@table.Capacity</dd>
+            <dt class="col-sm-2">Status</dt>
+            <dd class="col-sm-10">@table.Status</dd>
+            <dt class="col-sm-2">BranchId</dt>
+            <dd class="col-sm-10">@table.BranchId</dd>
+            <dt class="col-sm-2">DateCreated</dt>
+            <dd class="col-sm-10">@table.DateCreated</dd>
+            <dt class="col-sm-2">DateUpdated</dt>
+            <dd class="col-sm-10">@table.DateUpdated</dd>
+            <dt class="col-sm-2">CreatedBy</dt>
+            <dd class="col-sm-10">@table.CreatedBy</dd>
+            <dt class="col-sm-2">UpdatedBy</dt>
+            <dd class="col-sm-10">@table.UpdatedBy</dd>
+        </dl>
+        <div>
+            <a href="@($"/tables/edit?id={table.Id}")">Edit</a> |
+            <a href="@($"/tables")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private Table? table;
+
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        table = await context.Table.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (table is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

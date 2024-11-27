@@ -1,0 +1,42 @@
+﻿@page "/reservations"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using FSD_Project.Domain
+@using FSD_Project.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="reservations/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="context.Reservation">
+    <PropertyColumn Property="reservation => reservation.ReservedDateTime" />
+    <PropertyColumn Property="reservation => reservation.BranchId" />
+    <PropertyColumn Property="reservation => reservation.CustomerId" />
+    <PropertyColumn Property="reservation => reservation.DateCreated" />
+    <PropertyColumn Property="reservation => reservation.DateUpdated" />
+    <PropertyColumn Property="reservation => reservation.CreatedBy" />
+    <PropertyColumn Property="reservation => reservation.UpdatedBy" />
+
+    <TemplateColumn Context="reservation">
+        <a href="@($"reservations/edit?id={reservation.Id}")">Edit</a> |
+        <a href="@($"reservations/details?id={reservation.Id}")">Details</a> |
+        <a href="@($"reservations/delete?id={reservation.Id}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+
+@code {
+    private FSD_ProjectContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}

@@ -1,0 +1,42 @@
+﻿@page "/branches"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using FSD_Project.Domain
+@using FSD_Project.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="branches/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="context.Branch">
+    <PropertyColumn Property="branch => branch.Name" />
+    <PropertyColumn Property="branch => branch.Location" />
+    <PropertyColumn Property="branch => branch.contactNumber" />
+    <PropertyColumn Property="branch => branch.DateCreated" />
+    <PropertyColumn Property="branch => branch.DateUpdated" />
+    <PropertyColumn Property="branch => branch.CreatedBy" />
+    <PropertyColumn Property="branch => branch.UpdatedBy" />
+
+    <TemplateColumn Context="branch">
+        <a href="@($"branches/edit?id={branch.Id}")">Edit</a> |
+        <a href="@($"branches/details?id={branch.Id}")">Details</a> |
+        <a href="@($"branches/delete?id={branch.Id}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+
+@code {
+    private FSD_ProjectContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}
