@@ -7,13 +7,16 @@ body {
     font-family: 'Cinzel', serif;
     color: #E7E2B5;
     min-height: 100vh;
+
 }
 
 .login-container {
+    background-color: #2C2C2C;
     padding-top: 100px;
     max-width: 1200px;
     margin: 0 auto;
     padding-bottom: 80px; /* Space for footer */
+    font-family: 'Cinzel', serif;
 }
 
 /* Header Styling */
@@ -35,6 +38,8 @@ header {
     text-align: center;
     margin: 10px 0;
     font-size: 1.2rem;
+    font-family: 'Cinzel', serif;
+    color: #E7E2B5;
 }
 
 .subheading {

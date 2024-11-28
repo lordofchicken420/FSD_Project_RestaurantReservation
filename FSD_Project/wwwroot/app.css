@@ -21,6 +21,7 @@ a, .btn-link {
 
 .content {
     padding-top: 1.1rem;
+    background-color: #2C2C2C;
 }
 
 h1:focus {
