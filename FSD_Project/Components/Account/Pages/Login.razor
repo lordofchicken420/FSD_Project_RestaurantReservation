@@ -1,5 +1,4 @@
-﻿@page "/Account/Login"
-
+﻿@page "/Login"
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Identity
@@ -10,59 +9,133 @@
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
 
-<PageTitle>Log in</PageTitle>
+<PageTitle>Login - Athens</PageTitle>
 
-<h1>Log in</h1>
-<div class="row">
-    <div class="col-md-4">
-        <section>
-            <StatusMessage Message="@errorMessage" />
-            <EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login">
-                <DataAnnotationsValidator />
-                <h2>Use a local account to log in.</h2>
+<div class="login-container">
+    <header>
+        <h1>Athens.</h1>
+        <p class="paragraph">Your choice of premium Greek food.</p>
+    </header>
+
+    <div class="row">
+        <div class="col-md-4">
+            <section>
+                <StatusMessage Message="@errorMessage" />
+                <EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login">
+                    <DataAnnotationsValidator />
+                    <h2 class="subheading">Login</h2>
+                    <hr />
+                    <ValidationSummary class="text-danger" role="alert" />
+                    <div class="form-floating mb-3">
+                        <InputText @bind-Value="Input.Email" class="form-control text-field" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                        <label for="email" class="form-label">Email</label>
+                        <ValidationMessage For="() => Input.Email" class="text-danger" />
+                    </div>
+                    <div class="form-floating mb-3">
+                        <InputText type="password" @bind-Value="Input.Password" class="form-control text-field" autocomplete="current-password" aria-required="true" placeholder="password" />
+                        <label for="password" class="form-label">Password</label>
+                        <ValidationMessage For="() => Input.Password" class="text-danger" />
+                    </div>
+                    <div class="checkbox mb-3">
+                        <label class="form-label">
+                            <InputCheckbox @bind-Value="Input.RememberMe" class="darker-border-checkbox form-check-input" />
+                            Remember me
+                        </label>
+                    </div>
+                    <div class="submit-button-container">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                    <div class="button-container">
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='/'">Home</button>
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='/Registration'">Register</button>
+                    </div>
+                    <div class="additional-links">
+                        <p>
+                            <a href="Account/ForgotPassword">Forgot your password?</a>
+                        </p>
+                        <p>
+                            <a href="Account/ResendEmailConfirmation">Resend email confirmation</a>
+                        </p>
+                    </div>
+                </EditForm>
+            </section>
+        </div>
+        @* <div class="col-md-6 col-md-offset-2">
+             <section>
                 <hr />
-                <ValidationSummary class="text-danger" role="alert" />
-                <div class="form-floating mb-3">
-                    <InputText @bind-Value="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                    <label for="email" class="form-label">Email</label>
-                    <ValidationMessage For="() => Input.Email" class="text-danger" />
-                </div>
-                <div class="form-floating mb-3">
-                    <InputText type="password" @bind-Value="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
-                    <label for="password" class="form-label">Password</label>
-                    <ValidationMessage For="() => Input.Password" class="text-danger" />
-                </div>
-                <div class="checkbox mb-3">
-                    <label class="form-label">
-                        <InputCheckbox @bind-Value="Input.RememberMe" class="darker-border-checkbox form-check-input" />
-                        Remember me
-                    </label>
-                </div>
-                <div>
-                    <button type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
-                </div>
-                <div>
-                    <p>
-                        <a href="Account/ForgotPassword">Forgot your password?</a>
-                    </p>
-                    <p>
-                        <a href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register as a new user</a>
-                    </p>
-                    <p>
-                        <a href="Account/ResendEmailConfirmation">Resend email confirmation</a>
-                    </p>
-                </div>
-            </EditForm>
-        </section>
+                <ExternalLoginPicker />
+            </section> 
+        </div> *@
     </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Use another service to log in.</h3>
-            <hr />
-            <ExternalLoginPicker />
-        </section>
-    </div>
+
+    <footer>
+        <small><i>Copyright &copy; 2024 Ruben x John</i></small>
+    </footer>
 </div>
+
+<style>
+    .login-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+    .paragraph {
+        font-size: 1.2rem;
+        color: #666;
+    }
+
+    .subheading {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .text-field {
+        width: 100%;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .submit-button-container,
+    .button-container {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+
+    .additional-links {
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+        .additional-links a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+            .additional-links a:hover {
+                text-decoration: underline;
+            }
+
+    footer {
+        text-align: center;
+        margin-top: 3rem;
+        color: #666;
+    }
+</style>
 
 @code {
     private string? errorMessage;
@@ -80,20 +153,17 @@
     {
         if (HttpMethods.IsGet(HttpContext.Request.Method))
         {
-            // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
         }
     }
 
     public async Task LoginUser()
     {
-        // This doesn't count login failures towards account lockout
-        // To enable password failures to trigger account lockout, set lockoutOnFailure: true
         var result = await SignInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
         if (result.Succeeded)
         {
             Logger.LogInformation("User logged in.");
-            RedirectManager.RedirectTo(ReturnUrl);
+            RedirectManager.RedirectTo(ReturnUrl ?? "/MainPage");
         }
         else if (result.RequiresTwoFactor)
         {
