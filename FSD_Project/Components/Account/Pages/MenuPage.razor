@@ -1,0 +1,100 @@
+﻿@page "/Menu"
+
+<PageTitle>Menu</PageTitle>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu | Athens</title>
+    <link rel="stylesheet" href="styles2.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <nav>
+            <ul class="nav-links">
+                <li><button class="nav-button" onclick="window.location.href='/'">Home</button></li>
+                <li><button class="nav-button" onclick="window.location.href='/Booking'">Reservations</button></li>
+                <li><button class="nav-button" onclick="window.location.href='/Menu'">Menu</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-menu">`
+        <h1>Our Menu</h1>
+        <p>Explore the flavors of Athens</p>
+    </section>
+
+    <!-- Menu Section -->
+    <section class="menu-section">
+        <div class="menu-category">
+            <h2>Appetizers</h2>
+            <ul class="menu-items">
+                <li>
+                    <div class="menu-item">
+                        <h3>Greek Salad</h3>
+                        <p>Fresh tomatoes, cucumbers, feta cheese, and olives</p>
+                        <span>$12.99</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="menu-item">
+                        <h3>Tzatziki</h3>
+                        <p>Traditional Greek yogurt dip with cucumber and garlic</p>
+                        <span>$8.99</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="menu-category">
+            <h2>Main Courses</h2>
+            <ul class="menu-items">
+                <li>
+                    <div class="menu-item">
+                        <h3>Moussaka</h3>
+                        <p>Layers of eggplant, minced meat, and béchamel sauce</p>
+                        <span>$18.99</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="menu-item">
+                        <h3>Souvlaki</h3>
+                        <p>Grilled meat skewers served with pita and tzatziki</p>
+                        <span>$15.99</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="menu-category">
+            <h2>Desserts</h2>
+            <ul class="menu-items">
+                <li>
+                    <div class="menu-item">
+                        <h3>Baklava</h3>
+                        <p>Flaky pastry with nuts and honey syrup</p>
+                        <span>$6.99</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="menu-item">
+                        <h3>Galaktoboureko</h3>
+                        <p>Custard-filled pastry soaked in syrup</p>
+                        <span>$7.99</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Athens. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+

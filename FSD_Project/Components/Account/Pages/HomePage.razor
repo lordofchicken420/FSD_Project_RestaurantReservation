@@ -1,9 +1,15 @@
 ﻿@page "/"
 
 <PageTitle>HomePage</PageTitle>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
     <title>Home | Athens</title>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -12,12 +18,13 @@
     <header class="navbar">
         <nav>
             <ul class="nav-links">
-                <li><a href="main_p.html">Home</a></li>
-                <li><a href="reser.html">Reservations</a></li>
-                <li><a href="menu_p.html">Menu</a></li>
+                <li><button class="nav-button" onclick="window.location.href='/'">Home</button></li>
+                <li><button class="nav-button" onclick="window.location.href='/Booking'">Reservations</button></li>
+                <li><button class="nav-button" onclick="window.location.href='/Menu'">Menu</button></li>
             </ul>
         </nav>
     </header>
+
 
     <!-- Hero Section -->
     <section class="hero">
@@ -49,4 +56,4 @@
         <p>© 2024 Archipelago-Inspired. All rights reserved.</p>
     </footer>
 </body>
-
+</html>

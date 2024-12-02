@@ -61,65 +61,69 @@ ul {
     }
 
 
-/* Hero Section */
-.hero {
+/* Reservation Form Section */
+.reservation-section {
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    background-image: url('hero-image.jpg'); /* Replace with your hero image */
-    background-size: cover;
-    background-position: center;
+    padding: 50px;
     background-color: #333;
     color: #FFFFFF;
 }
 
-    .hero h1 {
-        font-size: 3rem;
-        margin-bottom: 20px;
-        letter-spacing: 2px;
-    }
-
-    .hero p {
-        font-size: 1.2rem;
-        max-width: 600px;
-        line-height: 1.5;
-    }
-
-/* Image Showcase Section */
-.image-showcase {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    padding: 50px;
-}
-
-.showcase-image img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-}
-
-/* About Section */
-.about {
-    padding: 80px 40px;
-    background-color: #FFFFFF;
-    text-align: center;
-}
-
-    .about h2 {
+    .reservation-section h2 {
         font-size: 2rem;
         margin-bottom: 20px;
     }
 
-    .about p {
-        font-size: 1rem;
-        line-height: 1.6;
-        max-width: 800px;
+    .reservation-section form {
+        max-width: 600px;
         margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
     }
+
+    .reservation-section label {
+        text-align: left;
+        font-weight: bold;
+    }
+
+    .reservation-section input,
+    .reservation-section textarea,
+    .reservation-section select {
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+        .reservation-section input:focus,
+        .reservation-section textarea:focus,
+        .reservation-section select:focus {
+            border-color: #333;
+            outline: none;
+        }
+
+    .reservation-section button {
+        background-color: #2C2C2C;
+        color: #FFFFFF;
+        font-weight: bold;
+        font-family: 'Trajan Pro', serif;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .reservation-section button:hover {
+            background-color: #444;
+        }
 
 /* Footer */
 footer {

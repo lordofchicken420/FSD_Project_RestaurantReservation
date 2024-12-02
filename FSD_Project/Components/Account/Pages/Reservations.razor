@@ -1,0 +1,62 @@
+﻿@page "/Booking"
+
+<PageTitle>Reservations</PageTitle>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservations | Athens</title>
+    <link rel="stylesheet" href="styles1.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <nav>
+            <ul class="nav-links">
+                <li><button class="nav-button" onclick="window.location.href='/'">Home</button></li>
+                <li><button class="nav-button" onclick="window.location.href='/Booking'">Reservations</button></li>
+                <li><button class="nav-button" onclick="window.location.href='/Menu'">Menu</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Reservation Details Section -->
+    <section class="reservation-section">
+        <h2>Reservations</h2>
+        <p>December & January are now open! Reservations for February and March open January 1st at 2 PM PST.</p>
+        <p>Join us for a 5-course tasting menu inspired by Athens. Experience Mediterranean flavors and stories rooted in Greek tradition, blending ancient recipes with modern twists.</p>
+        <p>We welcome all dietary needs—let us know your preferences 4 days in advance through your dining survey.</p>
+    </section>
+
+    <!-- Reservation Form Section -->
+    <section class="reservation-section">
+        <div class="form-container">
+            <div class="form-fields">
+                <h3>Book Your Table</h3>
+                <form>
+                    <label for="name">Name in booking:</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="party-size">Party size:</label>
+                    <input type="number" id="party-size" name="party-size" min="1" required>
+
+                    <label for="time">Time:</label>
+                    <input type="time" id="time" name="time" required>
+
+                    <button type="submit" class="btn-submit">BOOK</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Athens. All rights reserved.</p>
+    </footer>
+</body>
+</html>
