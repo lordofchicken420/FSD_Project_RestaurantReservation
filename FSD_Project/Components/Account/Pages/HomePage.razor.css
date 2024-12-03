@@ -17,6 +17,24 @@ ul {
     margin: 0;
 }
 
+.icon{
+    position: relative;
+    left: 300px;
+}
+
+.login-button {
+    position: relative;
+    left: 30px;
+    bottom: 35px;
+}
+
+
+.icon svg {
+    fill: white;
+}
+
+
+
 .navbar {
     background-color: #2C2C2C; /* Matches the background */
     padding: 20px 0px;
