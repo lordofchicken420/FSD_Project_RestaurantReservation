@@ -173,10 +173,9 @@ footer {
     color: #E7E2B5;
     text-align: left;
     padding: 20px;
-    position: fixed;
-    left: 0;
-    bottom: 0;
     width: 100%;
+    margin-top: auto; /* Pushes footer down when content is smaller than the viewport */
+    position: relative; /* Makes it part of the normal document flow */
 }
 
 /* Responsive Design */
@@ -204,10 +203,6 @@ footer {
         margin: 5px 0;
     }
 
-    footer {
-        position: relative;
-        margin-top: 40px;
-    }
+
 }
 
-</style >
