@@ -36,6 +36,12 @@ h1 {
     justify-content: center; /* Centers buttons horizontally */
     margin: 20px 0;
 }
+.button-container,
+.homepage-button-container {
+    display: flex;
+    justify-content: center; /* Centers buttons horizontally */
+    margin: 20px 0;
+}
 
 /* Button Styles */
 button {

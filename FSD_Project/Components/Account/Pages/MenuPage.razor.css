@@ -16,7 +16,41 @@ ul {
     padding: 0;
     margin: 0;
 }
+.home {
+    position: relative;
+    top: 9px;
+    left: 86px;
+}
 
+.reservations {
+    position: relative;
+    top: 9px;
+    left: 86px;
+}
+
+.menu {
+    position: relative;
+    top: 9px;
+    left: 86px;
+}
+
+.icon {
+    position: relative;
+    left: 300px;
+    bottom: 5px;
+}
+
+.login-button {
+    position: relative;
+    left: 30px;
+    top: -35px; /* Moves the button upwards */
+}
+
+
+
+.icon svg {
+    fill: white;
+}
 .navbar {
     background-color: #2C2C2C; /* Matches the background */
     height: 100px; /* Sets a fixed height */
@@ -54,11 +88,6 @@ ul {
 
     .nav-button:hover {
         background-color: #444; /* Slightly lighter color on hover */
-    }
-
-    .nav-button:focus {
-        outline: none;
-        box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
     }
 
 
