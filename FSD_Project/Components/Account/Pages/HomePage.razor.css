@@ -39,7 +39,7 @@ ul {
 .icon{
     position: relative;
     left: 300px;
-    bottom: 5px;
+    bottom: -15px;
 }
 
 .login-button {
@@ -48,6 +48,11 @@ ul {
     top: -35px; /* Moves the button upwards */
 }
 
+.logout-button {
+    position: relative;
+    left: 30px;
+    top: -35px; /* Moves the button upwards */
+}
 
 .icon svg {
     fill: white;

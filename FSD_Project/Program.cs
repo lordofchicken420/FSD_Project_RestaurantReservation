@@ -9,24 +9,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddDbContextFactory<FSD_ProjectContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("FSD_ProjectContext") ?? throw new InvalidOperationException("Connection string 'FSD_ProjectContext' not found.")));
-
+builder.Logging.ClearProviders(); // Clear default providers
+builder.Logging.AddConsole();    // Add console logging
+builder.Logging.AddDebug();      // Add debug logging
 builder.Services.AddQuickGridEntityFrameworkAdapter();
-
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddServerSideBlazor();
 
-// Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddCascadingAuthenticationState();
-
 builder.Services.AddScoped<IdentityUserAccessor>();
-
 builder.Services.AddScoped<IdentityRedirectManager>();
-
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
-
 builder.Services.AddAuthentication(options =>
     {
         options.DefaultScheme = IdentityConstants.ApplicationScheme;

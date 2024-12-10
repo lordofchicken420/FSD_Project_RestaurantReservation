@@ -18,7 +18,30 @@
                 <li><button class="nav-button" onclick="window.location.href='/'">Home</button></li>
                 <li><button class="nav-button" onclick="window.location.href='/Booking'">Reservations</button></li>
                 <li><button class="nav-button" onclick="window.location.href='/Menu'">Menu</button></li>
+<<<<<<< HEAD
                 
+=======
+                <li>
+                    <ul class="icon">
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="26" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                            </svg>
+                        </li>
+                        <li>
+                            <AuthorizeView>
+                                <NotAuthorized>
+                                    <button class="nav-button login-button" onclick="window.location.href='/Admin'">Login</button>
+                                </NotAuthorized>
+
+                                <Authorized>
+                                    <button class="nav-button logout-button" onclick="window.location.href='/Logout'">Logout</button>
+                                </Authorized>
+                            </AuthorizeView>
+                        </li>
+                    </ul>
+                </li>
+>>>>>>> Added alert indicating a successful login that disappears after 3s. Added a logout button that ONLY appears if you are logged in. Added a logout page.
             </ul>
         </nav>
     </header>

@@ -13,7 +13,7 @@ a {
 
 ul {
     list-style: none;
-    padding: 0;
+    left: 20px: padding: 0;
     margin: 0;
 }
 .home {
@@ -34,10 +34,40 @@ ul {
     left: 86px;
 }
 
+.nav-links li:nth-child(-n+3) {
+    position: relative;
+    top: 9px;
+    left: 86px;
+}
+
+.home {
+    position: relative;
+    top: 9px;
+    left: 86px;
+}
+
+.reservations {
+    position: relative;
+    top: 9px;
+    left: 86px;
+}
+
+.menu {
+    position: relative;
+    top: 9px;
+    left: 86px;
+}
+
 .icon {
     position: relative;
-    left: 300px;
-    bottom: 5px;
+    left: 214px;
+    bottom: -6px;
+}
+
+.logout-button {
+    position: relative;
+    left: 30px;
+    top: -35px; /* Moves the button upwards */
 }
 
 .login-button {
@@ -47,10 +77,10 @@ ul {
 }
 
 
-
 .icon svg {
     fill: white;
 }
+
 .navbar {
     background-color: #2C2C2C; /* Matches the background */
     height: 100px; /* Sets a fixed height */
