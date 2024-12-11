@@ -1,12 +1,10 @@
 ﻿@page "/Logout"
-@using System.ComponentModel.DataAnnotations
-@using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Identity
 @using FSD_Project.Data
-
 @inject SignInManager<FSD_ProjectUser> SignInManager
 @inject ILogger<Logout> Logger
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
 
 <PageTitle>Logout - Athens</PageTitle>
 
@@ -19,80 +17,56 @@
     <div class="row">
         <div class="col-md-4">
             <section>
-                <div class="submit-button-container">
-                    <button class="btn btn-primary" @onclick="LogoutUser">Confirm Logout</button>
-                    <button class="btn btn-secondary" @onclick="CancelLogout">Cancel</button>
-                </div>
+                <form action="Account/Logout" method="post">
+                    <AntiforgeryToken />
+                    <input type="hidden" name="ReturnUrl" value="@ReturnUrl" />
+                    <div class="submit-button-container">
+                        <button type="submit" class="btn btn-primary">Confirm Logout</button>
+                        <button type="button" class="btn btn-secondary" @onclick="CancelLogout">Cancel</button>
+                    </div>
+                </form>
             </section>
         </div>
     </div>
+
     <footer>
         <small><i>Copyright &copy; 2024 Ruben x John</i></small>
     </footer>
 </div>
 
-
 <style>
     .logout-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
     }
 
     header {
-    text-align: center;
-    margin-bottom: 2rem;
+        text-align: center;
+        margin-bottom: 2rem;
     }
 
-    header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-    }
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
 
     .paragraph {
-    font-size: 1.2rem;
-    color: #666;
+        font-size: 1.2rem;
+        color: #666;
     }
 
-    .subheading {
-    text-align: center;
-    margin-bottom: 2rem;
-    }
-
-    .text-field {
-    width: 100%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    }
-
-    .submit-button-container,
-    .button-container {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin: 1rem 0;
-    }
-
-    .additional-links {
-    text-align: center;
-    margin-top: 1rem;
-    }
-
-    .additional-links a {
-    color: #007bff;
-    text-decoration: none;
-    }
-
-    .additional-links a:hover {
-    text-decoration: underline;
+    .submit-button-container {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin: 1rem 0;
     }
 
     footer {
-    text-align: center;
-    margin-top: 3rem;
-    color: #666;
+        text-align: center;
+        margin-top: 3rem;
+        color: #666;
     }
 </style>
 
@@ -100,24 +74,8 @@
     [SupplyParameterFromQuery]
     private string? ReturnUrl { get; set; }
 
-    public async Task LogoutUser()
-    {
-        try{
-            await SignInManager.SignOutAsync();
-            Logger.LogInformation("User logged out.");
-            NavigationManager.NavigateTo(NavigationManager.BaseUri, forceLoad: true);
-        }
-        catch{
-            Logger.LogInformation("Log out failed");
-
-        }
-
-    }
-
     private void CancelLogout()
     {
         NavigationManager.NavigateTo(NavigationManager.BaseUri, forceLoad: true);
     }
 }
-
-

@@ -30,7 +30,7 @@ builder.Services.AddAuthentication(options =>
     })
     .AddIdentityCookies();
 
-builder.Services.AddIdentityCore<FSD_ProjectUser>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddIdentityCore<FSD_ProjectUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<FSD_ProjectContext>()
     .AddSignInManager()
@@ -64,3 +64,12 @@ app.Run();
 app.UseRouting();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
+
+builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
+
+void ConfigureServices(IServiceCollection services)
+{
+    services.AddControllersWithViews();
+    services.AddRazorPages();
+}

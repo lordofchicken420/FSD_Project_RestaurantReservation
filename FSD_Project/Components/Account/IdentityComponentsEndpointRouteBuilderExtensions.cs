@@ -20,6 +20,7 @@ namespace Microsoft.AspNetCore.Routing
             ArgumentNullException.ThrowIfNull(endpoints);
 
             var accountGroup = endpoints.MapGroup("/Account");
+            
 
             accountGroup.MapPost("/PerformExternalLogin", (
                 HttpContext context,
@@ -47,6 +48,8 @@ namespace Microsoft.AspNetCore.Routing
             {
                 await signInManager.SignOutAsync();
                 return TypedResults.LocalRedirect($"~/{returnUrl}");
+
+
             });
 
             var manageGroup = accountGroup.MapGroup("/Manage").RequireAuthorization();
