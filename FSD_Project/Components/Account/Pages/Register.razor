@@ -157,8 +157,9 @@
         if (UserManager.Options.SignIn.RequireConfirmedAccount)
         {
             RedirectManager.RedirectTo(
-                "/Login"
-                );
+                "/Account/RegisterConfirmation",
+                new() { ["email"] = Input.Email, ["returnUrl"] = ReturnUrl });
+                
         }
 
         await SignInManager.SignInAsync(user, isPersistent: false);

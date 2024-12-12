@@ -10,23 +10,86 @@
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
 
-<PageTitle>Register confirmation</PageTitle>
+<PageTitle>Register Confirmation</PageTitle>
 
-<h1>Register confirmation</h1>
+<div class="confirmation-container">
+    <h1 class="title">Registration Confirmation</h1>
 
-<StatusMessage Message="@statusMessage" />
+    @if (emailConfirmationLink is not null)
+    {
+        <div class="confirmation-message">
+            <p>
+                This application does not currently have a real email sender configured. See
+                <a href="https://aka.ms/aspaccountconf" target="_blank">these docs</a> for guidance on setting up a real email sender.
+            </p>
+            <p>
+                Normally, the confirmation link would be sent to your email. Since this is a demo, you can confirm your email by clicking the link below:
+            </p>
+            <a class="confirmation-link" href="@emailConfirmationLink">Confirm Your Email</a>
+        </div>
+        <div class="manual-redirect">
+            <p>If you have already confirmed your email, click the button below to go to the login page:</p>
+            <button class="redirect-button" @onclick="RedirectToLogin">Go to Login</button>
+        </div>
+    }
+    else
+    {
+        <div class="email-prompt">
+            <p>Please check your email inbox for a confirmation link to activate your account.</p>
+        </div>
+    }
+</div>
 
-@if (emailConfirmationLink is not null)
-{
-    <p>
-        This app does not currently have a real email sender registered, see <a href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
-        Normally this would be emailed: <a href="@emailConfirmationLink">Click here to confirm your account</a>
-    </p>
-}
-else
-{
-    <p>Please check your email to confirm your account.</p>
-}
+<style>
+    .confirmation-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        font-family: Arial, sans-serif;
+    }
+
+    .title {
+        text-align: center;
+        font-size: 24px;
+        color: #333;
+    }
+
+    .confirmation-message, .email-prompt, .manual-redirect {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .confirmation-link {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+    }
+
+        .confirmation-link:hover {
+            background-color: #0056b3;
+        }
+
+    .redirect-button {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        .redirect-button:hover {
+            background-color: #218838;
+        }
+</style>
 
 @code {
     private string? emailConfirmationLink;
@@ -56,13 +119,18 @@ else
         }
         else if (EmailSender is IdentityNoOpEmailSender)
         {
-            // Once you add a real email sender, you should remove this code that lets you confirm the account
+            // Generate email confirmation link
             var userId = await UserManager.GetUserIdAsync(user);
             var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
             emailConfirmationLink = NavigationManager.GetUriWithQueryParameters(
                 NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
-                new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code, ["returnUrl"] = ReturnUrl });
+                new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code, ["returnUrl"] = ReturnUrl ?? "/Login" });
         }
+    }
+
+    private void RedirectToLogin()
+    {
+        NavigationManager.NavigateTo("/Login");
     }
 }
