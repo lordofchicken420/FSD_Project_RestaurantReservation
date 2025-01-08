@@ -30,8 +30,10 @@
 
 
 
-<body>
-    <!-- Navbar -->
+<body style="background-image: url('/santorini.jpg') !important; background-size: cover !important;">
+    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url('/santorini.jpg'); background-size: cover; background-position: center; filter: brightness(0.5); z-index: -2;"></div>
+    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(44, 44, 44, 0.7); z-index: -1;"></div>
+
     <header class="navbar">
 
         <nav>
@@ -71,6 +73,8 @@
     </header>
 
 
+
+
     <!-- Hero Section -->
     <section class="hero">
         <h1>Athens</h1>
@@ -79,21 +83,48 @@
 
     <!-- Image Showcase -->
     <section class="image-showcase">
-        <div class="showcase-image">
-            <img src="your-image1.jpg" alt="Showcase 1">
+        <div class="about">
+            <h2>Our Story</h2>
+            <p>
+                Inspired by the Pacific Northwest, Archipelago offers a unique experience crafted through flavors,
+                ingredients, and stories. We celebrate heritage, identity, and a sense of belonging.
+            </p>
         </div>
         <div class="showcase-image">
-            <img src="your-image2.jpg" alt="Showcase 2">
+            @* <img src="your-image1.jpg" alt="Showcase 1"> *@
+        </div>
+        <div class="showcase-image">
+            @* <img src="your-image2.jpg" alt="Showcase 2"> *@
         </div>
     </section>
+    
+    <section class="more">
+        <div class="hours">
+            <h1>Opening Hours</h1>
+            <hr>
+            <p>
+                Restaurant: <br>
+                Monday to Wednesday | 11:30am to 10pm <br>
+                Thursday to Friday | 11:30am to 11pm <br>
+                Saturday | 8.30am to 11pm <br>
+                Sunday | 8.30am to 10pm <br>
+            </p>
+        </div>
+        <div class="contact">
+            <h1>Contact Us</h1>
+            <hr>
+            <p>
+                Address:<br>
+                The Shoppes at Marina Bay Sands<br>
+                02 - 18, 2 Bayfront Avenue<br>
+                Singapore 018972<br>
+                ‎<br>
 
-    <!-- About Section -->
-    <section class="about">
-        <h2>Our Story</h2>
-        <p>
-            Inspired by the Pacific Northwest, Archipelago offers a unique experience crafted through flavors,
-            ingredients, and stories. We celebrate heritage, identity, and a sense of belonging.
-        </p>
+
+                Telephone: <br>
+                +65 6232 1115
+            </p>
+        </div>
     </section>
 
     <!-- Footer -->
@@ -106,7 +137,7 @@
         </p>
     </footer>
 </body>
-
+@* <img src="/santorini.jpg" alt="test" style="width: 100px; height: 100px;"> *@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 

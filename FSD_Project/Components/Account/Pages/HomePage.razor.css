@@ -1,10 +1,20 @@
 ﻿/* General Styles */
 body {
+    background-image: url('~/santorini.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
     margin: 0;
     font-family: 'Trajan Pro', serif;
     color: #333;
     background-color: #2C2C2C;
+    position: relative; /* Add this */
+    z-index: -1; /* Add this */
 }
+
+
 
 a {
     text-decoration: none;
@@ -13,12 +23,11 @@ a {
 
 ul {
     list-style: none;
-    left: 20px:
-    padding: 0;
+    left: 20px: padding: 0;
     margin: 0;
 }
 
-.home{
+.home {
     position: relative;
     top: 9px;
     left: 86px;
@@ -36,7 +45,7 @@ ul {
     left: 86px;
 }
 
-.icon{
+.icon {
     position: relative;
     left: 300px;
     bottom: -15px;
@@ -69,10 +78,10 @@ ul {
     left: -5px;
     width: 100%;
     z-index: 1000;
-   
     display: flex;
     justify-content: center; /* Centers the nav items horizontally */
     align-items: center; /* Aligns items vertically */
+
 }
 
 .nav-links {
@@ -102,14 +111,15 @@ ul {
 
 /*
 
-    .nav-button:focus {
-        outline: none;
-        box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
-    }
-*/
+        .nav-button:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+        }
+    */
 
 /* Hero Section */
 .hero {
+    background-color: transparent; /* Change this from #333 */
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -127,6 +137,8 @@ ul {
         font-size: 3rem;
         margin-bottom: 20px;
         letter-spacing: 2px;
+        color: #E7E2B5;
+        font-family: 'Cinzel', serif;
     }
 
     .hero p {
@@ -151,14 +163,22 @@ ul {
 
 /* About Section */
 .about {
-    padding: 80px 40px;
-    background-color: #FFFFFF;
+    width: 100vw; /* Full viewport width */
+    margin: 0; /* Removes any default margin */
+    padding: 80px 100px;
+    color: white;
+    background-color: transparent;
     text-align: center;
+    flex-direction: column;
+    position: relative;
+    right: 50px;
 }
 
     .about h2 {
         font-size: 2rem;
         margin-bottom: 20px;
+        color: #E7E2B5;
+        font-family: 'Cinzel', serif;
     }
 
     .about p {
@@ -167,6 +187,37 @@ ul {
         max-width: 800px;
         margin: 0 auto;
     }
+
+.more {
+    background-color: #333;
+    height: 50vh;
+    display: flex; /* Flexbox layout */
+    flex-direction: row; /* Arrange items in a row */
+    justify-content: space-evenly; /* Distribute space evenly between items */
+    align-items: flex-start; /* Align items at the top */
+    text-align: center;
+    background-size: cover;
+    background-position: center;
+    color: #FFFFFF;
+}
+
+.hours, .contact {
+    position: relative;
+    top: 100px;
+    margin: 0 20px; /* Add horizontal spacing between sections */
+}
+
+    .hours h1 {
+        color: #E7E2B5;
+        font-weight: bold;
+    }
+
+    .contact h1 {
+        color: #E7E2B5;
+        font-weight: bold;
+    }
+
+
 
 /* Footer */
 footer {
