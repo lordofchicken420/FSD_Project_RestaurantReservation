@@ -1,88 +1,134 @@
 ﻿@page "/Booking"
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Identity
+@using FSD_Project.Data
 
 <PageTitle>Reservations</PageTitle>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reservations | Athens</title>
-    <link rel="stylesheet" href="styles1.css">
-</head>
-<body>
-    <!-- Navbar -->
-    <header class="navbar">
-        <nav>
-            <ul class="nav-links">
-                <li><button class="nav-button" onclick="window.location.href='/'">Home</button></li>
-                <li><button class="nav-button" onclick="window.location.href='/Booking'">Reservations</button></li>
-                <li><button class="nav-button" onclick="window.location.href='/Menu'">Menu</button></li>
-                <li>
-                    <ul class="icon">
-                        <li>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="26" class="bi bi-person-fill" viewBox="0 0 16 16">
-                                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
-                            </svg>
-                        </li>
-                        <li>
-                            <AuthorizeView>
-                                <NotAuthorized>
-                                    <button class="nav-button login-button" onclick="window.location.href='/Admin'">Login</button>
-                                </NotAuthorized>
+<!-- Navbar -->
+<header class="navbar">
+    <nav>
+        <ul class="nav-links">
+            <li><button class="nav-button" onclick="window.location.href='/'">Home</button></li>
+            <li><button class="nav-button" onclick="window.location.href='/Booking'">Reservations</button></li>
+            <li><button class="nav-button" onclick="window.location.href='/Menu'">Menu</button></li>
+            <li>
+                <ul class="icon">
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="26" class="bi bi-person-fill" viewBox="0 0 16 16">
+                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                        </svg>
+                    </li>
+                    <li>
+                        <AuthorizeView>
+                            <NotAuthorized>
+                                <button class="nav-button login-button" onclick="window.location.href='/Admin'">Login</button>
+                            </NotAuthorized>
 
-                                <Authorized>
-                                    <button class="nav-button logout-button" onclick="window.location.href='/Logout'">Logout</button>
-                                </Authorized>
-                            </AuthorizeView>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-    </header>
+                            <Authorized>
+                                <button class="nav-button logout-button" onclick="window.location.href='/Logout'">Logout</button>
+                            </Authorized>
+                        </AuthorizeView>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
 
-    <!-- Reservation Details Section -->
-    <section class="reservation-section">
-        <h2>Reservations</h2>
-        <hr />
-        <p>January & February are now open! Reservations for March & April open January 1st at 2 PM SGT.</p>
-        <p>Join us for a 5-course tasting menu inspired by Athens. Experience Mediterranean flavors and stories rooted in Greek tradition, blending ancient recipes with modern twists.</p>
-        <p>We welcome all dietary needs — let us know your preferences 4 days in advance through your dining survey.</p>
-    </section>
+<!-- Reservation Details Section -->
+<section class="reservation-section">
+    <h2>Reservations</h2>
+    <hr />
+    <p>January & February are now open! Reservations for March & April open January 1st at 2 PM SGT.</p>
+    <p>Join us for a 5-course tasting menu inspired by Athens. Experience Mediterranean flavors and stories rooted in Greek tradition, blending ancient recipes with modern twists.</p>
+    <p>We welcome all dietary needs — let us know your preferences 4 days in advance through your dining survey.</p>
+</section>
 
-    <!-- Reservation Form Section -->
-    <section class="reservation-section">
-        <div class="form-container">
-            <div class="form-fields">
-                <h3>Book Your Table</h3>
-                <hr />
-                <br />
-                <form>
+<!-- Reservation Form Section -->
+<section class="reservation-section">
+    <div class="form-container">
+        <div class="form-fields">
+            <h3>Book Your Table</h3>
+            <hr />
+            <br />
+            <EditForm Model="@reservationModel" OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div class="form-group">
                     <label for="name">Name in booking:</label>
-                    <input type="text" id="name" name="name" required>
+                    <InputText id="name" @bind-Value="reservationModel.CustomerName" class="form-control" />
+                </div>
 
+                <div class="form-group">
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
+                    <InputText id="email" @bind-Value="reservationModel.Email" class="form-control" />
+                </div>
 
+                <div class="form-group">
                     <label for="party-size">Party size:</label>
-                    <input type="number" id="party-size" name="party-size" min="1" max="10" required>
+                    <InputNumber id="party-size" @bind-Value="reservationModel.Pax" class="form-control" />
+                </div>
 
+                <div class="form-group">
                     <label for="datetime">Date and Time:</label>
-                    <input type="datetime-local" id="datetime" name="datetime" required>
+                    <InputText id="datetime" @bind-Value="reservationModel.ReservationDateString"
+                               class="form-control" type="datetime-local" />
+                </div>
 
-
-                    <button type="submit" class="btn-submit">BOOK</button>
-                </form>
-            </div>
+                <br />
+                <button type="submit" class="btn-submit">BOOK</button>
+            </EditForm>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Footer -->
-    <footer>
-        <p>
-            © @DateTime.Now.Year Ruben x John. All rights reserved.
-        </p>
-    </footer>
-</body>
-</html>
+<!-- Footer -->
+<footer>
+    <p>
+        © @DateTime.Now.Year Ruben x John. All rights reserved.
+    </p>
+</footer>
+
+@code {
+    private ReservationViewModel reservationModel = new();
+
+    private async Task HandleValidSubmit()
+    {
+        // Implement your reservation logic here
+    }
+
+    public class ReservationViewModel
+    {
+        [Required(ErrorMessage = "Name is required")]
+        public string CustomerName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email address")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Number of guests is required")]
+        [Range(1, 10, ErrorMessage = "Party size must be between 1 and 10")]
+        public int Pax { get; set; }
+
+        [Required(ErrorMessage = "Date and time is required")]
+        public string ReservationDateString { get; set; } = string.Empty;
+
+        public DateTime ReservationDate
+        {
+            get
+            {
+                // Convert the string back to DateTime when needed
+                return DateTime.TryParse(ReservationDateString, out var result) ? result : DateTime.MinValue;
+            }
+            set
+            {
+                ReservationDateString = value.ToString("yyyy-MM-ddTHH:mm");
+            }
+        }
+    }
+
+}
+
