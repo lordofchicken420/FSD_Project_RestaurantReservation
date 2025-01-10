@@ -13,6 +13,7 @@ namespace FSD_Project.Configurations.Entities
                 {
                     Id = 1,
                     ReservedDateTime = DateTime.Now,
+                    Pax = 3,
                     BranchId = 1,
                     CustomerId = 1,
 
@@ -26,6 +27,7 @@ namespace FSD_Project.Configurations.Entities
                 {
                     Id = 2,
                     ReservedDateTime = DateTime.Now,
+                    Pax = 2,
                     BranchId = 1,
                     CustomerId= 2,
 

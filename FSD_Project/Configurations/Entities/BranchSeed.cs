@@ -15,6 +15,7 @@ namespace FSD_Project.Configurations.Entities
                     Name = "Branch 1",
                     Location = "Woodlands",
                     contactNumber = 61234567,
+                    NumOfTables = 15,
 
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
@@ -28,6 +29,7 @@ namespace FSD_Project.Configurations.Entities
                     Name = "Branch 2",
                     Location = "Punggol",
                     contactNumber = 61234566, 
+                    NumOfTables = 15, 
 
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
