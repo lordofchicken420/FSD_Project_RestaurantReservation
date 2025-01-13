@@ -126,6 +126,7 @@ ul {
     justify-content: center;
     align-items: center;
     text-align: center;
+    left: 5px;
     background-image: url('hero-image.jpg'); /* Replace with your hero image */
     background-size: cover;
     background-position: center;

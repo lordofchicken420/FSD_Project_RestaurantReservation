@@ -78,4 +78,19 @@
     {
         NavigationManager.NavigateTo(NavigationManager.BaseUri, forceLoad: true);
     }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Set 'userLoggedOut' to true in localStorage when the user logs out
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem", "userLoggedOut", "true");
+
+            // Log out the user
+            await SignInManager.SignOutAsync();
+
+            // Navigate back to the home page after logout
+            NavigationManager.NavigateTo("/", forceLoad: true);
+        }
+    }
 }
