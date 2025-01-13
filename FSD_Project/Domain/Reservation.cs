@@ -8,6 +8,10 @@
         public int BranchId { get; set; }
         public int CustomerId { get; set; }
         public int TableID { get; set;  }
+        public virtual Customer? Customer { get; set; }
+        public virtual Branch? Branch { get; set; } 
+        public virtual Table? Table { get; set; }  
+
 
     }
 }

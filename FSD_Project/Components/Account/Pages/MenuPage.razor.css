@@ -142,12 +142,14 @@ ul {
         margin-bottom: 10px;
         letter-spacing: 2px;
         color: #E7E2B5;
+        font-family: 'Trajan Pro', serif;
     }
 
     .hero-menu p {
         font-size: 1.2rem;
         max-width: 600px;
         line-height: 1.5;
+        font-family: 'Trajan Pro', serif;
     }
 
 /* Menu Section */
