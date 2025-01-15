@@ -9,6 +9,7 @@ body {
     padding-bottom: 60px; /* Space for footer */
 }
 
+
 /* Header Styling */
 header {
     text-align: center;
@@ -38,6 +39,7 @@ header {
     font-size: 1.2rem;
     color: #E7E2B5;
     font-family: 'Cinzel', serif;
+    background-color: #2C2C2C;
 }
 
 .subheading {
@@ -56,6 +58,7 @@ header {
     margin: 0 auto;
     max-width: 1200px;
     padding: 20px;
+    background-color: #2C2C2C;
 }
 
 .col-md-4 {
@@ -70,6 +73,7 @@ header {
     border-radius: 8px;
     position: relative;
     left: 4px;
+    flex-grow: 1; /* Allows the form container to grow and take up available space */
 }
 
 .form-floating {
@@ -155,6 +159,7 @@ header {
     justify-content: center;
     gap: 1rem;
     margin: 20px 0;
+    background-color: #2C2C2C;
 }
 
 /* Validation Styling */
@@ -206,5 +211,11 @@ footer {
     }
 
 
+}
+
+.page-background {
+    background-color: #2C2C2C;
+    min-height: 100vh;
+    margin-top: -3.5rem; /* Adjust this value based on your exact gap size */
 }
 
