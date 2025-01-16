@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FSD_Project.Migrations
 {
     [DbContext(typeof(FSD_ProjectContext))]
-    [Migration("20241127133608_SeedUserRoleAgain")]
-    partial class SeedUserRoleAgain
+    [Migration("20250116081511_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,6 +94,26 @@ namespace FSD_Project.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "c69b6cc0-0edb-4caf-9e23-998ab3c03f28",
+                            Email = "admin@localhost.com",
+                            EmailConfirmed = true,
+                            FirstName = "Admin",
+                            LastName = "User",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@LOCALHOST.COM",
+                            NormalizedUserName = "ADMIN@LOCALHOST.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHBKR4fnzqIRoKzsCHuu5Xcq1CtmSHHKzoheKAx7DaTerWoLFRfZ5pHReA4BxLlQAA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "20e719ce-9740-4a40-ab52-40ecb6b5e0c5",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@localhost.com"
+                        });
                 });
 
             modelBuilder.Entity("FSD_Project.Domain.Branch", b =>
@@ -119,6 +139,9 @@ namespace FSD_Project.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("NumOfTables")
+                        .HasColumnType("int");
+
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -134,10 +157,11 @@ namespace FSD_Project.Migrations
                         {
                             Id = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9339),
-                            DateUpdated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9347),
+                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5113),
+                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5123),
                             Location = "Woodlands",
                             Name = "Branch 1",
+                            NumOfTables = 15,
                             UpdatedBy = "System",
                             contactNumber = 61234567
                         },
@@ -145,10 +169,11 @@ namespace FSD_Project.Migrations
                         {
                             Id = 2,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9348),
-                            DateUpdated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9349),
+                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5126),
+                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5126),
                             Location = "Punggol",
                             Name = "Branch 2",
+                            NumOfTables = 15,
                             UpdatedBy = "System",
                             contactNumber = 61234566
                         });
@@ -192,8 +217,8 @@ namespace FSD_Project.Migrations
                         {
                             Id = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9465),
-                            DateUpdated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9465),
+                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5269),
+                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5270),
                             Gender = "Male",
                             Name = "David Lee",
                             UpdatedBy = "System",
@@ -203,8 +228,8 @@ namespace FSD_Project.Migrations
                         {
                             Id = 2,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9466),
-                            DateUpdated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9467),
+                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5272),
+                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5272),
                             Gender = "Male",
                             Name = "John Matthew",
                             UpdatedBy = "System",
@@ -220,7 +245,7 @@ namespace FSD_Project.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BranchId")
+                    b.Property<int?>("BranchId")
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
@@ -235,13 +260,25 @@ namespace FSD_Project.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Pax")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("ReservedDateTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("TableID")
+                        .HasColumnType("int");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BranchId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("TableID");
 
                     b.ToTable("Reservation");
 
@@ -249,23 +286,25 @@ namespace FSD_Project.Migrations
                         new
                         {
                             Id = 1,
-                            BranchId = 1,
                             CreatedBy = "System",
                             CustomerId = 1,
-                            DateCreated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9519),
-                            DateUpdated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9520),
-                            ReservedDateTime = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9519),
+                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5345),
+                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5345),
+                            Pax = 3,
+                            ReservedDateTime = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5343),
+                            TableID = 1,
                             UpdatedBy = "System"
                         },
                         new
                         {
                             Id = 2,
-                            BranchId = 1,
                             CreatedBy = "System",
                             CustomerId = 2,
-                            DateCreated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9521),
-                            DateUpdated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9522),
-                            ReservedDateTime = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9521),
+                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5347),
+                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5348),
+                            Pax = 2,
+                            ReservedDateTime = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5346),
+                            TableID = 2,
                             UpdatedBy = "System"
                         });
                 });
@@ -304,6 +343,8 @@ namespace FSD_Project.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BranchId");
+
                     b.ToTable("Staff");
 
                     b.HasData(
@@ -312,8 +353,8 @@ namespace FSD_Project.Migrations
                             Id = 1,
                             BranchId = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9570),
-                            DateUpdated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9571),
+                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5410),
+                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5410),
                             Gender = "Male",
                             Name = "Gordon Sim",
                             UpdatedBy = "System",
@@ -324,8 +365,8 @@ namespace FSD_Project.Migrations
                             Id = 2,
                             BranchId = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9572),
-                            DateUpdated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9573),
+                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5412),
+                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5412),
                             Gender = "Female",
                             Name = "En Xuan",
                             UpdatedBy = "System",
@@ -364,6 +405,8 @@ namespace FSD_Project.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BranchId");
+
                     b.ToTable("Table");
 
                     b.HasData(
@@ -373,8 +416,8 @@ namespace FSD_Project.Migrations
                             BranchId = 1,
                             Capacity = 5,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9634),
-                            DateUpdated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9634),
+                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5479),
+                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5479),
                             Status = true,
                             UpdatedBy = "System"
                         },
@@ -384,8 +427,8 @@ namespace FSD_Project.Migrations
                             BranchId = 1,
                             Capacity = 5,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9635),
-                            DateUpdated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9636),
+                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5481),
+                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5481),
                             Status = true,
                             UpdatedBy = "System"
                         },
@@ -395,8 +438,8 @@ namespace FSD_Project.Migrations
                             BranchId = 1,
                             Capacity = 5,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9637),
-                            DateUpdated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9637),
+                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5483),
+                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5483),
                             Status = true,
                             UpdatedBy = "System"
                         },
@@ -406,8 +449,8 @@ namespace FSD_Project.Migrations
                             BranchId = 1,
                             Capacity = 5,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9638),
-                            DateUpdated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9638),
+                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5484),
+                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5485),
                             Status = true,
                             UpdatedBy = "System"
                         },
@@ -417,8 +460,8 @@ namespace FSD_Project.Migrations
                             BranchId = 1,
                             Capacity = 5,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9639),
-                            DateUpdated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9640),
+                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5486),
+                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5486),
                             Status = true,
                             UpdatedBy = "System"
                         },
@@ -428,8 +471,8 @@ namespace FSD_Project.Migrations
                             BranchId = 1,
                             Capacity = 5,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9641),
-                            DateUpdated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9641),
+                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5487),
+                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5488),
                             Status = true,
                             UpdatedBy = "System"
                         },
@@ -439,8 +482,8 @@ namespace FSD_Project.Migrations
                             BranchId = 1,
                             Capacity = 5,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9642),
-                            DateUpdated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9642),
+                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5489),
+                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5489),
                             Status = true,
                             UpdatedBy = "System"
                         },
@@ -450,8 +493,8 @@ namespace FSD_Project.Migrations
                             BranchId = 1,
                             Capacity = 5,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9643),
-                            DateUpdated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9644),
+                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5491),
+                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5491),
                             Status = true,
                             UpdatedBy = "System"
                         },
@@ -461,8 +504,8 @@ namespace FSD_Project.Migrations
                             BranchId = 1,
                             Capacity = 5,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9645),
-                            DateUpdated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9645),
+                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5492),
+                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5493),
                             Status = true,
                             UpdatedBy = "System"
                         },
@@ -472,8 +515,8 @@ namespace FSD_Project.Migrations
                             BranchId = 1,
                             Capacity = 5,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9646),
-                            DateUpdated = new DateTime(2024, 11, 27, 21, 36, 8, 37, DateTimeKind.Local).AddTicks(9646),
+                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5494),
+                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5494),
                             Status = true,
                             UpdatedBy = "System"
                         });
@@ -504,6 +547,20 @@ namespace FSD_Project.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "ad2bcf0c-20db-474f-8407-5a6b159518ba",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = "bd2bcf0c-20db-474f-8407-5a6b159518bb",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -591,6 +648,13 @@ namespace FSD_Project.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "3781efa7-66dc-47f0-860f-e506d04102e4",
+                            RoleId = "ad2bcf0c-20db-474f-8407-5a6b159518ba"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -610,6 +674,53 @@ namespace FSD_Project.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("FSD_Project.Domain.Reservation", b =>
+                {
+                    b.HasOne("FSD_Project.Domain.Branch", "Branch")
+                        .WithMany("Reservations")
+                        .HasForeignKey("BranchId");
+
+                    b.HasOne("FSD_Project.Domain.Customer", "Customer")
+                        .WithMany("Reservations")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FSD_Project.Domain.Table", "Table")
+                        .WithMany("Reservations")
+                        .HasForeignKey("TableID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Branch");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Table");
+                });
+
+            modelBuilder.Entity("FSD_Project.Domain.Staff", b =>
+                {
+                    b.HasOne("FSD_Project.Domain.Branch", "Branch")
+                        .WithMany("Staffs")
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Branch");
+                });
+
+            modelBuilder.Entity("FSD_Project.Domain.Table", b =>
+                {
+                    b.HasOne("FSD_Project.Domain.Branch", "Branch")
+                        .WithMany("Tables")
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Branch");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -661,6 +772,25 @@ namespace FSD_Project.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("FSD_Project.Domain.Branch", b =>
+                {
+                    b.Navigation("Reservations");
+
+                    b.Navigation("Staffs");
+
+                    b.Navigation("Tables");
+                });
+
+            modelBuilder.Entity("FSD_Project.Domain.Customer", b =>
+                {
+                    b.Navigation("Reservations");
+                });
+
+            modelBuilder.Entity("FSD_Project.Domain.Table", b =>
+                {
+                    b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618
         }

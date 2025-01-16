@@ -6,7 +6,7 @@
         public String? Gender { get; set; }
         public int contactNumber { get; set; }
 
-        public virtual ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
+        public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
 
     }
 }
