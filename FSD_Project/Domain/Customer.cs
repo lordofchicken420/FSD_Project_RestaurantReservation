@@ -2,11 +2,13 @@
 {
     public class Customer : BaseDomainModel
     {
-        public String? Name { get; set; }
-        public String? Gender { get; set; }
+        // Inherit Id from BaseDomainModel
+        // public int CustomerId { get; set; } // Not needed if BaseDomainModel has 'Id'
+
+        public string? Name { get; set; }
+        public string? Gender { get; set; }
         public int contactNumber { get; set; }
 
         public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
-
     }
 }

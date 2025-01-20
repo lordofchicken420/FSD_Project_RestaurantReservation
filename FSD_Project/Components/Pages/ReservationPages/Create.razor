@@ -14,37 +14,48 @@
     <div class="col-md-4">
         <EditForm method="post" Model="Reservation" OnValidSubmit="AddReservation" FormName="create" Enhance>
             <DataAnnotationsValidator />
-            <ValidationSummary class="text-danger" role="alert"/>
+            <ValidationSummary class="text-danger" role="alert" />
             <div class="mb-3">
-                <label for="reserveddatetime" class="form-label">ReservedDateTime:</label> 
-                <InputDate id="reserveddatetime" @bind-Value="Reservation.ReservedDateTime" class="form-control" /> 
-                <ValidationMessage For="() => Reservation.ReservedDateTime" class="text-danger" /> 
-            </div>               
+                <label for="reserveddatetime" class="form-label">ReservedDateTime:</label>
+                <InputDate id="reserveddatetime" @bind-Value="Reservation.ReservedDateTime" class="form-control" />
+                <ValidationMessage For="() => Reservation.ReservedDateTime" class="text-danger" />
+            </div>
+
             <div class="mb-3">
-                <label for="customerid" class="form-label">CustomerId:</label> 
-                <InputNumber id="customerid" @bind-Value="Reservation.CustomerId" class="form-control" /> 
-                <ValidationMessage For="() => Reservation.CustomerId" class="text-danger" /> 
-            </div>        
+                <label for="customerid" class="form-label">CustomerId:</label>
+                <InputNumber id="customerid" @bind-Value="Reservation.CustomerId" class="form-control" />
+                <ValidationMessage For="() => Reservation.CustomerId" class="text-danger" />
+            </div>
+
             <div class="mb-3">
-                <label for="datecreated" class="form-label">DateCreated:</label> 
-                <InputDate id="datecreated" @bind-Value="Reservation.DateCreated" class="form-control" /> 
-                <ValidationMessage For="() => Reservation.DateCreated" class="text-danger" /> 
-            </div>        
+                <label for="tableid" class="form-label">TableID:</label>
+                <InputNumber id="tableid" @bind-Value="Reservation.TableID" class="form-control" />
+                <ValidationMessage For="() => Reservation.TableID" class="text-danger" />
+            </div>
+
             <div class="mb-3">
-                <label for="dateupdated" class="form-label">DateUpdated:</label> 
-                <InputDate id="dateupdated" @bind-Value="Reservation.DateUpdated" class="form-control" /> 
-                <ValidationMessage For="() => Reservation.DateUpdated" class="text-danger" /> 
-            </div>        
+                <label for="datecreated" class="form-label">DateCreated:</label>
+                <InputDate id="datecreated" @bind-Value="Reservation.DateCreated" class="form-control" />
+                <ValidationMessage For="() => Reservation.DateCreated" class="text-danger" />
+            </div>
             <div class="mb-3">
-                <label for="createdby" class="form-label">CreatedBy:</label> 
-                <InputText id="createdby" @bind-Value="Reservation.CreatedBy" class="form-control" /> 
-                <ValidationMessage For="() => Reservation.CreatedBy" class="text-danger" /> 
-            </div>        
+                <label for="dateupdated" class="form-label">DateUpdated:</label>
+                <InputDate id="dateupdated" @bind-Value="Reservation.DateUpdated" class="form-control" />
+                <ValidationMessage For="() => Reservation.DateUpdated" class="text-danger" />
+            </div>
+
             <div class="mb-3">
-                <label for="updatedby" class="form-label">UpdatedBy:</label> 
-                <InputText id="updatedby" @bind-Value="Reservation.UpdatedBy" class="form-control" /> 
-                <ValidationMessage For="() => Reservation.UpdatedBy" class="text-danger" /> 
-            </div>        
+                <label for="createdby" class="form-label">CreatedBy:</label>
+                <InputText id="createdby" @bind-Value="Reservation.CreatedBy" class="form-control" />
+                <ValidationMessage For="() => Reservation.CreatedBy" class="text-danger" />
+            </div>
+
+            <div class="mb-3">
+                <label for="updatedby" class="form-label">UpdatedBy:</label>
+                <InputText id="updatedby" @bind-Value="Reservation.UpdatedBy" class="form-control" />
+                <ValidationMessage For="() => Reservation.UpdatedBy" class="text-danger" />
+            </div>
+
             <button type="submit" class="btn btn-primary">Create</button>
         </EditForm>
     </div>

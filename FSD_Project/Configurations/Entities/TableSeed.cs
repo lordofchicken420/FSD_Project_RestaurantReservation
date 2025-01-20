@@ -12,7 +12,7 @@ namespace FSD_Project.Configurations.Entities
                 new Table
                 {
                     Id = 1,
-                    Capacity = 5,
+                    Capacity = 10,
                     Status = true,
                     BranchId = 1,  
 
@@ -25,7 +25,7 @@ namespace FSD_Project.Configurations.Entities
                 new Table
                 {
                     Id = 2,
-                    Capacity = 5,
+                    Capacity = 10,
                     Status = true,
                     BranchId = 1,
 
@@ -38,7 +38,7 @@ namespace FSD_Project.Configurations.Entities
                 new Table
                 {
                     Id = 3,
-                    Capacity = 5,
+                    Capacity = 10,
                     Status = true,
                     BranchId = 1,
 
@@ -50,7 +50,7 @@ namespace FSD_Project.Configurations.Entities
                 new Table
                 {
                     Id = 4,
-                    Capacity = 5,
+                    Capacity = 10,
                     Status = true,
                     BranchId = 1,
 
@@ -62,7 +62,7 @@ namespace FSD_Project.Configurations.Entities
                 new Table
                 {
                     Id = 5,
-                    Capacity = 5,
+                    Capacity = 10,
                     Status = true,
                     BranchId = 1,
 
@@ -74,7 +74,7 @@ namespace FSD_Project.Configurations.Entities
                 new Table
                 {
                     Id = 6,
-                    Capacity = 5,
+                    Capacity = 10,
                     Status = true,
                     BranchId = 1,
 
@@ -86,7 +86,7 @@ namespace FSD_Project.Configurations.Entities
                 new Table
                 {
                     Id = 7,
-                    Capacity = 5,
+                    Capacity = 10,
                     Status = true,
                     BranchId = 1,
 
@@ -98,7 +98,7 @@ namespace FSD_Project.Configurations.Entities
                 new Table
                 {
                     Id = 8,
-                    Capacity = 5,
+                    Capacity = 10,
                     Status = true,
                     BranchId = 1,
 
@@ -111,7 +111,7 @@ namespace FSD_Project.Configurations.Entities
                 new Table
                 {
                     Id = 9,
-                    Capacity = 5,
+                    Capacity = 10,
                     Status = true,
                     BranchId = 1,
 
@@ -124,7 +124,7 @@ namespace FSD_Project.Configurations.Entities
                 new Table
                 {
                     Id = 10,
-                    Capacity = 5,
+                    Capacity = 10,
                     Status = true,
                     BranchId = 1,
 
