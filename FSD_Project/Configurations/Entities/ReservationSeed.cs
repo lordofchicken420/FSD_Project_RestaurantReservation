@@ -14,7 +14,7 @@ namespace FSD_Project.Configurations.Entities
                     Id = 1,
                     ReservedDateTime = DateTime.Now,
                     Pax = 3,
-                    CustomerId = 1,
+                    CustomerId = "1",
                     TableID = 1,
 
                     DateCreated = DateTime.Now,
@@ -28,7 +28,7 @@ namespace FSD_Project.Configurations.Entities
                     Id = 2,
                     ReservedDateTime = DateTime.Now,
                     Pax = 2,
-                    CustomerId= 2,
+                    CustomerId= "2",
                     TableID = 2,
 
                     DateCreated = DateTime.Now,

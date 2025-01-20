@@ -10,9 +10,18 @@
 
 <h1>Index</h1>
 
-<p>
-    <a href="reservations/create">Create New</a>
-</p>
+<AuthorizeView>
+    <Authorized>
+    <p>
+        <a href="reservations/create">Create New</a>
+    </p>
+    </Authorized>
+    <NotAuthorized>
+        <p>
+            Please login to book a reservation
+        </p>
+    </NotAuthorized>
+</AuthorizeView>
 
 <QuickGrid Class="table" Items="context.Reservation">
     <PropertyColumn Property="reservation => reservation.ReservedDateTime" />

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FSD_Project.Migrations
 {
     [DbContext(typeof(FSD_ProjectContext))]
-    [Migration("20250116081511_Initial")]
+    [Migration("20250120121334_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -100,7 +100,7 @@ namespace FSD_Project.Migrations
                         {
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c69b6cc0-0edb-4caf-9e23-998ab3c03f28",
+                            ConcurrencyStamp = "f6c498b8-f3f0-489e-a5d3-5492d20568b8",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -108,9 +108,9 @@ namespace FSD_Project.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHBKR4fnzqIRoKzsCHuu5Xcq1CtmSHHKzoheKAx7DaTerWoLFRfZ5pHReA4BxLlQAA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKbb1lWtDyET4nqMJRdcA43i4xassS9gAxroxHO3pXk8icsT8QGixHbDqpWJaP4Jlg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "20e719ce-9740-4a40-ab52-40ecb6b5e0c5",
+                            SecurityStamp = "212d6afc-771f-41f2-b023-c543d304642c",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
@@ -157,8 +157,8 @@ namespace FSD_Project.Migrations
                         {
                             Id = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5113),
-                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5123),
+                            DateCreated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(314),
+                            DateUpdated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(323),
                             Location = "Woodlands",
                             Name = "Branch 1",
                             NumOfTables = 15,
@@ -169,8 +169,8 @@ namespace FSD_Project.Migrations
                         {
                             Id = 2,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5126),
-                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5126),
+                            DateCreated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(325),
+                            DateUpdated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(325),
                             Location = "Punggol",
                             Name = "Branch 2",
                             NumOfTables = 15,
@@ -217,8 +217,8 @@ namespace FSD_Project.Migrations
                         {
                             Id = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5269),
-                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5270),
+                            DateCreated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(446),
+                            DateUpdated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(447),
                             Gender = "Male",
                             Name = "David Lee",
                             UpdatedBy = "System",
@@ -228,8 +228,8 @@ namespace FSD_Project.Migrations
                         {
                             Id = 2,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5272),
-                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5272),
+                            DateCreated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(448),
+                            DateUpdated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(448),
                             Gender = "Male",
                             Name = "John Matthew",
                             UpdatedBy = "System",
@@ -251,7 +251,7 @@ namespace FSD_Project.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CustomerId")
+                    b.Property<int?>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateCreated")
@@ -288,10 +288,10 @@ namespace FSD_Project.Migrations
                             Id = 1,
                             CreatedBy = "System",
                             CustomerId = 1,
-                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5345),
-                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5345),
+                            DateCreated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(502),
+                            DateUpdated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(503),
                             Pax = 3,
-                            ReservedDateTime = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5343),
+                            ReservedDateTime = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(501),
                             TableID = 1,
                             UpdatedBy = "System"
                         },
@@ -300,10 +300,10 @@ namespace FSD_Project.Migrations
                             Id = 2,
                             CreatedBy = "System",
                             CustomerId = 2,
-                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5347),
-                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5348),
+                            DateCreated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(505),
+                            DateUpdated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(506),
                             Pax = 2,
-                            ReservedDateTime = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5346),
+                            ReservedDateTime = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(504),
                             TableID = 2,
                             UpdatedBy = "System"
                         });
@@ -353,8 +353,8 @@ namespace FSD_Project.Migrations
                             Id = 1,
                             BranchId = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5410),
-                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5410),
+                            DateCreated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(574),
+                            DateUpdated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(574),
                             Gender = "Male",
                             Name = "Gordon Sim",
                             UpdatedBy = "System",
@@ -365,8 +365,8 @@ namespace FSD_Project.Migrations
                             Id = 2,
                             BranchId = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5412),
-                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5412),
+                            DateCreated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(576),
+                            DateUpdated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(576),
                             Gender = "Female",
                             Name = "En Xuan",
                             UpdatedBy = "System",
@@ -414,10 +414,10 @@ namespace FSD_Project.Migrations
                         {
                             Id = 1,
                             BranchId = 1,
-                            Capacity = 5,
+                            Capacity = 10,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5479),
-                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5479),
+                            DateCreated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(627),
+                            DateUpdated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(628),
                             Status = true,
                             UpdatedBy = "System"
                         },
@@ -425,10 +425,10 @@ namespace FSD_Project.Migrations
                         {
                             Id = 2,
                             BranchId = 1,
-                            Capacity = 5,
+                            Capacity = 10,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5481),
-                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5481),
+                            DateCreated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(629),
+                            DateUpdated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(629),
                             Status = true,
                             UpdatedBy = "System"
                         },
@@ -436,10 +436,10 @@ namespace FSD_Project.Migrations
                         {
                             Id = 3,
                             BranchId = 1,
-                            Capacity = 5,
+                            Capacity = 10,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5483),
-                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5483),
+                            DateCreated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(630),
+                            DateUpdated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(631),
                             Status = true,
                             UpdatedBy = "System"
                         },
@@ -447,10 +447,10 @@ namespace FSD_Project.Migrations
                         {
                             Id = 4,
                             BranchId = 1,
-                            Capacity = 5,
+                            Capacity = 10,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5484),
-                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5485),
+                            DateCreated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(632),
+                            DateUpdated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(632),
                             Status = true,
                             UpdatedBy = "System"
                         },
@@ -458,10 +458,10 @@ namespace FSD_Project.Migrations
                         {
                             Id = 5,
                             BranchId = 1,
-                            Capacity = 5,
+                            Capacity = 10,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5486),
-                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5486),
+                            DateCreated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(633),
+                            DateUpdated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(633),
                             Status = true,
                             UpdatedBy = "System"
                         },
@@ -469,10 +469,10 @@ namespace FSD_Project.Migrations
                         {
                             Id = 6,
                             BranchId = 1,
-                            Capacity = 5,
+                            Capacity = 10,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5487),
-                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5488),
+                            DateCreated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(634),
+                            DateUpdated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(635),
                             Status = true,
                             UpdatedBy = "System"
                         },
@@ -480,10 +480,10 @@ namespace FSD_Project.Migrations
                         {
                             Id = 7,
                             BranchId = 1,
-                            Capacity = 5,
+                            Capacity = 10,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5489),
-                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5489),
+                            DateCreated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(636),
+                            DateUpdated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(636),
                             Status = true,
                             UpdatedBy = "System"
                         },
@@ -491,10 +491,10 @@ namespace FSD_Project.Migrations
                         {
                             Id = 8,
                             BranchId = 1,
-                            Capacity = 5,
+                            Capacity = 10,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5491),
-                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5491),
+                            DateCreated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(637),
+                            DateUpdated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(637),
                             Status = true,
                             UpdatedBy = "System"
                         },
@@ -502,10 +502,10 @@ namespace FSD_Project.Migrations
                         {
                             Id = 9,
                             BranchId = 1,
-                            Capacity = 5,
+                            Capacity = 10,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5492),
-                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5493),
+                            DateCreated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(638),
+                            DateUpdated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(638),
                             Status = true,
                             UpdatedBy = "System"
                         },
@@ -513,10 +513,10 @@ namespace FSD_Project.Migrations
                         {
                             Id = 10,
                             BranchId = 1,
-                            Capacity = 5,
+                            Capacity = 10,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5494),
-                            DateUpdated = new DateTime(2025, 1, 16, 16, 15, 10, 582, DateTimeKind.Local).AddTicks(5494),
+                            DateCreated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(639),
+                            DateUpdated = new DateTime(2025, 1, 20, 20, 13, 34, 296, DateTimeKind.Local).AddTicks(640),
                             Status = true,
                             UpdatedBy = "System"
                         });
@@ -678,25 +678,19 @@ namespace FSD_Project.Migrations
 
             modelBuilder.Entity("FSD_Project.Domain.Reservation", b =>
                 {
-                    b.HasOne("FSD_Project.Domain.Branch", "Branch")
+                    b.HasOne("FSD_Project.Domain.Branch", null)
                         .WithMany("Reservations")
                         .HasForeignKey("BranchId");
 
-                    b.HasOne("FSD_Project.Domain.Customer", "Customer")
+                    b.HasOne("FSD_Project.Domain.Customer", null)
                         .WithMany("Reservations")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CustomerId");
 
                     b.HasOne("FSD_Project.Domain.Table", "Table")
                         .WithMany("Reservations")
                         .HasForeignKey("TableID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Branch");
-
-                    b.Navigation("Customer");
 
                     b.Navigation("Table");
                 });

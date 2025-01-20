@@ -1,8 +1,11 @@
 ﻿@page "/reservations/create"
 @using Microsoft.EntityFrameworkCore
 @using FSD_Project.Domain
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
 @inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>Create</PageTitle>
 
@@ -21,17 +24,17 @@
                 <ValidationMessage For="() => Reservation.ReservedDateTime" class="text-danger" />
             </div>
 
-            <div class="mb-3">
-                <label for="customerid" class="form-label">CustomerId:</label>
-                <InputNumber id="customerid" @bind-Value="Reservation.CustomerId" class="form-control" />
-                <ValidationMessage For="() => Reservation.CustomerId" class="text-danger" />
-            </div>
+            @* <div class="mb-3"> *@
+            @*     <label for="customerid" class="form-label">CustomerId:</label> *@
+            @*     <InputNumber id="customerid" @bind-Value="Reservation.CustomerId" class="form-control" /> *@
+            @*     <ValidationMessage For="() => Reservation.CustomerId" class="text-danger" /> *@
+            @* </div> *@
 
-            <div class="mb-3">
-                <label for="tableid" class="form-label">TableID:</label>
-                <InputNumber id="tableid" @bind-Value="Reservation.TableID" class="form-control" />
-                <ValidationMessage For="() => Reservation.TableID" class="text-danger" />
-            </div>
+            @* <div class="mb-3"> *@
+            @*     <label for="tableid" class="form-label">TableID:</label> *@
+            @*     <InputNumber id="tableid" @bind-Value="Reservation.TableID" class="form-control" /> *@
+            @*     <ValidationMessage For="() => Reservation.TableID" class="text-danger" /> *@
+            @* </div> *@
 
             <div class="mb-3">
                 <label for="datecreated" class="form-label">DateCreated:</label>
@@ -68,11 +71,81 @@
 @code {
     [SupplyParameterFromForm]
     private Reservation Reservation { get; set; } = new();
+    private string userId;
 
-    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
-    private async Task AddReservation()
+    protected override async Task OnInitializedAsync()
+    {
+        // Get the authenticated user
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            // Get the user's ID from their claims
+            userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            // Set the CustomerID to the user's ID
+            // In Create.razor
+            Reservation.CustomerId = userId;  // No parsing needed
+            // Pre-fill creation metadata
+            Reservation.DateCreated = DateTime.Now;
+            Reservation.CreatedBy = user.Identity.Name;
+        }
+    }
+
+    private async Task<int?> FindAvailableTableId(DateTime reservationTime)
     {
         using var context = DbFactory.CreateDbContext();
+
+        // Get all tables ordered by ID
+        var allTables = await context.Table
+            .OrderBy(t => t.Id)
+            .ToListAsync();
+
+        // Get existing reservations that overlap with the requested time
+        // Assuming each reservation is for a 2-hour slot
+        var reservationEndTime = reservationTime.AddHours(2);
+        var existingReservations = await context.Reservation
+            .Where(r => r.ReservedDateTime < reservationEndTime &&
+                        r.ReservedDateTime.AddHours(2) > reservationTime)
+            .Select(r => r.TableID)
+            .ToListAsync();
+
+        // Find the first table that isn't in existing reservations
+        foreach (var table in allTables)
+        {
+            var tableIdToCheck = table.Id;
+
+            if (!existingReservations.Contains(tableIdToCheck))
+            {
+                return tableIdToCheck; // Found an available table ID
+            }
+        }
+
+        // If no available table ID was found, return the next available one
+        // This assumes all tables are fully booked; you may adjust this logic as needed
+        return allTables.Max(t => t.Id) + 1;
+    }
+
+
+    private async Task AddReservation()
+    {
+        // Find an available table
+        var availableTableId = await FindAvailableTableId(Reservation.ReservedDateTime);
+
+        if (availableTableId == null)
+        {
+            // Handle the case where no tables are available
+            // You might want to show an error message to the user
+            return;
+        }
+
+        using var context = DbFactory.CreateDbContext();
+
+        Reservation.TableID = availableTableId.Value;
+        Reservation.DateUpdated = DateTime.Now;
+        Reservation.UpdatedBy = userId;
+
         context.Reservation.Add(Reservation);
         await context.SaveChangesAsync();
         NavigationManager.NavigateTo("/reservations");
