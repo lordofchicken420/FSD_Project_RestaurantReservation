@@ -1,0 +1,195 @@
+﻿/* General Styles */
+body {
+    margin: 0;
+    font-family: 'Trajan Pro', serif;
+    color: #333;
+    background-color: #2C2C2C;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+    left: 20px: padding: 0;
+    margin: 0;
+}
+
+.nav-links li:nth-child(-n+3) {
+    position: relative;
+    top: 9px;
+    left: 86px;
+}
+
+.home {
+    position: relative;
+    top: 9px;
+    left: 86px;
+}
+
+.reservations {
+    position: relative;
+    top: 9px;
+    left: 86px;
+}
+
+.menu {
+    position: relative;
+    top: 9px;
+    left: 86px;
+}
+
+.icon {
+    position: relative;
+    left: 214px;
+    bottom: -6px;
+}
+
+.logout-button {
+    position: relative;
+    left: 30px;
+    top: -35px; /* Moves the button upwards */
+}
+
+.login-button {
+    position: relative;
+    left: 30px;
+    top: -35px; /* Moves the button upwards */
+}
+
+
+.icon svg {
+    fill: white;
+}
+
+.navbar {
+    background-color: #2C2C2C; /* Matches the background */
+    height: 100px; /* Sets a fixed height */
+    padding: 20px 0px;
+    position: fixed;
+    top: -10px;
+    left: -5px;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: center; /* Centers the nav items horizontally */
+    align-items: center; /* Aligns items vertically */
+}
+
+.nav-links {
+    display: flex;
+    gap: 50px; /* Adds spacing between the buttons */
+    list-style: none; /* Removes bullets */
+    padding: 0;
+    margin: 0;
+}
+
+.nav-button {
+    background-color: #2C2C2C; /* Matches the navbar background */
+    color: #FFFFFF;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-family: 'Trajan Pro', serif;
+    font-size: 15px;
+    border: none; /* Removes the default button border */
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .nav-button:hover {
+        background-color: #444; /* Slightly lighter color on hover */
+    }
+
+    .nav-button:focus {
+        outline: none;
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+    }
+
+
+/* Reservation Form Section */
+.reservation-section {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 50px;
+    background-color: #333;
+    color: #FFFFFF;
+    font-family: 'Trajan Pro', serif;
+}
+
+    .reservation-section h2 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        color: #E7E2B5;
+    }
+
+    .reservation-section h3 {
+        color: #E7E2B5;
+    }
+
+    .reservation-section form {
+        max-width: 600px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .reservation-section label {
+        text-align: left;
+        font-weight: bold;
+    }
+
+    .reservation-section hr {
+        color: #E7E2B5;
+    }
+
+    .reservation-section input,
+    .reservation-section textarea,
+    .reservation-section select {
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+        .reservation-section input:focus,
+        .reservation-section textarea:focus,
+        .reservation-section select:focus {
+            border-color: #333;
+            outline: none;
+        }
+
+    .reservation-section button {
+        background-color: #2C2C2C;
+        color: #FFFFFF;
+        font-weight: bold;
+        font-family: 'Trajan Pro', serif;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        position: relative;
+        top: 40px;
+    }
+
+        .reservation-section button:hover {
+            background-color: #444;
+        }
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+}
