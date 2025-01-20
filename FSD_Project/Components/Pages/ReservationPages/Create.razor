@@ -66,33 +66,36 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="datecreated" class="form-label">DateCreated:</label>
-                    <InputDate id="datecreated" @bind-Value="Reservation.DateCreated" class="form-control" />
-                    <ValidationMessage For="() => Reservation.DateCreated" class="text-danger" />
-                </div>
-
-                <div class="form-group">
-                    <label for="dateupdated" class="form-label">DateUpdated:</label>
-                    <InputDate id="dateupdated" @bind-Value="Reservation.DateUpdated" class="form-control" />
-                    <ValidationMessage For="() => Reservation.DateUpdated" class="text-danger" />
-                </div>
-
-                <div class="form-group">
-                    <label for="createdby" class="form-label">CreatedBy:</label>
+                    <label for="createdby" class="form-label">Your Name:</label>
                     <InputText id="createdby" @bind-Value="Reservation.CreatedBy" class="form-control" />
                     <ValidationMessage For="() => Reservation.CreatedBy" class="text-danger" />
                 </div>
 
-                <div class="form-group">
-                    <label for="updatedby" class="form-label">UpdatedBy:</label>
-                    <InputText id="updatedby" @bind-Value="Reservation.UpdatedBy" class="form-control" />
-                    <ValidationMessage For="() => Reservation.UpdatedBy" class="text-danger" />
-                </div>
+
+                @* <div class="form-group"> *@
+                @*     <label for="updatedby" class="form-label">UpdatedBy:</label> *@
+                @*     <InputText id="updatedby" @bind-Value="Reservation.UpdatedBy" class="form-control" /> *@
+                @*     <ValidationMessage For="() => Reservation.UpdatedBy" class="text-danger" /> *@
+                @* </div> *@
 
 
 
                 <br />
                 <button type="submit" class="btn-submit">BOOK</button>
+                <div class="useless">
+                    <div class="form-group">
+                        <label for="datecreated" class="form-label">DateCreated:</label>
+                        <InputDate id="datecreated" @bind-Value="Reservation.DateCreated" class="form-control" />
+                        <ValidationMessage For="() => Reservation.DateCreated" class="text-danger" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dateupdated" class="form-label">DateUpdated:</label>
+                        <InputDate id="dateupdated" @bind-Value="Reservation.DateUpdated" class="form-control" />
+                        <ValidationMessage For="() => Reservation.DateUpdated" class="text-danger" />
+                    </div>
+                </div>
+
             </EditForm>
         </div>
     </div>

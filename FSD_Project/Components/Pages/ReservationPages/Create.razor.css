@@ -193,3 +193,11 @@ footer {
     padding: 20px;
     font-size: 0.9rem;
 }
+
+.useless, .useless * {
+    color: transparent;
+    visibility: hidden; /* This will completely hide the elements */
+    /* or */
+    display: none; /* This will remove the elements from the layout completely */
+}
+
