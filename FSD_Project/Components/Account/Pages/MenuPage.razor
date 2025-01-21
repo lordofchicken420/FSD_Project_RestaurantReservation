@@ -6,35 +6,42 @@
 
 
     <!-- Navbar -->
-    <header class="navbar">
-        <nav>
-            <ul class="nav-links">
-                <li><button class="nav-button" onclick="window.location.href='/'">Home</button></li>
-                <li><button class="nav-button" onclick="window.location.href='/reservations/create'">Reservations</button></li>
-                <li><button class="nav-button" onclick="window.location.href='/Menu'">Menu</button></li>
-                <li>
-                    <ul class="icon">
-                        <li>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="26" class="bi bi-person-fill" viewBox="0 0 16 16">
-                                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
-                            </svg>
-                        </li>
-                        <li>
-                            <AuthorizeView>
-                                <NotAuthorized>
-                                    <button class="nav-button login-button" onclick="window.location.href='/Admin'">Login</button>
-                                </NotAuthorized>
+<header class="navbar">
+    <nav>
+        <ul class="nav-links">
+            <li>
+                <button class="nav-button home" onclick="window.location.href='/'">Home</button>
+            </li>
+            <li>
+                <button class="nav-button reservations" onclick="window.location.href='/reservations/create'">Reservations</button>
+            </li>
+            <li>
+                <button class="nav-button menu" onclick="window.location.href='/Menu'">Menu</button>
+            </li>
+            <li>
+                <ul class="icon">
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="26" class="bi bi-person-fill" viewBox="0 0 16 16">
+                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                        </svg>
+                    </li>
+                    <li>
+                        <AuthorizeView>
+                            <NotAuthorized>
+                                <button class="nav-button login-button" onclick="window.location.href='/Admin'">Login</button>
+                            </NotAuthorized>
 
-                                <Authorized>
-                                    <button class="nav-button logout-button" onclick="window.location.href='/Logout'">Logout</button>
-                                </Authorized>
-                            </AuthorizeView>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-    </header>
+                            <Authorized>
+                                <button class="nav-button logout-button" onclick="window.location.href='/Logout'">Logout</button>
+                            </Authorized>
+                        </AuthorizeView>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
+
     <!-- Hero Section -->
     <section class="hero-menu">
         <h1>Our Menu</h1>
@@ -48,6 +55,7 @@
             <h1 class="text-center section-heading"> Trending Dishes</h1>
         </div>
     </section>
+    <hr />
     <!-- Update this section instead -->
     <div class="swiper-container trending-slider">
         <div class="swiper-wrapper">
@@ -148,6 +156,12 @@
             © @DateTime.Now.Year Ruben x John. All rights reserved.
         </p>
     </footer>
+
+<AuthorizeView Roles="Administrator">
+    <div class="admin">
+        <a href="/reservations">Click for Admin Page</a>
+    </div>
+</AuthorizeView>
 
     <!-- Swiper Container for Trending Dishes -->
 

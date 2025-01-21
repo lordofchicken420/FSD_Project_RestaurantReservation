@@ -7,6 +7,8 @@
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
+
+
 <PageTitle>Create</PageTitle>
 
 <header class="navbar">
@@ -43,7 +45,7 @@
 <section class="reservation-section">
     <h2>Reservations</h2>
     <hr />
-    <p>January & February are now open! Reservations for March & April open January 1st at 2 PM SGT.</p>
+    <p>February & March are now open! Reservations for April & May open February 1st at 2 PM SGT.</p>
     <p>Join us for a 5-course tasting menu inspired by Athens. Experience Mediterranean flavors and stories rooted in Greek tradition, blending ancient recipes with modern twists.</p>
     <p>We welcome all dietary needs — let us know your preferences 4 days in advance through your dining survey.</p>
 </section>
@@ -53,6 +55,12 @@
     <div class="form-container">
         <div class="form-fields">
             <h3>Book Your Table</h3>
+            <hr />
+            <h5>
+                Each reservation is limited to booking only one table
+            </h5>
+
+
             <hr />
             <br />
             <EditForm method="post" Model="Reservation" OnValidSubmit="AddReservation" FormName="create" Enhance>
@@ -81,7 +89,20 @@
 
 
                 <br />
-                <button type="submit" class="btn-submit">BOOK</button>
+
+                <AuthorizeView>
+                    <Authorized Context="gay">
+                        <button type="submit" class="btn-submit">BOOK</button>
+                    </Authorized>
+                    <NotAuthorized Context="gay">
+                        <h5 class="error">
+                            Please login before reserving a table!
+                        </h5>
+                    </NotAuthorized>
+
+                </AuthorizeView>
+
+
                 <div class="useless">
                     <div class="form-group">
                         <label for="datecreated" class="form-label">DateCreated:</label>
@@ -101,10 +122,20 @@
     </div>
 </section>
 
+<footer>
+    <p>
+        © @DateTime.Now.Year Ruben x John. All rights reserved.
+        <!--
+        <a href="/Admin" style="color: #FFFFFF; text-decoration: underline; margin-left: 10px;">Admin Page</a>
+         -->
+    </p>
+</footer>
 
-<div>
-    <a href="/reservations">Back to List</a>
-</div>
+<AuthorizeView Roles="Administrator">
+    <div class="admin">
+        <a href="/reservations">Click for Admin Page</a>
+    </div>
+</AuthorizeView>
 
 @code {
     [SupplyParameterFromForm]
@@ -116,6 +147,8 @@
         // Get the authenticated user
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
+        Reservation.ReservedDateTime = DateTime.Now;
+
 
         if (user.Identity.IsAuthenticated)
         {

@@ -8,6 +8,14 @@ body {
     color: #E7E2B5;
     min-height: 100vh;
 
+
+}
+
+.page-background {
+    background-color: #2C2C2C;
+    min-height: 100vh;
+    margin-top: -3.5rem; /* Adjust this value based on your exact gap size */
+    padding-top: 0;
 }
 
 .login-container {

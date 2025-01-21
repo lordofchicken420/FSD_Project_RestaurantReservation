@@ -7,31 +7,32 @@
 @inject IJSRuntime JSRuntime
 
 <PageTitle>Logout - Athens</PageTitle>
+<div class="page-background">
+    <div class="logout-container">
+        <header>
+            <h1>Athens.</h1>
+            <p class="paragraph">Your choice of premium Greek food.</p>
+        </header>
 
-<div class="logout-container">
-    <header>
-        <h1>Athens.</h1>
-        <p class="paragraph">Your choice of premium Greek food.</p>
-    </header>
-
-    <div class="row">
-        <div class="col-md-4">
-            <section>
-                <form action="Account/Logout" method="post">
-                    <AntiforgeryToken />
-                    <input type="hidden" name="ReturnUrl" value="@ReturnUrl" />
-                    <div class="submit-button-container">
-                        <button type="submit" class="btn btn-primary">Confirm Logout</button>
-                        <button type="button" class="btn btn-secondary" @onclick="CancelLogout">Cancel</button>
-                    </div>
-                </form>
-            </section>
+        <div class="row">
+            <div class="col-md-4">
+                <section>
+                    <form action="Account/Logout" method="post">
+                        <AntiforgeryToken />
+                        <input type="hidden" name="ReturnUrl" value="@ReturnUrl" />
+                        <div class="submit-button-container">
+                            <button type="submit" class="btn btn-primary">Confirm Logout</button>
+                            <button type="button" class="btn btn-secondary" onclick="window.location.href='/'">Cancel</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
         </div>
-    </div>
 
-    <footer>
-        <small><i>Copyright &copy; 2024 Ruben x John</i></small>
-    </footer>
+        <footer>
+            <small><i>Copyright &copy; 2024 Ruben x John</i></small>
+        </footer>
+    </div>
 </div>
 
 <style>
