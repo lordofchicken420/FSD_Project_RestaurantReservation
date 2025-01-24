@@ -118,6 +118,7 @@ ul {
     */
 
 /* Hero Section */
+
 .hero {
     background-color: transparent; /* Change this from #333 */
     height: 100vh;
@@ -162,6 +163,39 @@ ul {
     height: auto;
     border-radius: 10px;
 }
+
+.reviewer-reviews {
+    width: 100vw; /* Full viewport width */
+    margin: 0; /* Removes any default margin */
+    padding: 80px 100px;
+    color: white;
+    background-color: #333333;
+    text-align: center;
+    flex-direction: column;
+    position: relative;
+}
+    .reviewer-reviews h3 {
+        color: #E7E2B5;
+        font-family: 'Cinzel', serif;
+    }
+    .reviewer-reviews p {
+        color: #E7E2B5;
+    }
+    .reviewer-reviews .reviewer-rating1 svg {
+        color: #E7E2B5;
+    }
+
+    .reviewer-reviews .reviewer-rating1 p{
+        color: #FFFFFF;
+    }
+
+    .reviewer-reviews .reviewer-rating2 svg {
+        color: #E7E2B5;
+    }
+
+    .reviewer-reviews .reviewer-rating2 p {
+        color: #FFFFFF;
+    }
 
 /* About Section */
 .about {
