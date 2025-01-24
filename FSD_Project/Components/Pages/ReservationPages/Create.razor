@@ -11,136 +11,146 @@
 
 <PageTitle>Create</PageTitle>
 
-<header class="navbar">
-    <nav>
-        <ul class="nav-links">
-            <li><button class="nav-button" onclick="window.location.href='/'">Home</button></li>
-            <li><button class="nav-button" onclick="window.location.href='/reservations/create'">Reservations</button></li>
-            <li><button class="nav-button" onclick="window.location.href='/Menu'">Menu</button></li>
-            <li>
-                <ul class="icon">
-                    <li>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="26" class="bi bi-person-fill" viewBox="0 0 16 16">
-                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
-                        </svg>
-                    </li>
-                    <li>
-                        <AuthorizeView>
-                            <NotAuthorized>
-                                <button class="nav-button login-button" onclick="window.location.href='/Admin'">Login</button>
-                            </NotAuthorized>
-
-                            <Authorized>
-                                <button class="nav-button logout-button" onclick="window.location.href='/Logout'">Logout</button>
-                            </Authorized>
-                        </AuthorizeView>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
-</header>
-
-<!-- Reservation Details Section -->
-<section class="reservation-section">
-    <h2>Reservations</h2>
-    <hr />
-    <p>February & March are now open! Reservations for April & May open February 1st at 2 PM SGT.</p>
-    <p>Join us for a 5-course tasting menu inspired by Athens. Experience Mediterranean flavors and stories rooted in Greek tradition, blending ancient recipes with modern twists.</p>
-    <p>We welcome all dietary needs — let us know your preferences 4 days in advance through your dining survey.</p>
-</section>
-
-<!-- Reservation Form Section -->
-<section class="reservation-section">
-    <div class="form-container">
-        <div class="form-fields">
-            <h3>Book Your Table</h3>
-            <hr />
-            <h5>
-                Each reservation is limited to booking only one table
-            </h5>
+@if (HasReservation == true){
+    <div class="alert alert-success alert-dismissable fixed-top" role="alert" id="success-alert" style="max-width:320px; margin: 0 auto; margin-top: 100px">
+        You have booked a table! <br />
+        An email will be sent to you
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="background-color: transparent;"></button>
+    </div>
+}
 
 
-            <hr />
-            <br />
-            <EditForm method="post" Model="Reservation" OnValidSubmit="AddReservation" FormName="create" Enhance>
-                <DataAnnotationsValidator />
-                <ValidationSummary class="text-danger" role="alert" />
+    <header class="navbar">
+        <nav>
+            <ul class="nav-links">
+                <li><button class="nav-button" onclick="window.location.href='/'">Home</button></li>
+                <li><button class="nav-button" onclick="window.location.href='/reservations/create'">Reservations</button></li>
+                <li><button class="nav-button" onclick="window.location.href='/Menu'">Menu</button></li>
+                <li>
+                    <ul class="icon">
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="26" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                            </svg>
+                        </li>
+                        <li>
+                            <AuthorizeView>
+                                <NotAuthorized>
+                                    <button class="nav-button login-button" onclick="window.location.href='/Admin'">Login</button>
+                                </NotAuthorized>
 
-                <div class="form-group">
-                    <label for="reserveddatetime" class="form-label">Reservation Date & Time:</label>
-                    <InputDate id="reserveddatetime" @bind-Value="Reservation.ReservedDateTime" class="form-control" />
-                    <ValidationMessage For="() => Reservation.ReservedDateTime" class="text-danger" />
-                </div>
+                                <Authorized>
+                                    <button class="nav-button logout-button" onclick="window.location.href='/Logout'">Logout</button>
+                                </Authorized>
+                            </AuthorizeView>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
 
-                <div class="form-group">
-                    <label for="createdby" class="form-label">Your Name:</label>
-                    <InputText id="createdby" @bind-Value="Reservation.CreatedBy" class="form-control" />
-                    <ValidationMessage For="() => Reservation.CreatedBy" class="text-danger" />
-                </div>
+    <!-- Reservation Details Section -->
+    <section class="reservation-section">
+        <h2>Reservations</h2>
+        <hr />
+        <p>February & March are now open! Reservations for April & May open February 1st at 2 PM SGT.</p>
+        <p>Join us for a 5-course tasting menu inspired by Athens. Experience Mediterranean flavors and stories rooted in Greek tradition, blending ancient recipes with modern twists.</p>
+        <p>We welcome all dietary needs — let us know your preferences 4 days in advance through your dining survey.</p>
+    </section>
+
+    <!-- Reservation Form Section -->
+    <section class="reservation-section">
+        <div class="form-container">
+            <div class="form-fields">
+                <h3>Book Your Table</h3>
+                <hr />
+                <h5>
+                    Each reservation is limited to booking only one table
+                </h5>
 
 
-                @* <div class="form-group"> *@
-                @*     <label for="updatedby" class="form-label">UpdatedBy:</label> *@
-                @*     <InputText id="updatedby" @bind-Value="Reservation.UpdatedBy" class="form-control" /> *@
-                @*     <ValidationMessage For="() => Reservation.UpdatedBy" class="text-danger" /> *@
-                @* </div> *@
-
-
-
+                <hr />
                 <br />
+                <EditForm method="post" Model="Reservation" OnValidSubmit="AddReservation" FormName="create" Enhance>
+                    <DataAnnotationsValidator />
+                    <ValidationSummary class="text-danger" role="alert" />
 
-                <AuthorizeView>
-                    <Authorized Context="gay">
-                        <button type="submit" class="btn-submit">BOOK</button>
-                    </Authorized>
-                    <NotAuthorized Context="gay">
-                        <h5 class="error">
-                            Please login before reserving a table!
-                        </h5>
-                    </NotAuthorized>
-
-                </AuthorizeView>
-
-
-                <div class="useless">
                     <div class="form-group">
-                        <label for="datecreated" class="form-label">DateCreated:</label>
-                        <InputDate id="datecreated" @bind-Value="Reservation.DateCreated" class="form-control" />
-                        <ValidationMessage For="() => Reservation.DateCreated" class="text-danger" />
+                        <label for="reserveddatetime" class="form-label">Reservation Date & Time:</label>
+                        <InputDate id="reserveddatetime" @bind-Value="Reservation.ReservedDateTime" class="form-control" />
+                        <ValidationMessage For="() => Reservation.ReservedDateTime" class="text-danger" />
                     </div>
 
                     <div class="form-group">
-                        <label for="dateupdated" class="form-label">DateUpdated:</label>
-                        <InputDate id="dateupdated" @bind-Value="Reservation.DateUpdated" class="form-control" />
-                        <ValidationMessage For="() => Reservation.DateUpdated" class="text-danger" />
+                        <label for="createdby" class="form-label">Your Name:</label>
+                        <InputText id="createdby" @bind-Value="Reservation.CreatedBy" class="form-control" />
+                        <ValidationMessage For="() => Reservation.CreatedBy" class="text-danger" />
                     </div>
-                </div>
 
-            </EditForm>
+
+                    @* <div class="form-group"> *@
+                    @*     <label for="updatedby" class="form-label">UpdatedBy:</label> *@
+                    @*     <InputText id="updatedby" @bind-Value="Reservation.UpdatedBy" class="form-control" /> *@
+                    @*     <ValidationMessage For="() => Reservation.UpdatedBy" class="text-danger" /> *@
+                    @* </div> *@
+
+
+
+                    <br />
+
+                    <AuthorizeView>
+                        <Authorized Context="gay">
+                            <button type="submit" class="btn-submit">BOOK</button>
+                        </Authorized>
+                        <NotAuthorized Context="gay">
+                            <h5 class="error">
+                                Please login before reserving a table!
+                            </h5>
+                        </NotAuthorized>
+
+                    </AuthorizeView>
+
+
+                    <div class="useless">
+                        <div class="form-group">
+                            <label for="datecreated" class="form-label">DateCreated:</label>
+                            <InputDate id="datecreated" @bind-Value="Reservation.DateCreated" class="form-control" />
+                            <ValidationMessage For="() => Reservation.DateCreated" class="text-danger" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dateupdated" class="form-label">DateUpdated:</label>
+                            <InputDate id="dateupdated" @bind-Value="Reservation.DateUpdated" class="form-control" />
+                            <ValidationMessage For="() => Reservation.DateUpdated" class="text-danger" />
+                        </div>
+                    </div>
+
+                </EditForm>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<footer>
-    <p>
-        © @DateTime.Now.Year Ruben x John. All rights reserved.
-        <!--
-        <a href="/Admin" style="color: #FFFFFF; text-decoration: underline; margin-left: 10px;">Admin Page</a>
-         -->
-    </p>
-</footer>
+    <footer>
+        <p>
+            © @DateTime.Now.Year Ruben x John. All rights reserved.
+            <!--
+            <a href="/Admin" style="color: #FFFFFF; text-decoration: underline; margin-left: 10px;">Admin Page</a>
+            -->
+        </p>
+    </footer>
 
-<AuthorizeView Roles="Administrator">
-    <div class="admin">
-        <a href="/reservations">Click for Admin Page</a>
-    </div>
-</AuthorizeView>
+    <AuthorizeView Roles="Administrator">
+        <div class="admin">
+            <a href="/reservations">Click for Admin Page</a>
+        </div>
+    </AuthorizeView>
 
-@code {
+    @code {
     [SupplyParameterFromForm]
     private Reservation Reservation { get; set; } = new();
     private string userId;
+    private bool HasReservation;
 
     protected override async Task OnInitializedAsync()
     {
@@ -201,13 +211,12 @@
 
     private async Task AddReservation()
     {
-        // Find an available table
+        // Check if user has a reservation
         var availableTableId = await FindAvailableTableId(Reservation.ReservedDateTime);
 
         if (availableTableId == null)
         {
             // Handle the case where no tables are available
-            // You might want to show an error message to the user
             return;
         }
 
@@ -219,6 +228,11 @@
 
         context.Reservation.Add(Reservation);
         await context.SaveChangesAsync();
-        NavigationManager.NavigateTo("/reservations");
+
+        // Set HasReservation to true to display the alert
+        HasReservation = true;
+
+        
     }
+
 }
