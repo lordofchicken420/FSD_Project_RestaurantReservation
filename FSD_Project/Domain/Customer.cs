@@ -7,7 +7,7 @@
 
         public string? Name { get; set; }
         public string? Gender { get; set; }
-        public int contactNumber { get; set; }
+        public string? Email { get; set; }
 
         public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
     }

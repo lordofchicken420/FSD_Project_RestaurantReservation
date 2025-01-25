@@ -24,7 +24,12 @@
                 <label for="gender" class="form-label">Gender:</label> 
                 <InputText id="gender" @bind-Value="Customer.Gender" class="form-control" /> 
                 <ValidationMessage For="() => Customer.Gender" class="text-danger" /> 
-            </div>        
+            </div>  
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <InputText id="email" @bind-Value="Customer.Email" class="form-control" />
+                <ValidationMessage For="() => Customer.Email" class="text-danger" />
+            </div>
             <div class="mb-3">
                 <label for="datecreated" class="form-label">DateCreated:</label> 
                 <InputDate id="datecreated" @bind-Value="Customer.DateCreated" class="form-control" /> 

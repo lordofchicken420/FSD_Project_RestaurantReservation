@@ -14,7 +14,7 @@ namespace FSD_Project.Configurations.Entities
                     Id = 1,
                     Name = "David Lee",
                     Gender = "Male",
-                    contactNumber = 91234567,
+                    Email = "David@hotmail.com",
 
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
@@ -27,7 +27,7 @@ namespace FSD_Project.Configurations.Entities
                     Id = 2,
                     Name = "John Matthew",
                     Gender = "Male",
-                    contactNumber = 91234566,
+                    Email = "johnmatthew@gmail.com",
 
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
