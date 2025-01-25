@@ -18,6 +18,12 @@ body {
     padding-bottom: 80px; /* Space for footer */
 }
 
+.page-background {
+    background-color: #2C2C2C;
+    min-height: 100vh;
+    margin-top: -3.5rem; /* Adjust this value based on your exact gap size */
+    padding-top: 0;
+}
 /* Header Styling */
 header {
     text-align: center;

@@ -1,0 +1,38 @@
+﻿@inherits Microsoft.AspNetCore.Components.ComponentBase
+@inject Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider AuthenticationStateProvider
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+
+@if (_isAdmin)
+{
+    @ChildContent
+}
+else
+{
+    @UnauthorizedContent
+}
+
+@code {
+    private bool _isAdmin = false;
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public RenderFragment UnauthorizedContent { get; set; }
+
+    [Parameter]
+    public string RedirectPath { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        _isAdmin = user.IsInRole("Admin");
+
+        if (!_isAdmin && !string.IsNullOrEmpty(RedirectPath))
+        {
+            NavigationManager.NavigateTo(RedirectPath);
+        }
+    }
+}

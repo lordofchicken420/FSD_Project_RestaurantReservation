@@ -70,7 +70,6 @@ ul {
     padding: 20px 0px;
     position: fixed;
     top: -10px;
-    left: -5px;
     width: 100%;
     z-index: 1000;
     display: flex;
@@ -133,6 +132,10 @@ ul {
         color: #E7E2B5;
     }
 
+    .reservation-section h5 {
+        color: #E7E2B5;
+    }
+
     .reservation-section form {
         max-width: 600px;
         margin: 0 auto;
@@ -185,13 +188,22 @@ ul {
             background-color: #444;
         }
 
+        .reservation-section .error {
+            color: red;
+        }
+
 /* Footer */
 footer {
     background-color: #333;
-    color: #FFFFFF;
+    color: #E7E2B5;
     text-align: center;
     padding: 20px;
     font-size: 0.9rem;
+}
+
+.admin {
+    color: ghostwhite;
+    background-color: #333;
 }
 
 .useless, .useless * {

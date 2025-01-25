@@ -13,32 +13,8 @@ a {
 
 ul {
     list-style: none;
-    left: 20px;
-    padding: 0;
+    left: 20px: padding: 0;
     margin: 0;
-}
-.home {
-    position: relative;
-    top: 9px;
-    left: 86px;
-}
-
-.reservations {
-    position: relative;
-    top: 9px;
-    left: 86px;
-}
-
-.menu {
-    position: relative;
-    top: 9px;
-    left: 86px;
-}
-
-.nav-links li:nth-child(-n+3) {
-    position: relative;
-    top: 9px;
-    left: 86px;
 }
 
 .home {
@@ -61,14 +37,8 @@ ul {
 
 .icon {
     position: relative;
-    left: 214px;
-    bottom: -6px;
-}
-
-.logout-button {
-    position: relative;
-    left: 30px;
-    top: -35px; /* Moves the button upwards */
+    left: 300px;
+    bottom: -15px;
 }
 
 .login-button {
@@ -77,6 +47,11 @@ ul {
     top: -35px; /* Moves the button upwards */
 }
 
+.logout-button {
+    position: relative;
+    left: 30px;
+    top: -35px; /* Moves the button upwards */
+}
 
 .icon svg {
     fill: white;
@@ -88,7 +63,6 @@ ul {
     padding: 20px 0px;
     position: fixed;
     top: -10px;
-    left: -5px;
     width: 100%;
     z-index: 1000;
     display: flex;
@@ -121,7 +95,10 @@ ul {
         background-color: #444; /* Slightly lighter color on hover */
     }
 
-
+.admin {
+    color: ghostwhite;
+    background-color: #333;
+}
 
 /* Hero Section */
 .hero-menu {
@@ -209,7 +186,7 @@ ul {
 /* Footer */
 footer {
     background-color: #333;
-    color: #FFFFFF;
+    color: #E7E2B5;
     text-align: center;
     padding: 20px;
     font-size: 0.9rem;
