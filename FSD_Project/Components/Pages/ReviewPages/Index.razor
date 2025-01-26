@@ -6,29 +6,36 @@
 @implements IAsyncDisposable
 @inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
 
+<link rel="stylesheet" href="_content/Microsoft.AspNetCore.Components.QuickGrid/Microsoft.AspNetCore.Components.QuickGrid.bundle.scp.css" asp-append-version="true" />
+
+
 <PageTitle>Index</PageTitle>
-
-<h1>Index</h1>
-
+<section class="page-background">
+<h1>See what our customers have to say</h1>
+<hr />
 <p>
-    <a href="reviews/create">Create New</a>
+    <a href="reviews/create">CLick here to leave a review!</a>
 </p>
+<div class="quickgrid-container">
 
-<QuickGrid Class="table" Items="context.Reviews">
-    <PropertyColumn Property="review => review.Score" />
-    <PropertyColumn Property="review => review.Comment" />
-    <PropertyColumn Property="review => review.ReservationId" />
-    <PropertyColumn Property="review => review.DateCreated" />
-    <PropertyColumn Property="review => review.DateUpdated" />
-    <PropertyColumn Property="review => review.CreatedBy" />
-    <PropertyColumn Property="review => review.UpdatedBy" />
+    <QuickGrid Class="table" Items="context.Reviews">
+        <PropertyColumn Property="review => review.Score" />
+        <PropertyColumn Property="review => review.Comment" />
+        <PropertyColumn Property="review => review.ReservationId" />
+        <PropertyColumn Property="review => review.DateCreated" />
+        <PropertyColumn Property="review => review.DateUpdated" />
+        <PropertyColumn Property="review => review.CreatedBy" />
+        <PropertyColumn Property="review => review.UpdatedBy" />
 
-    <TemplateColumn Context="review">
-        <a href="@($"reviews/edit?id={review.Id}")">Edit</a> |
-        <a href="@($"reviews/details?id={review.Id}")">Details</a> |
-        <a href="@($"reviews/delete?id={review.Id}")">Delete</a>
-    </TemplateColumn>
-</QuickGrid>
+        <TemplateColumn Context="review">
+            <a href="@($"reviews/edit?id={review.Id}")">Edit</a> |
+            <a href="@($"reviews/details?id={review.Id}")">Details</a> |
+            <a href="@($"reviews/delete?id={review.Id}")">Delete</a>
+        </TemplateColumn>
+    </QuickGrid>
+</div>
+
+</section>
 
 @code {
     private FSD_ProjectContext context = default!;

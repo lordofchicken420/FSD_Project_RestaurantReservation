@@ -1,0 +1,118 @@
+﻿/* Page Background 
+.page-background {
+    color: ghostwhite;
+    background-color: #2C2C2C;
+    padding: 40px;
+    font-family: 'Trajan Pro', serif;
+    margin-top: -3.5rem;  Adjust this value based on your exact gap size 
+    min-height: 104vh;
+    padding-top: 50px;
+}
+
+     Header Styles 
+    .page-background header h1 {
+        font-size: 2.5rem;
+        color: #E7E2B5;
+        margin-bottom: 10px;
+    }
+
+    .page-background header p {
+        font-size: 1.2rem;
+        color: #FFFFFF;
+        margin-bottom: 30px;
+    }
+
+ Form Styles 
+.review-form {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #333;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    position: relative;
+    top: 100px;
+}
+
+    .review-form label {
+        color: #E7E2B5;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .review-form .form-control {
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #444;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        background-color: #2C2C2C;
+        color: ghostwhite;
+    }
+
+        .review-form .form-control:focus {
+            outline: none;
+            border-color: #E7E2B5;
+            box-shadow: 0px 0px 5px #E7E2B5;
+        }
+
+        .review-form .metadata {
+            display: none;  This will remove the elements from the layout completely 
+        }
+
+        .review-form .input-fields {
+            padding-bottom: 30px;
+        }
+
+ Metadata Section 
+.metadata div {
+    margin-bottom: 15px;
+}
+
+.metadata label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+ Button Styles 
+.btn-submit {
+    background-color: #2C2C2C;
+    color: #E7E2B5;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: 1px solid #E7E2B5;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+    .btn-submit:hover {
+        background-color: #444;
+        color: #FFFFFF;
+    }
+
+ Error Message 
+.error-message {
+    color: red;
+    margin-top: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
+ Back Link 
+.back-link {
+    margin-top: 20px;
+    text-align: center;
+}
+
+    .back-link a {
+        color: #E7E2B5;
+        text-decoration: underline;
+    }
+
+        .back-link a:hover {
+            color: #FFFFFF;
+        }
+*/

@@ -1,0 +1,13 @@
+﻿body {
+}
+
+.page-background {
+    color: ghostwhite;
+    background-color: #2C2C2C;
+}
+
+    .page-background .quickgrid-container {
+        color: ghostwhite; /* Default text color for the container */
+        background-color: ghostwhite;
+    }
+
