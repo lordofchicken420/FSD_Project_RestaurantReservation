@@ -7,27 +7,36 @@
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
-<PageTitle>Create</PageTitle>
+<PageTitle>Create Review</PageTitle>
 
-<h1>Create</h1>
+<section class="page-background">
+    <header>
+        <h1>Leave a review</h1>
+        <p>We value your feedback. Leave a review to share your experience!</p>
+    </header>
+    <hr />
 
-<h2>Review</h2>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+    <div class="review-form">
         <EditForm method="post" Model="Review" OnValidSubmit="AddReview" FormName="create" Enhance>
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" role="alert" />
-            <div class="mb-3">
-                <label for="score" class="form-label">Score:</label>
-                <InputNumber id="score" @bind-Value="Review.Score" class="form-control" />
-                <ValidationMessage For="() => Review.Score" class="text-danger" />
+
+            <div class="input-field">
+                <div class="form-group">
+                    <label for="score" class="form-label">Score:</label>
+                    <InputNumber id="score" @bind-Value="Review.Score" class="form-control" />
+                    <ValidationMessage For="() => Review.Score" class="text-danger" />
+                </div>
+
+                <div class="form-group">
+                    <label for="comment" class="form-label">Comment:</label>
+                    <InputText id="comment" @bind-Value="Review.Comment" class="form-control" />
+                    <ValidationMessage For="() => Review.Comment" class="text-danger" />
+                </div>
+               
             </div>
-            <div class="mb-3">
-                <label for="comment" class="form-label">Comment:</label>
-                <InputText id="comment" @bind-Value="Review.Comment" class="form-control" />
-                <ValidationMessage For="() => Review.Comment" class="text-danger" />
-            </div>
+
+            <div class="metadata">
 
             <div class="mb-3">
                 <label for="datecreated" class="form-label">DateCreated:</label>
@@ -49,9 +58,12 @@
                 <InputText id="updatedby" @bind-Value="Review.UpdatedBy" class="form-control" />
                 <ValidationMessage For="() => Review.UpdatedBy" class="text-danger" />
             </div>
+
+            </div>
+
             @if (HasReservation == true)
             {
-                <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="submit" class="btn-container">Submit Review</button>
             }
             @if (HasReservation == false)
             {
@@ -60,12 +72,14 @@
                 </h4>
             }
         </EditForm>
-    </div>
-</div>
 
-<div>
-    <a href="/reviews">Back to List</a>
-</div>
+        <div class="back-link">
+            <a href="/reviews">Back to Review List</a>
+        </div>
+
+    </div>
+
+</section>
 
 @code {
     [SupplyParameterFromForm]

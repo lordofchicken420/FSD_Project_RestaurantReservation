@@ -12,6 +12,4 @@ public class Reservation : BaseDomainModel
 
     public ICollection<Review> Reviews { get; set; } = new List<Review>();
 
-
-
 }

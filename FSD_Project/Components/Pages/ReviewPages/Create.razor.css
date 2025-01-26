@@ -1,15 +1,15 @@
-﻿/* Page Background 
+﻿/* Page Background */
 .page-background {
     color: ghostwhite;
     background-color: #2C2C2C;
     padding: 40px;
     font-family: 'Trajan Pro', serif;
-    margin-top: -3.5rem;  Adjust this value based on your exact gap size 
+    margin-top: -3.5rem; /* Adjust this value based on your exact gap size */
     min-height: 104vh;
     padding-top: 50px;
 }
 
-     Header Styles 
+    /* Header Styles */
     .page-background header h1 {
         font-size: 2.5rem;
         color: #E7E2B5;
@@ -22,7 +22,7 @@
         margin-bottom: 30px;
     }
 
- Form Styles 
+/* Form Styles */
 .review-form {
     max-width: 600px;
     margin: 0 auto;
@@ -33,6 +33,8 @@
     position: relative;
     top: 100px;
 }
+
+
 
     .review-form label {
         color: #E7E2B5;
@@ -58,14 +60,14 @@
         }
 
         .review-form .metadata {
-            display: none;  This will remove the elements from the layout completely 
+            display: none; /* This will remove the elements from the layout completely */
         }
 
         .review-form .input-fields {
             padding-bottom: 30px;
         }
 
- Metadata Section 
+/* Metadata Section */
 .metadata div {
     margin-bottom: 15px;
 }
@@ -75,8 +77,8 @@
     margin-bottom: 5px;
 }
 
- Button Styles 
-.btn-submit {
+/* Button Styles */
+.btn-container {
     background-color: #2C2C2C;
     color: #E7E2B5;
     font-weight: bold;
@@ -86,14 +88,16 @@
     cursor: pointer;
     text-transform: uppercase;
     transition: all 0.3s ease;
+    position: relative;
+    top:10px;
 }
 
-    .btn-submit:hover {
+    .btn-container:hover {
         background-color: #444;
         color: #FFFFFF;
     }
 
- Error Message 
+/* Error Message */
 .error-message {
     color: red;
     margin-top: 10px;
@@ -101,7 +105,7 @@
     text-align: center;
 }
 
- Back Link 
+/* Back Link */
 .back-link {
     margin-top: 20px;
     text-align: center;
@@ -115,4 +119,3 @@
         .back-link a:hover {
             color: #FFFFFF;
         }
-*/
