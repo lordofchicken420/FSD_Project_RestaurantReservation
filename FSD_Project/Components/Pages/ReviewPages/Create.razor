@@ -67,7 +67,7 @@
     private async Task AddReview()
     {
         using var context = DbFactory.CreateDbContext();
-        context.Review.Add(Review);
+        context.Reviews.Add(Review);
         await context.SaveChangesAsync();
         NavigationManager.NavigateTo("/reviews");
     }

@@ -61,7 +61,7 @@
     protected override async Task OnInitializedAsync()
     {
         using var context = DbFactory.CreateDbContext();
-        review = await context.Review.FirstOrDefaultAsync(m => m.Id == Id);
+        review = await context.Reviews.FirstOrDefaultAsync(m => m.Id == Id);
 
         if (review is null)
         {
@@ -72,7 +72,7 @@
     private async Task DeleteReview()
     {
         using var context = DbFactory.CreateDbContext();
-        context.Review.Remove(review!);
+        context.Reviews.Remove(review!);
         await context.SaveChangesAsync();
         NavigationManager.NavigateTo("/reviews");
     }
