@@ -120,6 +120,7 @@ ul {
     background-color: #333;
     color: #FFFFFF;
     font-family: 'Trajan Pro', serif;
+
 }
 
     .reservation-section h2 {
@@ -142,6 +143,11 @@ ul {
         display: flex;
         flex-direction: column;
         gap: 20px;
+    }
+
+    .reservation-section .form-container {
+        position: relative;
+        bottom:150px;
     }
 
     .reservation-section label {
@@ -192,6 +198,26 @@ ul {
             color: red;
         }
 
+button.btn-submit {
+    background-color: #2C2C2C;
+    color: #E7E2B5;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: 1px solid #E7E2B5;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    position: relative;
+    top: 10px;
+}
+
+    button.btn-submit:hover {
+        background-color: #444;
+        color: #FFFFFF;
+    }
+
+
 /* Footer */
 footer {
     background-color: #333;
@@ -212,4 +238,29 @@ footer {
     /* or */
     display: none; /* This will remove the elements from the layout completely */
 }
+
+.review {
+    margin-top: 150px;
+
+}
+
+
+.review .btn-container {
+    background-color: #2C2C2C;
+    color: #E7E2B5;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: 1px solid #E7E2B5;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    position: relative;
+    top: 10px;
+}
+
+    .review .btn-container:hover {
+        background-color: #444;
+        color: #FFFFFF;
+    }
 

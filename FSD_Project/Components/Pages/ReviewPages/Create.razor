@@ -1,0 +1,141 @@
+﻿@page "/reviews/create"
+@using Microsoft.EntityFrameworkCore
+@using FSD_Project.Domain
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
+@inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<PageTitle>Create Review</PageTitle>
+
+<section class="page-background">
+    <header>
+        <h1>Leave a review</h1>
+        <p>We value your feedback. Leave a review to share your experience!</p>
+    </header>
+    <hr />
+
+    <div class="review-form">
+        <EditForm method="post" Model="Review" OnValidSubmit="AddReview" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" role="alert" />
+
+            <div class="input-field">
+                <div class="form-group">
+                    <label for="score" class="form-label">Score:</label>
+                    <InputNumber id="score" @bind-Value="Review.Score" class="form-control" />
+                    <ValidationMessage For="() => Review.Score" class="text-danger" />
+                </div>
+
+                <div class="form-group">
+                    <label for="comment" class="form-label">Comment:</label>
+                    <InputText id="comment" @bind-Value="Review.Comment" class="form-control" />
+                    <ValidationMessage For="() => Review.Comment" class="text-danger" />
+                </div>
+               
+            </div>
+
+            <div class="metadata">
+
+            <div class="mb-3">
+                <label for="datecreated" class="form-label">DateCreated:</label>
+                <InputDate id="datecreated" @bind-Value="Review.DateCreated" class="form-control" />
+                <ValidationMessage For="() => Review.DateCreated" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="dateupdated" class="form-label">DateUpdated:</label>
+                <InputDate id="dateupdated" @bind-Value="Review.DateUpdated" class="form-control" />
+                <ValidationMessage For="() => Review.DateUpdated" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="createdby" class="form-label">CreatedBy:</label>
+                <InputText id="createdby" @bind-Value="Review.CreatedBy" class="form-control" />
+                <ValidationMessage For="() => Review.CreatedBy" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="updatedby" class="form-label">UpdatedBy:</label>
+                <InputText id="updatedby" @bind-Value="Review.UpdatedBy" class="form-control" />
+                <ValidationMessage For="() => Review.UpdatedBy" class="text-danger" />
+            </div>
+
+            </div>
+
+            @if (HasReservation == true)
+            {
+                    <button type="submit" class="btn-container">Submit Review</button>
+            }
+            @if (HasReservation == false)
+            {
+                <h4>
+                    Please make a reservation before leaving a review
+                </h4>
+            }
+        </EditForm>
+
+        <div class="back-link">
+            <a href="/reviews">Back to Review List</a>
+        </div>
+
+    </div>
+
+</section>
+
+@code {
+    [SupplyParameterFromForm]
+    private Review Review { get; set; } = new();
+    private bool HasReservation;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Get the authenticated user
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            // Get the user's CustomerId from their claims
+            var customerId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            using var context = DbFactory.CreateDbContext();
+
+            // Find the most recent reservation for this customer
+            var reservation = await context.Reservation
+                .Where(r => r.CustomerId == customerId)
+                .OrderByDescending(r => r.DateCreated) // Assuming most recent reservation
+                .FirstOrDefaultAsync();
+
+            if (reservation != null)
+            {
+                // Automatically set the ReservationId for the Review
+                Review.ReservationId = reservation.Id.ToString(); // Use ToString() if it's an int
+                HasReservation = true;
+            }
+
+            if (reservation == null)
+            {
+                HasReservation = false;
+            }
+
+
+            // Pre-fill metadata
+            Review.DateCreated = DateTime.Now;
+            Review.CreatedBy = user.Identity.Name;
+        }
+
+
+        else
+        {
+            // Redirect to login if the user is not authenticated
+            NavigationManager.NavigateTo("/login");
+        }
+    }
+    private async Task AddReview()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Reviews.Add(Review);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/reviews");
+    }
+
+}

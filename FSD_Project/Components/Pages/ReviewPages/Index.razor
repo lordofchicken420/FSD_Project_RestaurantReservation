@@ -1,0 +1,49 @@
+﻿@page "/reviews"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using FSD_Project.Domain
+@using FSD_Project.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
+
+<link rel="stylesheet" href="_content/Microsoft.AspNetCore.Components.QuickGrid/Microsoft.AspNetCore.Components.QuickGrid.bundle.scp.css" asp-append-version="true" />
+
+
+<PageTitle>Index</PageTitle>
+<section class="page-background">
+<h1>See what our customers have to say</h1>
+<hr />
+<p>
+    <a href="reviews/create">CLick here to leave a review!</a>
+</p>
+<div class="quickgrid-container">
+
+    <QuickGrid Class="table" Items="context.Reviews">
+        <PropertyColumn Property="review => review.Score" />
+        <PropertyColumn Property="review => review.Comment" />
+        <PropertyColumn Property="review => review.ReservationId" />
+        <PropertyColumn Property="review => review.DateCreated" />
+        <PropertyColumn Property="review => review.DateUpdated" />
+        <PropertyColumn Property="review => review.CreatedBy" />
+        <PropertyColumn Property="review => review.UpdatedBy" />
+
+        <TemplateColumn Context="review">
+            <a href="@($"reviews/edit?id={review.Id}")">Edit</a> |
+            <a href="@($"reviews/details?id={review.Id}")">Details</a> |
+            <a href="@($"reviews/delete?id={review.Id}")">Delete</a>
+        </TemplateColumn>
+    </QuickGrid>
+</div>
+
+</section>
+
+@code {
+    private FSD_ProjectContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}

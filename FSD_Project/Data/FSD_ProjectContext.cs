@@ -12,6 +12,8 @@ namespace FSD_Project.Data
         public DbSet<FSD_Project.Domain.Reservation> Reservation { get; set; } = default!;
         public DbSet<FSD_Project.Domain.Staff> Staff { get; set; } = default!;
         public DbSet<FSD_Project.Domain.Table> Table { get; set; } = default!;
+        public DbSet<FSD_Project.Domain.Review> Reviews { get; set; } = default!;
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -24,6 +26,7 @@ namespace FSD_Project.Data
             builder.ApplyConfiguration(new RoleSeed());
             builder.ApplyConfiguration(new UserRoleSeed());
             builder.ApplyConfiguration(new UserSeed());
+            builder.ApplyConfiguration(new ReviewSeed());
         }
     }
 }
