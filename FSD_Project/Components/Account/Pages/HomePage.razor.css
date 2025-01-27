@@ -17,16 +17,41 @@ body {
 
 
 
-a {
-    text-decoration: none;
-    color: inherit;
+
+
+ul{
+    list-style: none;
+    left: 20px; 
+    padding: 0px;
+    margin: 0px;
 }
 
-ul {
-    list-style: none;
-    left: 20px: padding: 0;
-    margin: 0;
+.admin-button-container {
+    position: absolute;
+    background-color: #2C2C2C; /* Matches the navbar background */
+    color: #FFFFFF;
+    font-weight: bold;
+    text-transform: uppercase;
+    left: 20px; /* Adjust this value to position the button closer/further from the left edge */
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Adjust for vertical centering */
+    font-family: 'Trajan Pro', serif;
+    text-decoration: none;
 }
+.admin {
+    color: #FFFFFF; /* White font color */
+    text-decoration: none; /* Removes underline */
+    font-weight: bold; /* Ensures consistent font weight */
+    text-transform: uppercase; /* Matches other buttons */
+    font-family: 'Trajan Pro', serif; /* Matches the font */
+}
+
+    .admin:hover {
+        color: #E7E2B5; /* Optional: Add a hover effect */
+        text-decoration: none; /* Ensure underline does not reappear on hover */
+    }
+
+
 
 .home {
     position: relative;
@@ -87,9 +112,10 @@ ul {
 .nav-links {
     display: flex;
     gap: 50px; /* Adds spacing between the buttons */
-    list-style: none; /* Removes bullets */
+    list-style: none;
     padding: 0;
     margin: 0;
+    justify-content: center; /* Centers all items */
 }
 
 .nav-button {
@@ -253,10 +279,7 @@ ul {
         font-weight: bold;
     }
 
-.admin {
-    color: ghostwhite;
-    background-color: #333;
-}
+
 
 
 /* Footer */

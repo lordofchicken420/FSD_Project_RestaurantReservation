@@ -1,0 +1,121 @@
+﻿/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    background-color: #2C2C2C;
+    width: 200px;
+    height: 100%;
+    padding: 20px;
+    color: #fff;
+}
+
+    .sidebar h2 {
+        font-size: 20px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .sidebar ul {
+        list-style: none;
+    }
+
+        .sidebar ul li {
+            margin: 15px 0;
+        }
+
+            .sidebar ul li a {
+                text-decoration: none;
+                color: #fff;
+                font-size: 16px;
+                display: block;
+                padding: 10px;
+                border-radius: 5px;
+                transition: background-color 0.3s;
+            }
+
+                .sidebar ul li a:hover,
+                .sidebar ul li a.active {
+                    background-color: #5ca0d3;
+                }
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+.tab {
+    display: none;
+}
+
+    .tab.active {
+        display: block;
+    }
+
+.hidden {
+    display: none;
+}
+
+h1 {
+    font-size: 24px;
+    position: relative;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 18px;
+    color: #666;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+}
+
+    table th,
+    table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+    }
+
+    table th {
+        background-color: #eaeaea;
+        font-weight: bold;
+    }
+
+/* Toggle Button Styling */
+button[data-bs-target="#sidebarMenu"] {
+    visibility: visible; /* Default state */
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #2C2C2C;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: visibility 0.2s ease-in-out;
+}
+
+    button[data-bs-target="#sidebarMenu"]:hover {
+        background-color: #5ca0d3;
+        transform: scale(1.05);
+    }
+

@@ -33,6 +33,15 @@
     <header class="navbar">
         <nav>
             <ul class="nav-links">
+                <!-- Admin button with access control -->
+                <div class="admin-button-container">
+                    <li>
+                        <AuthorizeView Roles="Administrator">
+                            <a href="/staffpage" class="admin">ADMIN</a>
+                        </AuthorizeView>
+                    </li>
+                </div>
+                <!-- Other buttons -->
                 <li>
                     <button class="nav-button home" onclick="window.location.href='/'">Home</button>
                 </li>
@@ -42,6 +51,7 @@
                 <li>
                     <button class="nav-button menu" onclick="window.location.href='/Menu'">Menu</button>
                 </li>
+                <!-- User icon and login/logout buttons -->
                 <li>
                     <ul class="icon">
                         <li>
@@ -54,7 +64,6 @@
                                 <NotAuthorized>
                                     <button class="nav-button login-button" onclick="window.location.href='/Admin'">Login</button>
                                 </NotAuthorized>
-
                                 <Authorized>
                                     <button class="nav-button logout-button" onclick="window.location.href='/Logout'">Logout</button>
                                 </Authorized>
@@ -168,11 +177,7 @@
     </footer>
 </body>
 
-<AuthorizeView Roles="Administrator">
-    <div class="admin">
-        <a href="/reservations">Click for Admin Page</a>
-    </div>
-</AuthorizeView>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
