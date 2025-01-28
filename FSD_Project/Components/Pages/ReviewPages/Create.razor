@@ -84,8 +84,14 @@
             }
         </EditForm>
 
+    <AuthorizeView Roles="Admin, Staff">
         <div class="back-link">
             <a href="/reviews">Back to Review List</a>
+        </div>
+    </AuthorizeView>
+
+        <div class="back-link">
+            <a href="/">Back to Home</a>
         </div>
 
     </div>
