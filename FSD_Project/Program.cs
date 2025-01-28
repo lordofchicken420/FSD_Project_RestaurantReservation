@@ -5,6 +5,7 @@ using FSD_Project.Data;
 using FSD_Project.Components.Account;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
+using FSD_Project.Services;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddDbContextFactory<FSD_ProjectContext>(options =>
@@ -73,3 +74,5 @@ void ConfigureServices(IServiceCollection services)
     services.AddControllersWithViews();
     services.AddRazorPages();
 }
+
+builder.Services.AddSingleton<LoginStateService>();

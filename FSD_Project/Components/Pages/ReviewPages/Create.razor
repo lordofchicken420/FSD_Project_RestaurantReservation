@@ -7,6 +7,9 @@
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+
 <PageTitle>Create Review</PageTitle>
 
 <section class="page-background">
@@ -15,6 +18,14 @@
         <p>We value your feedback. Leave a review to share your experience!</p>
     </header>
     <hr />
+
+    @if (LeftReview == true)
+    {
+        <div class="alert alert-success alert-dismissable fixed-top" role="alert" id="success-alert" style="max-width:320px; margin: 0 auto; margin-top: 100px">
+            Thank you for leaving a review!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="background-color: transparent;"></button>
+        </div>
+    }
 
     <div class="review-form">
         <EditForm method="post" Model="Review" OnValidSubmit="AddReview" FormName="create" Enhance>
@@ -33,37 +44,37 @@
                     <InputText id="comment" @bind-Value="Review.Comment" class="form-control" />
                     <ValidationMessage For="() => Review.Comment" class="text-danger" />
                 </div>
-               
+
             </div>
 
             <div class="metadata">
 
-            <div class="mb-3">
-                <label for="datecreated" class="form-label">DateCreated:</label>
-                <InputDate id="datecreated" @bind-Value="Review.DateCreated" class="form-control" />
-                <ValidationMessage For="() => Review.DateCreated" class="text-danger" />
-            </div>
-            <div class="mb-3">
-                <label for="dateupdated" class="form-label">DateUpdated:</label>
-                <InputDate id="dateupdated" @bind-Value="Review.DateUpdated" class="form-control" />
-                <ValidationMessage For="() => Review.DateUpdated" class="text-danger" />
-            </div>
-            <div class="mb-3">
-                <label for="createdby" class="form-label">CreatedBy:</label>
-                <InputText id="createdby" @bind-Value="Review.CreatedBy" class="form-control" />
-                <ValidationMessage For="() => Review.CreatedBy" class="text-danger" />
-            </div>
-            <div class="mb-3">
-                <label for="updatedby" class="form-label">UpdatedBy:</label>
-                <InputText id="updatedby" @bind-Value="Review.UpdatedBy" class="form-control" />
-                <ValidationMessage For="() => Review.UpdatedBy" class="text-danger" />
-            </div>
+                <div class="mb-3">
+                    <label for="datecreated" class="form-label">DateCreated:</label>
+                    <InputDate id="datecreated" @bind-Value="Review.DateCreated" class="form-control" />
+                    <ValidationMessage For="() => Review.DateCreated" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="dateupdated" class="form-label">DateUpdated:</label>
+                    <InputDate id="dateupdated" @bind-Value="Review.DateUpdated" class="form-control" />
+                    <ValidationMessage For="() => Review.DateUpdated" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="createdby" class="form-label">CreatedBy:</label>
+                    <InputText id="createdby" @bind-Value="Review.CreatedBy" class="form-control" />
+                    <ValidationMessage For="() => Review.CreatedBy" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="updatedby" class="form-label">UpdatedBy:</label>
+                    <InputText id="updatedby" @bind-Value="Review.UpdatedBy" class="form-control" />
+                    <ValidationMessage For="() => Review.UpdatedBy" class="text-danger" />
+                </div>
 
             </div>
 
             @if (HasReservation == true)
             {
-                    <button type="submit" class="btn-container">Submit Review</button>
+                <button type="submit" class="btn-container">Submit Review</button>
             }
             @if (HasReservation == false)
             {
@@ -85,6 +96,7 @@
     [SupplyParameterFromForm]
     private Review Review { get; set; } = new();
     private bool HasReservation;
+    private bool LeftReview = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -135,7 +147,9 @@
         using var context = DbFactory.CreateDbContext();
         context.Reviews.Add(Review);
         await context.SaveChangesAsync();
-        NavigationManager.NavigateTo("/reviews");
+        LeftReview = true;
+        StateHasChanged();
+        // NavigationManager.NavigateTo("/reviews");
     }
 
 }
