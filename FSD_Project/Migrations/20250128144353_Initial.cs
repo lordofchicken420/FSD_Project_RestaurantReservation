@@ -75,25 +75,6 @@ namespace FSD_Project.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Customer",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Customer", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -200,6 +181,32 @@ namespace FSD_Project.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Customer",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customer", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Customer_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Staff",
                 columns: table => new
                 {
@@ -208,7 +215,8 @@ namespace FSD_Project.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BranchId = table.Column<int>(type: "int", nullable: false),
-                    contactNumber = table.Column<int>(type: "int", nullable: false),
+                    ContactNumber = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -217,6 +225,12 @@ namespace FSD_Project.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Staff", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Staff_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Staff_Branch_BranchId",
                         column: x => x.BranchId,
@@ -318,31 +332,37 @@ namespace FSD_Project.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "ad2bcf0c-20db-474f-8407-5a6b159518ba", null, "Administrator", "ADMINISTRATOR" },
-                    { "bd2bcf0c-20db-474f-8407-5a6b159518bb", null, "User", "USER" }
+                    { "ad2bcf0c-20db-474f-8407-5a6b159518ba", null, "Admin", "ADMIN" },
+                    { "customer-role-id", null, "Customer", "CUSTOMER" },
+                    { "staff-role-id", null, "Staff", "STAFF" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "b521db63-e43c-4e81-a03c-83abc157ae20", "admin@localhost.com", true, "Admin", "User", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAEOqngj1xQoOAMSEv+kozA3w64BRtzW5IQS/ZcM/XkDhPpW3gJaCdsD1GpJOOd+Bh7A==", null, false, "ca408d51-2539-422a-b9d9-8b8e00300cce", false, "admin@localhost.com" });
+                values: new object[,]
+                {
+                    { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "4d1f59be-a96e-4df4-a526-b694f1d27853", "admin@localhost.com", true, "Admin", "User", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAELKRMZStBUr8KKjrc8J8wNOlcMfKQ/VITzpTIrO8XsfxzYevwzZUbemMAg44z84+8A==", null, false, "dca883e9-a9cc-4d30-aaaa-cb9cd3e565eb", false, "admin@localhost.com" },
+                    { "customer1-id", 0, "58022abd-dc95-4e41-bb0b-a1ff2fdc31c4", "customer1@example.com", true, "John", "Doe", false, null, "CUSTOMER1@EXAMPLE.COM", "CUSTOMER1@EXAMPLE.COM", "AQAAAAIAAYagAAAAEGIyBzOkCMX03mx9SPbpRziYoCQszGXSSBLsuTuzd1nZCUL2jKj3GqjW6pUi6S48pQ==", null, false, "54928ef7-b817-4569-90c3-ca8a08ffac25", false, "customer1@example.com" },
+                    { "staff1-id", 0, "5b846eaf-a1e3-45af-921f-36da2433c572", "staff1@example.com", true, "Jane", "Smith", false, null, "STAFF1@EXAMPLE.COM", "STAFF1@EXAMPLE.COM", "AQAAAAIAAYagAAAAEFYlWB1pUwYwH/BGL1iy/7mfMYBLISi9NCzdjD1J4wTx+pEqBJjbANMcFYPz+MfLEQ==", null, false, "1358df12-2571-4272-be4e-fa8ad24cdc2a", false, "staff1@example.com" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Branch",
                 columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Location", "Name", "NumOfTables", "UpdatedBy", "contactNumber" },
                 values: new object[,]
                 {
-                    { 1, "System", new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(5878), new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(5895), "Woodlands", "Branch 1", 15, "System", 61234567 },
-                    { 2, "System", new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(5900), new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(5902), "Punggol", "Branch 2", 15, "System", 61234566 }
+                    { 1, "System", new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2141), new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2151), "Woodlands", "Branch 1", 15, "System", 61234567 },
+                    { 2, "System", new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2153), new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2153), "Punggol", "Branch 2", 15, "System", 61234566 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Customer",
-                columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Email", "Gender", "Name", "UpdatedBy" },
+                columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Email", "Gender", "Name", "UpdatedBy", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "System", new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(6355), new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(6356), "David@hotmail.com", "Male", "David Lee", "System" },
-                    { 2, "System", new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(6360), new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(6361), "johnmatthew@gmail.com", "Male", "John Matthew", "System" }
+                    { 1, "System", new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2304), new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2304), "David@hotmail.com", "Male", "David Lee", "System", null },
+                    { 2, "System", new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2306), new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2306), "johnmatthew@gmail.com", "Male", "John Matthew", "System", null }
                 });
 
             migrationBuilder.InsertData(
@@ -350,22 +370,27 @@ namespace FSD_Project.Migrations
                 columns: new[] { "Id", "Comment", "CreatedBy", "DateCreated", "DateUpdated", "ReservationId", "ReservationId1", "Score", "UpdatedBy" },
                 values: new object[,]
                 {
-                    { 1, "The Greek Salad was the perfect mix of vegetables, fruits and dressing!", "System", new DateTime(2025, 1, 27, 9, 13, 7, 857, DateTimeKind.Local).AddTicks(6563), new DateTime(2025, 1, 27, 9, 13, 7, 857, DateTimeKind.Local).AddTicks(6579), "1", null, 5, "System" },
-                    { 2, "The Baklava was unlike anything I have ever eaten before", "System", new DateTime(2025, 1, 27, 9, 13, 7, 857, DateTimeKind.Local).AddTicks(6583), new DateTime(2025, 1, 27, 9, 13, 7, 857, DateTimeKind.Local).AddTicks(6585), "2", null, 5, "System" }
+                    { 1, "The Greek Salad was the perfect mix of vegetables, fruits and dressing!", "System", new DateTime(2025, 1, 28, 22, 43, 53, 55, DateTimeKind.Local).AddTicks(2572), new DateTime(2025, 1, 28, 22, 43, 53, 55, DateTimeKind.Local).AddTicks(2586), "1", null, 5, "System" },
+                    { 2, "The Baklava was unlike anything I have ever eaten before", "System", new DateTime(2025, 1, 28, 22, 43, 53, 55, DateTimeKind.Local).AddTicks(2588), new DateTime(2025, 1, 28, 22, 43, 53, 55, DateTimeKind.Local).AddTicks(2589), "2", null, 5, "System" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "ad2bcf0c-20db-474f-8407-5a6b159518ba", "3781efa7-66dc-47f0-860f-e506d04102e4" });
+                values: new object[,]
+                {
+                    { "ad2bcf0c-20db-474f-8407-5a6b159518ba", "3781efa7-66dc-47f0-860f-e506d04102e4" },
+                    { "customer-role-id", "customer1-id" },
+                    { "staff-role-id", "staff1-id" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Staff",
-                columns: new[] { "Id", "BranchId", "CreatedBy", "DateCreated", "DateUpdated", "Gender", "Name", "UpdatedBy", "contactNumber" },
+                columns: new[] { "Id", "BranchId", "ContactNumber", "CreatedBy", "DateCreated", "DateUpdated", "Gender", "Name", "UpdatedBy", "UserId" },
                 values: new object[,]
                 {
-                    { 1, 1, "System", new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(6967), new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(6969), "Male", "Gordon Sim", "System", 97581578 },
-                    { 2, 1, "System", new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(6973), new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(6974), "Female", "En Xuan", "System", 98886482 }
+                    { 1, 1, 97581578, "System", new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2446), new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2447), "Male", "Gordon Sim", "System", null },
+                    { 2, 1, 98886482, "System", new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2449), new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2449), "Female", "En Xuan", "System", null }
                 });
 
             migrationBuilder.InsertData(
@@ -373,16 +398,16 @@ namespace FSD_Project.Migrations
                 columns: new[] { "Id", "BranchId", "Capacity", "CreatedBy", "DateCreated", "DateUpdated", "Status", "UpdatedBy" },
                 values: new object[,]
                 {
-                    { 1, 1, 10, "System", new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(7391), new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(7394), true, "System" },
-                    { 2, 1, 10, "System", new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(7400), new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(7401), true, "System" },
-                    { 3, 1, 10, "System", new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(7405), new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(7406), true, "System" },
-                    { 4, 1, 10, "System", new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(7410), new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(7411), true, "System" },
-                    { 5, 1, 10, "System", new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(7415), new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(7416), true, "System" },
-                    { 6, 1, 10, "System", new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(7420), new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(7421), true, "System" },
-                    { 7, 1, 10, "System", new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(7425), new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(7426), true, "System" },
-                    { 8, 1, 10, "System", new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(7430), new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(7431), true, "System" },
-                    { 9, 1, 10, "System", new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(7435), new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(7436), true, "System" },
-                    { 10, 1, 10, "System", new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(7439), new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(7441), true, "System" }
+                    { 1, 1, 10, "System", new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2505), new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2505), true, "System" },
+                    { 2, 1, 10, "System", new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2506), new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2507), true, "System" },
+                    { 3, 1, 10, "System", new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2508), new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2508), true, "System" },
+                    { 4, 1, 10, "System", new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2509), new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2509), true, "System" },
+                    { 5, 1, 10, "System", new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2510), new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2511), true, "System" },
+                    { 6, 1, 10, "System", new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2512), new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2512), true, "System" },
+                    { 7, 1, 10, "System", new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2513), new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2513), true, "System" },
+                    { 8, 1, 10, "System", new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2514), new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2515), true, "System" },
+                    { 9, 1, 10, "System", new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2516), new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2516), true, "System" },
+                    { 10, 1, 10, "System", new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2517), new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2517), true, "System" }
                 });
 
             migrationBuilder.InsertData(
@@ -390,8 +415,8 @@ namespace FSD_Project.Migrations
                 columns: new[] { "Id", "BranchId", "CreatedBy", "CustomerId", "CustomerId1", "DateCreated", "DateUpdated", "Pax", "ReservedDateTime", "TableID", "UpdatedBy" },
                 values: new object[,]
                 {
-                    { 1, null, "System", "1", null, new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(6567), new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(6568), 3, new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(6564), 1, "System" },
-                    { 2, null, "System", "2", null, new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(6573), new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(6575), 2, new DateTime(2025, 1, 27, 9, 13, 7, 726, DateTimeKind.Local).AddTicks(6571), 2, "System" }
+                    { 1, null, "System", "1", null, new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2367), new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2367), 3, new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2365), 1, "System" },
+                    { 2, null, "System", "2", null, new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2369), new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2369), 2, new DateTime(2025, 1, 28, 22, 43, 52, 955, DateTimeKind.Local).AddTicks(2368), 2, "System" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -434,6 +459,11 @@ namespace FSD_Project.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Customer_UserId",
+                table: "Customer",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Reservation_BranchId",
                 table: "Reservation",
                 column: "BranchId");
@@ -457,6 +487,11 @@ namespace FSD_Project.Migrations
                 name: "IX_Staff_BranchId",
                 table: "Staff",
                 column: "BranchId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Staff_UserId",
+                table: "Staff",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Table_BranchId",
@@ -492,9 +527,6 @@ namespace FSD_Project.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Reservation");
 
             migrationBuilder.DropTable(
@@ -502,6 +534,9 @@ namespace FSD_Project.Migrations
 
             migrationBuilder.DropTable(
                 name: "Table");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Branch");

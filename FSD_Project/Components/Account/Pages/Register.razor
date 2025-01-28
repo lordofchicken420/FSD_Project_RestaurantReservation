@@ -5,6 +5,10 @@
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.WebUtilities
 @using FSD_Project.Data
+@using FSD_Project.Domain;
+@inject FSD_ProjectContext DbContext
+
+
 
 @inject UserManager<FSD_ProjectUser> UserManager
 @inject IUserStore<FSD_ProjectUser> UserStore
@@ -97,6 +101,9 @@
 
     private string? Message => identityErrors is null ? null : $"Error: {string.Join(", ", identityErrors.Select(error => error.Description))}";
 
+    private readonly FSD_ProjectContext _dbContext; // Declare the instance variable
+
+
     public async Task RegisterUser(EditContext editContext)
     {
         // Validate email domain
@@ -124,6 +131,7 @@
 
         user.UserName = Input.Username;
 
+        // Create the user in AspNetUsers
         var result = await UserManager.CreateAsync(user, Input.Password);
 
         if (!result.Succeeded)
@@ -132,18 +140,40 @@
             return;
         }
 
-        //create the user role if it doesn't exist
+        // Create the "User" role if it doesn't exist
         if (!await RoleManager.RoleExistsAsync("User"))
         {
             await RoleManager.CreateAsync(new IdentityRole("User"));
         }
-        //add the user to the user role
-        await UserManager.AddToRoleAsync(user, "User");
-        //add the user id as claim when user registers
-        await UserManager.AddClaimAsync(user, new System.Security.Claims.Claim("userId",user.Id));
 
+        // Add the user to the "User" role
+        await UserManager.AddToRoleAsync(user, "User");
+
+        // Add the user ID as a claim
+        await UserManager.AddClaimAsync(user, new System.Security.Claims.Claim("userId", user.Id));
 
         Logger.LogInformation("User created a new account with password.");
+
+        // Add the new user to the Customer table
+        try
+        {
+            var customer = new Customer
+                {
+                    Name = Input.Username, // Or ask for additional name input
+                    Email = Input.Email,
+                    Gender = "Not Specified", // If gender is required, collect it in the UI
+                    UserId = user.Id // Link to AspNetUser
+                };
+
+            DbContext.Customer.Add(customer); // Use DbContext instead of _dbContext
+            await DbContext.SaveChangesAsync(); // Use DbContext instead of _dbContext
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError("Error creating customer record: {0}", ex.Message);
+            identityErrors = new[] { new IdentityError { Description = "User registered but customer record could not be created." } };
+            return;
+        }
 
         var userId = await UserManager.GetUserIdAsync(user);
         var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
@@ -159,12 +189,12 @@
             RedirectManager.RedirectTo(
                 "/Account/RegisterConfirmation",
                 new() { ["email"] = Input.Email, ["returnUrl"] = ReturnUrl });
-                
         }
 
         await SignInManager.SignInAsync(user, isPersistent: false);
         RedirectManager.RedirectTo(ReturnUrl);
     }
+
 
     private FSD_ProjectUser CreateUser()
     {
