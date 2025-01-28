@@ -16,16 +16,6 @@ body {
 }
 
 
-
-
-
-ul{
-    list-style: none;
-    left: 20px; 
-    padding: 0px;
-    margin: 0px;
-}
-
 .admin-button-container {
     position: absolute;
     background-color: #2C2C2C; /* Matches the navbar background */
@@ -51,7 +41,16 @@ ul{
         text-decoration: none; /* Ensure underline does not reappear on hover */
     }
 
+a {
+    text-decoration: none;
+    color: inherit;
+}
 
+ul {
+    list-style: none;
+    left: 20px: padding: 0;
+    margin: 0;
+}
 
 .home {
     position: relative;
@@ -93,8 +92,6 @@ ul{
     fill: white;
 }
 
-
-
 .navbar {
     background-color: #2C2C2C; /* Matches the background */
     height: 100px; /* Sets a fixed height */
@@ -106,16 +103,14 @@ ul{
     display: flex;
     justify-content: center; /* Centers the nav items horizontally */
     align-items: center; /* Aligns items vertically */
-
 }
 
 .nav-links {
     display: flex;
     gap: 50px; /* Adds spacing between the buttons */
-    list-style: none;
+    list-style: none; /* Removes bullets */
     padding: 0;
     margin: 0;
-    justify-content: center; /* Centers all items */
 }
 
 .nav-button {
@@ -134,16 +129,6 @@ ul{
     .nav-button:hover {
         background-color: #444; /* Slightly lighter color on hover */
     }
-
-/*
-
-        .nav-button:focus {
-            outline: none;
-            box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
-        }
-    */
-
-/* Hero Section */
 
 .hero {
     background-color: transparent; /* Change this from #333 */

@@ -1,49 +1,146 @@
 ﻿@page "/reservations"
 @using Microsoft.EntityFrameworkCore
-@using Microsoft.AspNetCore.Components.QuickGrid
 @using FSD_Project.Domain
 @using FSD_Project.Data
 @implements IAsyncDisposable
-@inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
+@inject IDbContextFactory<FSD_ProjectContext> DbFactory
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Reservations</PageTitle>
 
-<h1>Index</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservations</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="sidebarMenuLabel">Athens Admin</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link active" href="/staffpage">Home</a></li>
 
-<AuthorizeView>
-    <Authorized>
-    <p>
-        <a href="reservations/create">Create New</a>
-    </p>
-    </Authorized>
-    <NotAuthorized>
-        <p>
-            Please login to book a reservation
-        </p>
-    </NotAuthorized>
-</AuthorizeView>
+                <!-- Dropdown for Reservation -->
+                <li class="nav-item">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#reservationDropdown" aria-expanded="false">
+                        Reservation
+                    </a>
+                    <ul class="collapse list-unstyled ms-3" id="reservationDropdown">
+                        <li class="nav-item"><a class="nav-link" href="/reservations">View Reservations</a></li>
+                    </ul>
+                </li>
 
-<QuickGrid Class="table" Items="context.Reservation">
-    <PropertyColumn Property="reservation => reservation.ReservedDateTime" />
-    <PropertyColumn Property="reservation => reservation.CustomerId" />
-    <PropertyColumn Property="reservation => reservation.DateCreated" />
-    <PropertyColumn Property="reservation => reservation.DateUpdated" />
-    <PropertyColumn Property="reservation => reservation.CreatedBy" />
-    <PropertyColumn Property="reservation => reservation.UpdatedBy" />
+                <!-- Dropdown for Customers -->
+                <li class="nav-item">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#customersDropdown" aria-expanded="false">
+                        Customers
+                    </a>
+                    <ul class="collapse list-unstyled ms-3" id="customersDropdown">
+                        <li class="nav-item"><a class="nav-link" href="/customers">View Customers</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/customers/create">Add Customer</a></li>
+                    </ul>
+                </li>
 
-    <TemplateColumn Context="reservation">
-        <a href="@($"reservations/edit?id={reservation.Id}")">Edit</a> |
-        <a href="@($"reservations/details?id={reservation.Id}")">Details</a> |
-        <a href="@($"reservations/delete?id={reservation.Id}")">Delete</a>
-    </TemplateColumn>
-</QuickGrid>
+                <li class="nav-item"><a class="nav-link" href="/">Webpage</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Toggle Button -->
+    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+        Toggle Sidebar
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <h1>Reservation List</h1>
+        <AuthorizeView>
+            <Authorized>
+                <p>
+                    <a href="reservations/create" class="btn btn-success">Create New</a>
+                </p>
+            </Authorized>
+            <NotAuthorized>
+                <p>Please login to book a reservation</p>
+            </NotAuthorized>
+        </AuthorizeView>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Reserved Date</th>
+                    <th>Customer ID</th>
+                    <th>Date Created</th>
+                    <th>Date Updated</th>
+                    <th>Created By</th>
+                    <th>Updated By</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (reservations == null || reservations.Count == 0)
+                {
+                    <tr>
+                        <td colspan="7" class="text-center">No reservations found.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var reservation in reservations)
+                    {
+                        <tr>
+                            <td>@reservation.ReservedDateTime</td>
+                            <td>@reservation.CustomerId</td>
+                            <td>@reservation.DateCreated</td>
+                            <td>@reservation.DateUpdated</td>
+                            <td>@reservation.CreatedBy</td>
+                            <td>@reservation.UpdatedBy</td>
+                            <td>
+                                <a href="@($"reservations/edit?id={reservation.Id}")">Edit</a> |
+                                <a href="@($"reservations/details?id={reservation.Id}")">Details</a> |
+                                <a href="@($"reservations/delete?id={reservation.Id}")">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleButton = document.querySelector('button[data-bs-target="#sidebarMenu"]');
+            const sidebar = document.getElementById('sidebarMenu');
+
+            sidebar.addEventListener('shown.bs.offcanvas', () => {
+                toggleButton.style.visibility = 'hidden';
+            });
+
+            sidebar.addEventListener('hidden.bs.offcanvas', () => {
+                toggleButton.style.visibility = 'visible';
+            });
+        });
+    </script>
+
+</body>
+</html>
 
 @code {
     private FSD_ProjectContext context = default!;
+    private List<Reservation> reservations = new();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         context = DbFactory.CreateDbContext();
+        reservations = await context.Reservation.ToListAsync();
     }
 
     public async ValueTask DisposeAsync() => await context.DisposeAsync();
