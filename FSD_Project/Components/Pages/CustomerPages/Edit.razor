@@ -1,8 +1,17 @@
 ﻿@page "/customers/edit"
 @using Microsoft.EntityFrameworkCore
 @using FSD_Project.Domain
+@using FSD_Project.Data
+@using System.ComponentModel.DataAnnotations
+@using System.Text
+@using System.Text.Encodings.Web
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.WebUtilities
+
 @inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
+@inject UserManager<FSD_ProjectUser> UserManager
+@inject RoleManager<IdentityRole> RoleManager
 
 <PageTitle>Edit</PageTitle>
 
@@ -20,18 +29,38 @@ else
         <div class="col-md-4">
             <EditForm method="post" Model="Customer" OnValidSubmit="UpdateCustomer" FormName="edit" Enhance>
                 <DataAnnotationsValidator />
-                <ValidationSummary role="alert"/>
+                <ValidationSummary role="alert" />
                 <input type="hidden" name="Customer.Id" value="@Customer.Id" />
                 <div class="mb-3">
                     <label for="name" class="form-label">Name:</label>
                     <InputText id="name" @bind-Value="Customer.Name" class="form-control" />
                     <ValidationMessage For="() => Customer.Name" class="text-danger" />
                 </div>
+
                 <div class="mb-3">
                     <label for="gender" class="form-label">Gender:</label>
-                    <InputText id="gender" @bind-Value="Customer.Gender" class="form-control" />
+                    <InputSelect id="gender" @bind-Value="Customer.Gender" class="form-control">
+                        <option value="" disabled>Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </InputSelect>
                     <ValidationMessage For="() => Customer.Gender" class="text-danger" />
                 </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">New Password:</label>
+                    <InputText id="password" type="password" @bind-Value="Password" class="form-control" />
+                    <ValidationMessage For="() => Password" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="confirmPassword" class="form-label">Confirm Password:</label>
+                    <InputText id="confirmPassword" type="password" @bind-Value="ConfirmPassword" class="form-control" />
+                    <ValidationMessage For="() => ConfirmPassword" class="text-danger" />
+                </div>
+
+
+
                 <div class="mb-3">
                     <label for="datecreated" class="form-label">DateCreated:</label>
                     <InputDate id="datecreated" @bind-Value="Customer.DateCreated" class="form-control" />
@@ -69,6 +98,10 @@ else
     [SupplyParameterFromForm]
     private Customer? Customer { get; set; }
 
+    private string Password { get; set; } = string.Empty;
+    private string ConfirmPassword { get; set; } = string.Empty;
+    private string? ErrorMessage { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         using var context = DbFactory.CreateDbContext();
@@ -80,11 +113,39 @@ else
         }
     }
 
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
     private async Task UpdateCustomer()
     {
         using var context = DbFactory.CreateDbContext();
+
+        // Check if a new password is provided
+        if (!string.IsNullOrWhiteSpace(Password))
+        {
+            if (Password != ConfirmPassword)
+            {
+                ErrorMessage = "Passwords do not match.";
+                return;
+            }
+
+            // Fetch the associated user in the AspNetUsers table
+            var user = await UserManager.FindByIdAsync(Customer!.UserId);
+            if (user == null)
+            {
+                ErrorMessage = "User not found in the Identity database.";
+                return;
+            }
+
+            // Generate a password reset token and reset the password
+            var resetToken = await UserManager.GeneratePasswordResetTokenAsync(user);
+            var passwordResult = await UserManager.ResetPasswordAsync(user, resetToken, Password);
+
+            if (!passwordResult.Succeeded)
+            {
+                ErrorMessage = $"Password update failed: {string.Join(", ", passwordResult.Errors.Select(e => e.Description))}";
+                return;
+            }
+        }
+
+        // Update customer details
         context.Attach(Customer!).State = EntityState.Modified;
 
         try

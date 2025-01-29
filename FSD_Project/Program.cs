@@ -39,6 +39,10 @@ builder.Services.AddIdentityCore<FSD_ProjectUser>(options => options.SignIn.Requ
 
 builder.Services.AddSingleton<IEmailSender<FSD_ProjectUser>, IdentityNoOpEmailSender>();
 
+builder.Logging.ClearProviders(); // Optional: Clear default providers
+builder.Logging.AddConsole();    // Add console logging
+builder.Logging.AddDebug();      // Add debug logging
+
 
 var app = builder.Build();
 

@@ -342,9 +342,9 @@ namespace FSD_Project.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "3429cc0e-a6db-4354-840e-6f30fbde2cee", "admin@localhost.com", true, "Admin", "User", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAEKab6FEDLGSaWzoWr2RVQ7Yu/W8HbOQtJeZzc/5F0coQTc8NDS7qPtxY2Ym0qhLnrA==", null, false, "cea56911-c0ad-492c-a0c2-dd43e4268ec2", false, "admin@localhost.com" },
-                    { "customer1-id", 0, "585d8a0d-e2e6-41c6-8f94-85c47c1e4f5b", "customer1@example.com", true, "John", "Doe", false, null, "CUSTOMER1@EXAMPLE.COM", "CUSTOMER1@EXAMPLE.COM", "AQAAAAIAAYagAAAAENc/h26OOZ3Q6S8f4n+CDvxWoUtPumgqWFc7yvEEji0ZyRPtuNiyE0B3fquxayNbsA==", null, false, "9e25adfd-e37f-4816-85f1-26896ddd305a", false, "customer1@example.com" },
-                    { "staff1-id", 0, "e3b8d69b-0f5d-47f4-bbe7-ad44e9da1682", "staff1@example.com", true, "Jane", "Smith", false, null, "STAFF1@EXAMPLE.COM", "STAFF1@EXAMPLE.COM", "AQAAAAIAAYagAAAAEMZMgNQw/oGLWjo8TEgaz5Crp5GDLZOpQf+kImUQwLHp1Je79kt65crS3gi8mVGrIQ==", null, false, "8d32cab2-a4d9-4e1d-97a1-590421816b8f", false, "staff1@example.com" }
+                    { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "04ef58bb-96af-43c6-be6e-d654589c4ece", "admin@localhost.com", true, "Admin", "User", false, null, "ADMIN@LOCALHOST.COM", "ADMIN@LOCALHOST.COM", "AQAAAAIAAYagAAAAEFuDHQ+G38ezO9fPGK9TDpltK23PA6C6gAzksbMX4MPe/fvnsRaAWBNPAoeoybP96Q==", null, false, "c998f4c3-25cb-495b-aec8-ca05854d6ffc", false, "admin@localhost.com" },
+                    { "customer1-id", 0, "77c5aed7-abe9-4f95-8138-71c6281efc30", "customer1@example.com", true, "John", "Doe", false, null, "CUSTOMER1@EXAMPLE.COM", "CUSTOMER1@EXAMPLE.COM", "AQAAAAIAAYagAAAAEHis6llr7zPwgg/fegao76mMDtpozLlUwzNBuIaV1tZr271Wa50qRzYXy+LRYfdvrA==", null, false, "89b05b8a-5ece-4a3e-959d-c52e0e452b69", false, "customer1@example.com" },
+                    { "staff1-id", 0, "ba353af8-b132-4025-ae40-0e1d765ce9b1", "staff1@example.com", true, "Jane", "Smith", false, null, "STAFF1@EXAMPLE.COM", "STAFF1@EXAMPLE.COM", "AQAAAAIAAYagAAAAELI+s86seoiqCJOtRqR7I7ZoHl7xyvVoxN7XNjsxfOVPG3LzSt3TPRgbjK/sXD//Eg==", null, false, "a6d829b5-b3e9-4d87-868d-c912c0cf1e5d", false, "staff1@example.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -352,8 +352,8 @@ namespace FSD_Project.Migrations
                 columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Location", "Name", "NumOfTables", "UpdatedBy", "contactNumber" },
                 values: new object[,]
                 {
-                    { 1, "System", new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(2279), new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(2294), "Woodlands", "Branch 1", 15, "System", 61234567 },
-                    { 2, "System", new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(2299), new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(2300), "Punggol", "Branch 2", 15, "System", 61234566 }
+                    { 1, "System", new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(7674), new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(7684), "Woodlands", "Branch 1", 15, "System", 61234567 },
+                    { 2, "System", new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(7728), new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(7729), "Punggol", "Branch 2", 15, "System", 61234566 }
                 });
 
             migrationBuilder.InsertData(
@@ -361,8 +361,8 @@ namespace FSD_Project.Migrations
                 columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Email", "Gender", "Name", "UpdatedBy", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "System", new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(2760), new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(2762), "David@hotmail.com", "Male", "David Lee", "System", null },
-                    { 2, "System", new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(2766), new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(2767), "johnmatthew@gmail.com", "Male", "John Matthew", "System", null }
+                    { 1, "System", new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(7884), new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(7884), "David@hotmail.com", "Male", "David Lee", "System", null },
+                    { 2, "System", new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(7886), new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(7886), "johnmatthew@gmail.com", "Male", "John Matthew", "System", null }
                 });
 
             migrationBuilder.InsertData(
@@ -370,8 +370,8 @@ namespace FSD_Project.Migrations
                 columns: new[] { "Id", "Comment", "CreatedBy", "DateCreated", "DateUpdated", "ReservationId", "ReservationId1", "Score", "UpdatedBy" },
                 values: new object[,]
                 {
-                    { 1, "The Greek Salad was the perfect mix of vegetables, fruits and dressing!", "System", new DateTime(2025, 1, 28, 23, 40, 3, 997, DateTimeKind.Local).AddTicks(3560), new DateTime(2025, 1, 28, 23, 40, 3, 997, DateTimeKind.Local).AddTicks(3579), "1", null, 5, "System" },
-                    { 2, "The Baklava was unlike anything I have ever eaten before", "System", new DateTime(2025, 1, 28, 23, 40, 3, 997, DateTimeKind.Local).AddTicks(3583), new DateTime(2025, 1, 28, 23, 40, 3, 997, DateTimeKind.Local).AddTicks(3584), "2", null, 5, "System" }
+                    { 1, "The Greek Salad was the perfect mix of vegetables, fruits and dressing!", "System", new DateTime(2025, 1, 29, 22, 23, 59, 27, DateTimeKind.Local).AddTicks(8504), new DateTime(2025, 1, 29, 22, 23, 59, 27, DateTimeKind.Local).AddTicks(8517), "1", null, 5, "System" },
+                    { 2, "The Baklava was unlike anything I have ever eaten before", "System", new DateTime(2025, 1, 29, 22, 23, 59, 27, DateTimeKind.Local).AddTicks(8518), new DateTime(2025, 1, 29, 22, 23, 59, 27, DateTimeKind.Local).AddTicks(8519), "2", null, 5, "System" }
                 });
 
             migrationBuilder.InsertData(
@@ -389,8 +389,8 @@ namespace FSD_Project.Migrations
                 columns: new[] { "Id", "BranchId", "ContactNumber", "CreatedBy", "DateCreated", "DateUpdated", "Gender", "Name", "UpdatedBy", "UserId" },
                 values: new object[,]
                 {
-                    { 1, 1, 97581578, "System", new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3631), new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3633), "Male", "Gordon Sim", "System", null },
-                    { 2, 1, 98886482, "System", new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3637), new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3638), "Female", "En Xuan", "System", null }
+                    { 1, 1, 97581578, "System", new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(8040), new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(8041), "Male", "Gordon Sim", "System", null },
+                    { 2, 1, 98886482, "System", new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(8042), new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(8043), "Female", "En Xuan", "System", null }
                 });
 
             migrationBuilder.InsertData(
@@ -398,16 +398,16 @@ namespace FSD_Project.Migrations
                 columns: new[] { "Id", "BranchId", "Capacity", "CreatedBy", "DateCreated", "DateUpdated", "Status", "UpdatedBy" },
                 values: new object[,]
                 {
-                    { 1, 1, 10, "System", new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3877), new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3878), true, "System" },
-                    { 2, 1, 10, "System", new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3882), new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3884), true, "System" },
-                    { 3, 1, 10, "System", new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3900), new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3902), true, "System" },
-                    { 4, 1, 10, "System", new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3906), new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3915), true, "System" },
-                    { 5, 1, 10, "System", new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3938), new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3940), true, "System" },
-                    { 6, 1, 10, "System", new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3944), new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3945), true, "System" },
-                    { 7, 1, 10, "System", new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3949), new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3951), true, "System" },
-                    { 8, 1, 10, "System", new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3955), new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3956), true, "System" },
-                    { 9, 1, 10, "System", new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3960), new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3961), true, "System" },
-                    { 10, 1, 10, "System", new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3965), new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3967), true, "System" }
+                    { 1, 1, 10, "System", new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(8100), new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(8101), true, "System" },
+                    { 2, 1, 10, "System", new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(8102), new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(8103), true, "System" },
+                    { 3, 1, 10, "System", new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(8104), new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(8104), true, "System" },
+                    { 4, 1, 10, "System", new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(8106), new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(8106), true, "System" },
+                    { 5, 1, 10, "System", new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(8107), new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(8108), true, "System" },
+                    { 6, 1, 10, "System", new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(8109), new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(8109), true, "System" },
+                    { 7, 1, 10, "System", new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(8110), new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(8111), true, "System" },
+                    { 8, 1, 10, "System", new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(8112), new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(8112), true, "System" },
+                    { 9, 1, 10, "System", new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(8114), new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(8115), true, "System" },
+                    { 10, 1, 10, "System", new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(8116), new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(8116), true, "System" }
                 });
 
             migrationBuilder.InsertData(
@@ -415,8 +415,8 @@ namespace FSD_Project.Migrations
                 columns: new[] { "Id", "BranchId", "CreatedBy", "CustomerId", "CustomerId1", "DateCreated", "DateUpdated", "Pax", "ReservedDateTime", "TableID", "UpdatedBy" },
                 values: new object[,]
                 {
-                    { 1, null, "System", "1", null, new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3157), new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3159), 3, new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3154), 1, "System" },
-                    { 2, null, "System", "2", null, new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3166), new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3167), 2, new DateTime(2025, 1, 28, 23, 40, 3, 604, DateTimeKind.Local).AddTicks(3163), 2, "System" }
+                    { 1, null, "System", "1", null, new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(7968), new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(7968), 3, new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(7966), 1, "System" },
+                    { 2, null, "System", "2", null, new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(7970), new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(7970), 2, new DateTime(2025, 1, 29, 22, 23, 58, 905, DateTimeKind.Local).AddTicks(7969), 2, "System" }
                 });
 
             migrationBuilder.CreateIndex(
