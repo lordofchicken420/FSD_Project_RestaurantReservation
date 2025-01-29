@@ -1,8 +1,17 @@
 ﻿@page "/customers/create"
 @using Microsoft.EntityFrameworkCore
 @using FSD_Project.Domain
+@using FSD_Project.Data
+@using System.ComponentModel.DataAnnotations
+@using System.Text
+@using System.Text.Encodings.Web
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.WebUtilities
+
 @inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
+@inject UserManager<FSD_ProjectUser> UserManager
+@inject RoleManager<IdentityRole> RoleManager
 
 <PageTitle>Create</PageTitle>
 
@@ -59,16 +68,60 @@
     <a href="/customers">Back to List</a>
 </div>
 
+
+
 @code {
     [SupplyParameterFromForm]
     private Customer Customer { get; set; } = new();
 
-    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
     private async Task AddCustomer()
     {
         using var context = DbFactory.CreateDbContext();
+
+        // Check if a user with the same email exists
+        var existingUser = await UserManager.FindByEmailAsync(Customer.Email);
+        if (existingUser == null)
+        {
+            // Create new identity user
+            var user = new FSD_ProjectUser
+                {
+                    UserName = Customer.Email, // Using email as username
+                    Email = Customer.Email
+                };
+
+            // Create user with a default password
+            var password = "DefaultPassword123!"; // Change this or generate dynamically
+            var result = await UserManager.CreateAsync(user, password);
+
+            if (!result.Succeeded)
+            {
+                // Handle user creation errors (e.g., log and show error message)
+                Console.WriteLine($"User creation failed: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+                return;
+            }
+
+            // Assign "User" role if it doesn't exist
+            if (!await RoleManager.RoleExistsAsync("User"))
+            {
+                await RoleManager.CreateAsync(new IdentityRole("User"));
+            }
+            await UserManager.AddToRoleAsync(user, "User");
+
+            // Assign UserId to Customer
+            Customer.UserId = user.Id;
+        }
+        else
+        {
+            // If user already exists, link it to Customer
+            Customer.UserId = existingUser.Id;
+        }
+
+        // Save Customer in database
         context.Customer.Add(Customer);
         await context.SaveChangesAsync();
+
+        // Redirect back to customers list
         NavigationManager.NavigateTo("/customers");
     }
 }
+

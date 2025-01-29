@@ -39,8 +39,11 @@ builder.Services.AddIdentityCore<FSD_ProjectUser>(options => options.SignIn.Requ
 
 builder.Services.AddSingleton<IEmailSender<FSD_ProjectUser>, IdentityNoOpEmailSender>();
 
+
 var app = builder.Build();
 
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
