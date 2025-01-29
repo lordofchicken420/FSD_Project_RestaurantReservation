@@ -7,7 +7,7 @@
 @using System.Text.Encodings.Web
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.WebUtilities
-
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
 @inject UserManager<FSD_ProjectUser> UserManager
@@ -29,16 +29,36 @@
                 <InputText id="name" @bind-Value="Customer.Name" class="form-control" /> 
                 <ValidationMessage For="() => Customer.Name" class="text-danger" /> 
             </div>        
+
             <div class="mb-3">
-                <label for="gender" class="form-label">Gender:</label> 
-                <InputText id="gender" @bind-Value="Customer.Gender" class="form-control" /> 
-                <ValidationMessage For="() => Customer.Gender" class="text-danger" /> 
-            </div>  
+                <label for="gender" class="form-label">Gender:</label>
+                <InputSelect id="gender" @bind-Value="Customer.Gender" class="form-control">
+                    <option value="" disabled>Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </InputSelect>
+                <ValidationMessage For="() => Customer.Gender" class="text-danger" />
+            </div>
+
             <div class="mb-3">
                 <label for="email" class="form-label">Email:</label>
                 <InputText id="email" @bind-Value="Customer.Email" class="form-control" />
                 <ValidationMessage For="() => Customer.Email" class="text-danger" />
             </div>
+
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password:</label>
+                <InputText id="password" type="password" @bind-Value="Password" class="form-control" />
+                <ValidationMessage For="() => Password" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirm Password:</label>
+                <InputText id="confirmPassword" type="password" @bind-Value="ConfirmPassword" class="form-control" />
+                <ValidationMessage For="() => ConfirmPassword" class="text-danger" />
+            </div>
+
             <div class="mb-3">
                 <label for="datecreated" class="form-label">DateCreated:</label> 
                 <InputDate id="datecreated" @bind-Value="Customer.DateCreated" class="form-control" /> 
@@ -73,10 +93,22 @@
 @code {
     [SupplyParameterFromForm]
     private Customer Customer { get; set; } = new();
+    private string Password { get; set; } = string.Empty;
+    private string ConfirmPassword { get; set; } = string.Empty;
+
 
     private async Task AddCustomer()
     {
         using var context = DbFactory.CreateDbContext();
+        Customer.DateCreated = DateTime.UtcNow;
+        Customer.DateUpdated = DateTime.UtcNow;
+
+        if (Password != ConfirmPassword)
+        {
+            Console.WriteLine("Passwords do not match.");
+            return;
+        }
+
 
         // Check if a user with the same email exists
         var existingUser = await UserManager.FindByEmailAsync(Customer.Email);
