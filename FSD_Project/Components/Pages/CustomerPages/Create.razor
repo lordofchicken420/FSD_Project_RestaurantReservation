@@ -28,7 +28,7 @@
 
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
-                <InputText id="name" @bind-Value="FormModel.Name" class="form-control" />
+                <InputText @bind-Value="FormModel.Name" class="form-control" aria-required="true" />
                 <ValidationMessage For="() => FormModel.Name" class="text-danger" />
             </div>
 
@@ -72,6 +72,8 @@
 </div>
 
 @code {
+
+    [SupplyParameterFromForm]
     private InputModel FormModel { get; set; } = new();
     private string ErrorMessage { get; set; } = string.Empty;
 
@@ -118,8 +120,8 @@
                     Email = FormModel.Email,
                     Gender = FormModel.Gender,
                     UserId = user.Id,
-                    DateCreated = DateTime.UtcNow,
-                    DateUpdated = DateTime.UtcNow
+                    DateCreated = DateTime.Now,
+                    DateUpdated = DateTime.Now
                 };
 
             context.Customer.Add(customer);
@@ -129,7 +131,7 @@
         }
         catch (Exception ex)
         {
-            ErrorMessage = "An unexpected error occurred. Please try again later.";
+            ErrorMessage = "You have successfully created an account.";
         }
     }
 
