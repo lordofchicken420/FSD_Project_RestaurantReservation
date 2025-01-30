@@ -107,11 +107,11 @@
             }
 
             // Ensure "User" role exists
-            if (!await RoleManager.RoleExistsAsync("User"))
+            if (!await RoleManager.RoleExistsAsync("Customer"))
             {
-                await RoleManager.CreateAsync(new IdentityRole("User"));
+                await RoleManager.CreateAsync(new IdentityRole("Customer"));
             }
-            await UserManager.AddToRoleAsync(user, "User");
+            await UserManager.AddToRoleAsync(user, "Customer");
 
             // Create a new customer record
             var customer = new Customer

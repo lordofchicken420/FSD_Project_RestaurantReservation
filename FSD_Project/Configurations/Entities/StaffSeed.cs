@@ -14,6 +14,7 @@ namespace FSD_Project.Configurations.Entities
                     Id = 1,
                     Name = "Gordon Sim",
                     Gender = "Male",
+                    Email = "Gordon@hotmail.com",
                     ContactNumber = 97581578,
                     BranchId = 1,
 
@@ -28,6 +29,7 @@ namespace FSD_Project.Configurations.Entities
                     Id = 2,
                     Name = "En Xuan",
                     Gender = "Female",
+                    Email = "EnXuan@hotmail.com",
                     ContactNumber = 98886482,
                     BranchId = 1,
 

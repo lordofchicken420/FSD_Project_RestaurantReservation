@@ -1,56 +1,74 @@
 ﻿@page "/staff/create"
 @using Microsoft.EntityFrameworkCore
 @using FSD_Project.Domain
-@inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
+@using FSD_Project.Data
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Identity
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IDbContextFactory<FSD_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
+@inject UserManager<FSD_ProjectUser> UserManager
+@inject RoleManager<IdentityRole> RoleManager
 
-<PageTitle>Create</PageTitle>
+<PageTitle>Create Staff</PageTitle>
 
-<h1>Create</h1>
-
-<h2>Staff</h2>
+<h1>Create Staff</h1>
 <hr />
+
 <div class="row">
     <div class="col-md-4">
-        <EditForm method="post" Model="Staff" OnValidSubmit="AddStaff" FormName="create" Enhance>
+        <EditForm Model="FormModel" OnValidSubmit="AddStaff" FormName="StaffCreateForm">
             <DataAnnotationsValidator />
-            <ValidationSummary class="text-danger" role="alert"/>
+            <ValidationSummary class="text-danger" />
+
+            @if (!string.IsNullOrEmpty(ErrorMessage))
+            {
+                <div class="alert alert-danger">@ErrorMessage</div>
+            }
+
             <div class="mb-3">
-                <label for="name" class="form-label">Name:</label> 
-                <InputText id="name" @bind-Value="Staff.Name" class="form-control" /> 
-                <ValidationMessage For="() => Staff.Name" class="text-danger" /> 
-            </div>        
+                <label for="name" class="form-label">Name:</label>
+                <InputText id="name" @bind-Value="FormModel.Name" class="form-control" />
+                <ValidationMessage For="() => FormModel.Name" class="text-danger" />
+            </div>
+
             <div class="mb-3">
-                <label for="gender" class="form-label">Gender:</label> 
-                <InputText id="gender" @bind-Value="Staff.Gender" class="form-control" /> 
-                <ValidationMessage For="() => Staff.Gender" class="text-danger" /> 
-            </div>        
+                <label for="email" class="form-label">Email:</label>
+                <InputText id="email" @bind-Value="FormModel.Email" class="form-control" />
+                <ValidationMessage For="() => FormModel.Email" class="text-danger" />
+            </div>
+
             <div class="mb-3">
-                <label for="branchid" class="form-label">BranchId:</label> 
-                <InputNumber id="branchid" @bind-Value="Staff.BranchId" class="form-control" /> 
-                <ValidationMessage For="() => Staff.BranchId" class="text-danger" /> 
-            </div>        
+                <label for="gender" class="form-label">Gender:</label>
+                <InputSelect id="gender" @bind-Value="FormModel.Gender" class="form-control">
+                    <option value="" disabled>Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </InputSelect>
+                <ValidationMessage For="() => FormModel.Gender" class="text-danger" />
+            </div>
+
             <div class="mb-3">
-                <label for="datecreated" class="form-label">DateCreated:</label> 
-                <InputDate id="datecreated" @bind-Value="Staff.DateCreated" class="form-control" /> 
-                <ValidationMessage For="() => Staff.DateCreated" class="text-danger" /> 
-            </div>        
+                <label for="branchid" class="form-label">Branch ID:</label>
+                <InputNumber id="branchid" @bind-Value="FormModel.BranchId" class="form-control" />
+                <ValidationMessage For="() => FormModel.BranchId" class="text-danger" />
+            </div>
+
             <div class="mb-3">
-                <label for="dateupdated" class="form-label">DateUpdated:</label> 
-                <InputDate id="dateupdated" @bind-Value="Staff.DateUpdated" class="form-control" /> 
-                <ValidationMessage For="() => Staff.DateUpdated" class="text-danger" /> 
-            </div>        
+                <label for="password" class="form-label">Password:</label>
+                <InputText id="password" type="password" @bind-Value="FormModel.Password" class="form-control" />
+                <ValidationMessage For="() => FormModel.Password" class="text-danger" />
+            </div>
+
             <div class="mb-3">
-                <label for="createdby" class="form-label">CreatedBy:</label> 
-                <InputText id="createdby" @bind-Value="Staff.CreatedBy" class="form-control" /> 
-                <ValidationMessage For="() => Staff.CreatedBy" class="text-danger" /> 
-            </div>        
-            <div class="mb-3">
-                <label for="updatedby" class="form-label">UpdatedBy:</label> 
-                <InputText id="updatedby" @bind-Value="Staff.UpdatedBy" class="form-control" /> 
-                <ValidationMessage For="() => Staff.UpdatedBy" class="text-danger" /> 
-            </div>        
+                <label for="confirmPassword" class="form-label">Confirm Password:</label>
+                <InputText id="confirmPassword" type="password" @bind-Value="FormModel.ConfirmPassword" class="form-control" />
+                <ValidationMessage For="() => FormModel.ConfirmPassword" class="text-danger" />
+            </div>
+
             <button type="submit" class="btn btn-primary">Create</button>
+            <a href="/staff" class="btn btn-secondary ms-2">Cancel</a>
         </EditForm>
     </div>
 </div>
@@ -61,14 +79,92 @@
 
 @code {
     [SupplyParameterFromForm]
-    private Staff Staff { get; set; } = new();
+    private InputModel FormModel { get; set; } = new();
+    private string ErrorMessage { get; set; } = string.Empty;
 
-    // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
     private async Task AddStaff()
     {
-        using var context = DbFactory.CreateDbContext();
-        context.Staff.Add(Staff);
-        await context.SaveChangesAsync();
-        NavigationManager.NavigateTo("/staff");
+        try
+        {
+            using var context = DbFactory.CreateDbContext();
+
+            // Step 1: Check if a staff user already exists
+            var existingUser = await UserManager.FindByEmailAsync(FormModel.Email);
+            if (existingUser != null)
+            {
+                ErrorMessage = "A staff member with this email already exists.";
+                return;
+            }
+
+            // Step 2: Create a new identity user (AspNetUsers)
+            var user = new FSD_ProjectUser
+                {
+                    UserName = FormModel.Name,
+                    Email = FormModel.Email,
+                    EmailConfirmed = true // <-- Email confirmation removed
+                };
+
+            var result = await UserManager.CreateAsync(user, FormModel.Password);
+            if (!result.Succeeded)
+            {
+                ErrorMessage = string.Join(", ", result.Errors.Select(e => e.Description));
+                return;
+            }
+
+            // Step 3: Ensure "Staff" role exists and assign the new user to it
+            if (!await RoleManager.RoleExistsAsync("Admin"))
+            {
+                await RoleManager.CreateAsync(new IdentityRole("Admin"));
+            }
+            await UserManager.AddToRoleAsync(user, "Admin");
+
+            // Step 4: Create a new staff record in the database
+            var staff = new Staff
+                {
+                    Name = FormModel.Name,
+                    Email = FormModel.Email,
+                    Gender = FormModel.Gender,
+                    BranchId = FormModel.BranchId,
+                    UserId = user.Id,  // Link staff to the identity user
+                    DateCreated = DateTime.Now,
+                    DateUpdated = DateTime.Now,
+                    CreatedBy = "System", // Or get from logged-in user
+                    UpdatedBy = "System"
+                };
+
+            context.Staff.Add(staff);
+            await context.SaveChangesAsync();
+
+            // Step 5: Redirect to staff list
+            NavigationManager.NavigateTo("/staff");
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = "An error occurred while creating the staff account.";
+        }
+    }
+
+    private sealed class InputModel
+    {
+        [Required(ErrorMessage = "Name is required")]
+        public string Name { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email address")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Gender is required")]
+        public string Gender { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Branch ID is required")]
+        public int BranchId { get; set; }
+
+        [Required(ErrorMessage = "Password is required")]
+        [StringLength(100, MinimumLength = 8, ErrorMessage = "Password must be at least 8 characters long")]
+        public string Password { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Confirm Password is required")]
+        [Compare(nameof(Password), ErrorMessage = "Passwords do not match")]
+        public string ConfirmPassword { get; set; } = string.Empty;
     }
 }
