@@ -40,13 +40,13 @@ namespace FSD_Project.Data
                 .HasOne(c => c.User)
                 .WithMany() // FSD_ProjectUser does not need a collection for Customers
                 .HasForeignKey(c => c.UserId)
-                .OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes
+                .OnDelete(DeleteBehavior.Cascade); // Prevent cascading deletes
 
             builder.Entity<Staff>()
                 .HasOne(s => s.User)
                 .WithMany() // FSD_ProjectUser does not need a collection for Staff
                 .HasForeignKey(s => s.UserId)
-                .OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes
+                .OnDelete(DeleteBehavior.Cascade); // Prevent cascading deletes
         }
 
 
