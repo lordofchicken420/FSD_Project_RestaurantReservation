@@ -1,4 +1,5 @@
 ﻿@page "/reservations/create"
+@using FSD_Project.Services
 @using Microsoft.EntityFrameworkCore
 @using FSD_Project.Domain
 @using Microsoft.AspNetCore.Components.Authorization
@@ -6,6 +7,8 @@
 @inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IReservationService ReservationService
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
@@ -21,24 +24,24 @@
 }
 
 
-    <header class="navbar">
-        <nav>
-            <ul class="nav-links">
-                <li><button class="nav-button" onclick="window.location.href='/'">Home</button></li>
-                <li><button class="nav-button" onclick="window.location.href='/reservations/create'">Reservations</button></li>
-                <li><button class="nav-button" onclick="window.location.href='/Menu'">Menu</button></li>
-                <li>
-                    <ul class="icon">
-                        <li>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="26" class="bi bi-person-fill" viewBox="0 0 16 16">
-                                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
-                            </svg>
-                        </li>
-                        <li>
-                            <AuthorizeView>
-                                <NotAuthorized>
-                                    <button class="nav-button login-button" onclick="window.location.href='/Admin'">Login</button>
-                                </NotAuthorized>
+<header class="navbar">
+    <nav>
+        <ul class="nav-links">
+            <li><button class="nav-button" onclick="window.location.href='/'">Home</button></li>
+            <li><button class="nav-button" onclick="window.location.href='/reservations/create'">Reservations</button></li>
+            <li><button class="nav-button" onclick="window.location.href='/Menu'">Menu</button></li>
+            <li>
+                <ul class="icon">
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="26" class="bi bi-person-fill" viewBox="0 0 16 16">
+                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                        </svg>
+                    </li>
+                    <li>
+                        <AuthorizeView>
+                            <NotAuthorized>
+                                <button class="nav-button login-button" onclick="window.location.href='/Admin'">Login</button>
+                            </NotAuthorized>
 
                             <Authorized>
                                 <button class="nav-button logout-button" onclick="window.location.href='/Logout'">Logout</button>
@@ -51,208 +54,182 @@
     </nav>
 </header>
 
-    <!-- Reservation Details Section -->
-    <section class="reservation-section">
-        <h2>Reservations</h2>
-        <hr />
-        <p>February & March are now open! Reservations for April & May open February 1st at 2 PM SGT.</p>
-        <p>Join us for a 5-course tasting menu inspired by Athens. Experience Mediterranean flavors and stories rooted in Greek tradition, blending ancient recipes with modern twists.</p>
-        <p>We welcome all dietary needs — let us know your preferences 4 days in advance through your dining survey.</p>
-    </section>
+<!-- Reservation Details Section -->
+<section class="reservation-section">
+    <h2>Reservations</h2>
+    <hr />
+    <p>February & March are now open! Reservations for April & May open February 1st at 2 PM SGT.</p>
+    <p>Join us for a 5-course tasting menu inspired by Athens. Experience Mediterranean flavors and stories rooted in Greek tradition, blending ancient recipes with modern twists.</p>
+    <p>We welcome all dietary needs — let us know your preferences 4 days in advance through your dining survey.</p>
+</section>
 
-    @* All of Create's fields *@
-    @* ReservedDateTime *@
-    @* Name *@
-    @* DateCreated (Hidden) *@
-    @* DateUpdated (Hidden) *@
+@* All of Create's fields *@
+@* ReservedDateTime *@
+@* Name *@
+@* DateCreated (Hidden) *@
+@* DateUpdated (Hidden) *@
 
-    <!-- Reservation Form Section -->
-    <section class="reservation-section">
-        <div class="form-container">
-            <div class="form-fields">
-                <h3>Book Your Table</h3>
-                <hr />
-                <h5>
-                    Each reservation is limited to booking only one table
-                </h5>
-
-
-                <hr />
-                <br />
-                <EditForm method="post" Model="Reservation" OnValidSubmit="AddReservation" FormName="create" Enhance>
-                    <DataAnnotationsValidator />
-                    <ValidationSummary class="text-danger" role="alert" />
-
-                    <div class="form-group">
-                        <label for="reserveddatetime" class="form-label">Reservation Date & Time:</label>
-                        <InputDate id="reserveddatetime" @bind-Value="Reservation.ReservedDateTime" class="form-control" />
-                        <ValidationMessage For="() => Reservation.ReservedDateTime" class="text-danger" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="createdby" class="form-label">Your Name:</label>
-                        <InputText id="createdby" @bind-Value="Reservation.CreatedBy" class="form-control" />
-                        <ValidationMessage For="() => Reservation.CreatedBy" class="text-danger" />
-                    </div>
-
-
-                    @* <div class="form-group"> *@
-                    @*     <label for="updatedby" class="form-label">UpdatedBy:</label> *@
-                    @*     <InputText id="updatedby" @bind-Value="Reservation.UpdatedBy" class="form-control" /> *@
-                    @*     <ValidationMessage For="() => Reservation.UpdatedBy" class="text-danger" /> *@
-                    @* </div> *@
-
-
-
-                    <br />
-
-                    <AuthorizeView>
-                        <Authorized Context="gay">
-                            <button type="submit" class="btn-submit">BOOK</button>
-                        </Authorized>
-                        <NotAuthorized Context="gay">
-                            <h5 class="error">
-                                Please login before reserving a table!
-                            </h5>
-                        </NotAuthorized>
-
-                    </AuthorizeView>
-
-
-                    <div class="useless">
-                        <div class="form-group">
-                            <label for="datecreated" class="form-label">DateCreated:</label>
-                            <InputDate id="datecreated" @bind-Value="Reservation.DateCreated" class="form-control" />
-                            <ValidationMessage For="() => Reservation.DateCreated" class="text-danger" />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="dateupdated" class="form-label">DateUpdated:</label>
-                            <InputDate id="dateupdated" @bind-Value="Reservation.DateUpdated" class="form-control" />
-                            <ValidationMessage For="() => Reservation.DateUpdated" class="text-danger" />
-                        </div>
-                    </div>
-
-                </EditForm>
-            </div>
-        </div>
-
-        <div class="review">
-            <h3>
-                Leave a Review
-            </h3>
+<!-- Reservation Form Section -->
+<section class="reservation-section">
+    <div class="form-container">
+        <div class="form-fields">
+            <h3>Book Your Table</h3>
             <hr />
             <h5>
-                Your feedback lets us serve you better
+                Each reservation is limited to booking only one table <br />
+                and is allocated a two-hour time slot.
             </h5>
+
+
             <hr />
+            <br />
+            <EditForm method="post" Model="Reservation" OnValidSubmit="AddReservation" FormName="create" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary class="text-danger" role="alert" />
+
+                <div class="form-group">
+                    <label for="reserveddatetime" class="form-label">Reservation Date & Time:</label>
+                    <InputText id="reserveddatetime"
+                               @bind-Value="ReservationDateTimeString"
+                               type="datetime-local"
+                               class="form-control" />
+                    <ValidationMessage For="() => Reservation.ReservedDateTime" class="text-danger" />
+                </div>
+
+
+
+                <div class="form-group">
+                    <label for="createdby" class="form-label">Your Name:</label>
+                    <InputText id="createdby" @bind-Value="Reservation.CreatedBy" class="form-control" />
+                    <ValidationMessage For="() => Reservation.CreatedBy" class="text-danger" />
+                </div>
+
+
+                @* <div class="form-group"> *@
+                @*     <label for="updatedby" class="form-label">UpdatedBy:</label> *@
+                @*     <InputText id="updatedby" @bind-Value="Reservation.UpdatedBy" class="form-control" /> *@
+                @*     <ValidationMessage For="() => Reservation.UpdatedBy" class="text-danger" /> *@
+                @* </div> *@
+
+
+
+                <br />
+
+                <AuthorizeView>
+                    <Authorized Context="gay">
+                        <button type="submit" class="btn-submit">BOOK</button>
+                    </Authorized>
+                    <NotAuthorized Context="gay">
+                        <h5 class="error">
+                            Please login before reserving a table!
+                        </h5>
+                    </NotAuthorized>
+
+                </AuthorizeView>
+
+
+                <div class="useless">
+                    <div class="form-group">
+                        <label for="datecreated" class="form-label">DateCreated:</label>
+                        <InputDate id="datecreated" @bind-Value="Reservation.DateCreated" class="form-control" />
+                        <ValidationMessage For="() => Reservation.DateCreated" class="text-danger" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dateupdated" class="form-label">DateUpdated:</label>
+                        <InputDate id="dateupdated" @bind-Value="Reservation.DateUpdated" class="form-control" />
+                        <ValidationMessage For="() => Reservation.DateUpdated" class="text-danger" />
+                    </div>
+                </div>
+
+            </EditForm>
+        </div>
+    </div>
+
+    <div class="review">
+        <h3>
+            Leave a Review
+        </h3>
+        <hr />
+        <h5>
+            Your feedback lets us serve you better
+        </h5>
+        <hr />
         <button type="button" class="btn-container" onclick="window.location.href='/reviews/create'">Review</button>
 
-        </div>
-    </section>
+    </div>
+</section>
 
-    <footer>
-        <p>
-            © @DateTime.Now.Year Ruben x John. All rights reserved.
-            <!--
-            <a href="/Admin" style="color: #FFFFFF; text-decoration: underline; margin-left: 10px;">Admin Page</a>
-            -->
-        </p>
-    </footer>
+<footer>
+    <p>
+        © @DateTime.Now.Year Ruben x John. All rights reserved.
+        <!--
+        <a href="/Admin" style="color: #FFFFFF; text-decoration: underline; margin-left: 10px;">Admin Page</a>
+        -->
+    </p>
+</footer>
 
-    <AuthorizeView Roles="Admin, Staff">
-        <div class="admin">
-            <a href="/reservations">Click for Admin Page</a>
-        </div>
-    </AuthorizeView>
+<AuthorizeView Roles="Admin, Staff">
+    <div class="admin">
+        <a href="/reservations">Click for Admin Page</a>
+    </div>
+</AuthorizeView>
 
-    @code {
-    [SupplyParameterFromForm]
+@code {
     private Reservation Reservation { get; set; } = new();
     private string userId;
     private bool HasReservation;
 
+    private string ReservationDateTimeString
+    {
+        get => Reservation.ReservedDateTime == DateTime.MinValue
+            ? DateTime.Now.ToString("yyyy-MM-ddTHH:mm")
+            : Reservation.ReservedDateTime.ToString("yyyy-MM-ddTHH:mm");
+        set
+        {
+            if (DateTime.TryParse(value, out var parsedDateTime))
+            {
+                Reservation.ReservedDateTime = parsedDateTime;
+            }
+        }
+    }
+
+
     protected override async Task OnInitializedAsync()
     {
-        // Get the authenticated user
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
-        Reservation.ReservedDateTime = DateTime.Now;
-
 
         if (user.Identity.IsAuthenticated)
         {
-            // Get the user's ID from their claims
-            userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            // Set the CustomerID to the user's ID
-            // In Create.razor
-            Reservation.CustomerId = userId;  // No parsing needed
-            // Pre-fill creation metadata
-            Reservation.DateCreated = DateTime.Now;
+            userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            Reservation.CustomerId = userId;
             Reservation.CreatedBy = user.Identity.Name;
-        }
-    }
-
-    private async Task<int?> FindAvailableTableId(DateTime reservationTime)
-    {
-        using var context = DbFactory.CreateDbContext();
-
-        // Get all tables ordered by ID
-        var allTables = await context.Table
-            .OrderBy(t => t.Id)
-            .ToListAsync();
-
-        // Get existing reservations that overlap with the requested time
-        // Assuming each reservation is for a 2-hour slot
-        var reservationEndTime = reservationTime.AddHours(2);
-        var existingReservations = await context.Reservation
-            .Where(r => r.ReservedDateTime < reservationEndTime &&
-                        r.ReservedDateTime.AddHours(2) > reservationTime)
-            .Select(r => r.TableID)
-            .ToListAsync();
-
-        // Find the first table that isn't in existing reservations
-        foreach (var table in allTables)
-        {
-            var tableIdToCheck = table.Id;
-
-            if (!existingReservations.Contains(tableIdToCheck))
+            Reservation.DateCreated = DateTime.Now;
+            Reservation.DateUpdated = DateTime.Now;
+            if (DateTime.TryParse(ReservationDateTimeString, out var parsedDateTime))
             {
-                return tableIdToCheck; // Found an available table ID
+                Reservation.ReservedDateTime = parsedDateTime; // Assign the parsed DateTime value
+            }
             }
         }
 
-        // If no available table ID was found, return the next available one
-        // This assumes all tables are fully booked; you may adjust this logic as needed
-        return allTables.Max(t => t.Id) + 1;
-    }
-
+        
+    
 
     private async Task AddReservation()
     {
-        // Check if user has a reservation
-        var availableTableId = await FindAvailableTableId(Reservation.ReservedDateTime);
+        if (string.IsNullOrEmpty(userId)) return; // Prevent unauthenticated users from booking
 
-        if (availableTableId == null)
+        var success = await ReservationService.CreateReservationAsync(Reservation);
+
+        if (success)
         {
-            // Handle the case where no tables are available
-            return;
+            HasReservation = true;
         }
-
-        using var context = DbFactory.CreateDbContext();
-
-        Reservation.TableID = availableTableId.Value;
-        Reservation.DateUpdated = DateTime.Now;
-        Reservation.UpdatedBy = userId;
-
-        context.Reservation.Add(Reservation);
-        await context.SaveChangesAsync();
-
-        // Set HasReservation to true to display the alert
-        HasReservation = true;
-
-        
+        else
+        {
+            Console.WriteLine("No available tables.");
+        }
     }
-
 }

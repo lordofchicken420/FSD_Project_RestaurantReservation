@@ -1,8 +1,13 @@
 ﻿@page "/reservations/delete"
 @using Microsoft.EntityFrameworkCore
 @using FSD_Project.Domain
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
+@using FSD_Project.Services
+
 @inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
+@inject IReservationService ReservationService
 
 <PageTitle>Delete</PageTitle>
 
@@ -56,7 +61,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        using var context = DbFactory.CreateDbContext();
+        using var context = await DbFactory.CreateDbContextAsync();
+
         reservation = await context.Reservation.FirstOrDefaultAsync(m => m.Id == Id);
 
         if (reservation is null)
@@ -65,11 +71,19 @@
         }
     }
 
+
     private async Task DeleteReservation()
     {
-        using var context = DbFactory.CreateDbContext();
-        context.Reservation.Remove(reservation!);
-        await context.SaveChangesAsync();
-        NavigationManager.NavigateTo("/reservations");
+        var success = await ReservationService.CancelReservationAsync(Id); // Pass the reservation ID
+
+        if (success)
+        {
+            NavigationManager.NavigateTo("/reservations"); // Redirect to the reservations list
+        }
+        else
+        {
+            Console.WriteLine("Error: Unable to cancel the reservation.");
+        }
     }
+
 }

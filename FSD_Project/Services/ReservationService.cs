@@ -9,6 +9,7 @@ namespace FSD_Project.Services
         Task<bool> CreateReservationAsync(Reservation reservation);
         Task<List<Reservation>> GetReservationsAsync();
         Task<bool> IsTableAvailableAsync(int tableId, DateTime reservationTime);
+        Task<bool> CancelReservationAsync(int reservationId);
     }
 
     public class ReservationService : IReservationService
@@ -26,32 +27,46 @@ namespace FSD_Project.Services
             {
                 using var context = await _contextFactory.CreateDbContextAsync();
 
-                // Check if table is available
-                if (!await IsTableAvailableAsync(reservation.TableID, reservation.ReservedDateTime))
+                // ✅ Find the lowest available table ID
+                var availableTable = await context.Table
+                    .Where(t => t.Status == true) // Only available tables
+                    .OrderBy(t => t.Id)           // Get the lowest table ID
+                    .FirstOrDefaultAsync();
+
+                if (availableTable == null)
                 {
-                    return false;
+                    return false; // No tables available
                 }
+
+                // Assign the lowest available table to the reservation
+                reservation.TableID = availableTable.Id;
+
+                // ✅ Mark the table as unavailable
+                availableTable.Status = false;
 
                 // Set audit fields
                 reservation.DateCreated = DateTime.Now;
                 reservation.DateUpdated = DateTime.Now;
-                reservation.CreatedBy = "System"; // You might want to get this from the logged-in user
+                reservation.CreatedBy = "System"; // Replace with logged-in user
                 reservation.UpdatedBy = "System";
 
                 context.Reservation.Add(reservation);
                 await context.SaveChangesAsync();
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine($"Error creating reservation: {ex.Message}");
                 return false;
             }
         }
+
 
         public async Task<List<Reservation>> GetReservationsAsync()
         {
             using var context = await _contextFactory.CreateDbContextAsync();
             return await context.Reservation
+                .Include(r => r.Table) // Ensure Table details are loaded
                 .OrderByDescending(r => r.ReservedDateTime)
                 .ToListAsync();
         }
@@ -60,7 +75,13 @@ namespace FSD_Project.Services
         {
             using var context = await _contextFactory.CreateDbContextAsync();
 
-            // Check if there are any overlapping reservations
+            // Check if the table exists and is available
+            var table = await context.Table.FindAsync(tableId);
+            if (table == null || !table.Status)  // 🚨 Ensure the table is marked as available
+            {
+                return false;
+            }
+
             // Assuming a 2-hour dining duration
             var endTime = reservationTime.AddHours(2);
 
@@ -69,5 +90,46 @@ namespace FSD_Project.Services
                 r.ReservedDateTime < endTime &&
                 r.ReservedDateTime.AddHours(2) > reservationTime);
         }
+
+        public async Task<bool> CancelReservationAsync(int reservationId)
+        {
+            try
+            {
+                using var context = await _contextFactory.CreateDbContextAsync();
+
+                // Find the reservation
+                var reservation = await context.Reservation.FirstOrDefaultAsync(r => r.Id == reservationId);
+                if (reservation == null)
+                {
+                    return false; // Reservation not found
+                }
+
+                // Find the associated table
+                var table = await context.Table.FirstOrDefaultAsync(t => t.Id == reservation.TableID);
+                if (table != null)
+                {
+                    // ✅ Mark table as available
+                    table.Status = true;
+                    
+                    // ✅ Attach the table and mark it as modified
+                    context.Attach(table);
+                    context.Entry(table).Property(t => t.Status).IsModified = true;
+                }
+
+                // Remove the reservation
+                context.Reservation.Remove(reservation);
+
+                // Save changes
+                await context.SaveChangesAsync();
+
+                return true; // Successfully canceled
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error canceling reservation: {ex.Message}");
+                return false;
+            }
+        }
+
     }
 }

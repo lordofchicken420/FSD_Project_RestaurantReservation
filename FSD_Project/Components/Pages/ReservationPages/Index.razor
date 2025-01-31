@@ -118,22 +118,17 @@
     <!-- Main Content -->
     <div class="container mt-4">
         <h1>Reservation List</h1>
-        <AuthorizeView>
-            <Authorized>
                 <p>
                     <a href="reservations/create" class="btn btn-success">Create New</a>
                 </p>
-            </Authorized>
-            <NotAuthorized>
-                <p>Please login to book a reservation</p>
-            </NotAuthorized>
-        </AuthorizeView>
+
 
         <table class="table">
             <thead>
                 <tr>
-                    <th>Reserved Date</th>
+                    <th>Reserved Date & Time</th>
                     <th>Customer ID</th>
+                    <th>Table ID </th>
                     <th>Date Created</th>
                     <th>Date Updated</th>
                     <th>Created By</th>
@@ -155,6 +150,7 @@
                         <tr>
                             <td>@reservation.ReservedDateTime</td>
                             <td>@reservation.CustomerId</td>
+                            <td>@reservation.TableID</td>
                             <td>@reservation.DateCreated</td>
                             <td>@reservation.DateUpdated</td>
                             <td>@reservation.CreatedBy</td>

@@ -30,7 +30,7 @@ builder.Services.AddAuthentication(options =>
     options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
 })
     .AddIdentityCookies();
-
+builder.Services.AddScoped<IReservationService, ReservationService>();
 builder.Services.AddIdentityCore<FSD_ProjectUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<FSD_ProjectContext>()
