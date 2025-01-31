@@ -1,13 +1,56 @@
-﻿body {
-}
-
-.page-background {
-    color: ghostwhite;
+﻿.sidebar {
     background-color: #2C2C2C;
+    width: 200px;
+    height: 100%;
+    padding: 20px;
+    color: #fff;
 }
 
-    .page-background .quickgrid-container {
-        color: ghostwhite; /* Default text color for the container */
-        background-color: ghostwhite;
+    .sidebar h2 {
+        font-size: 20px;
+        margin-bottom: 30px;
+        text-align: center;
     }
 
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+
+        .sidebar ul li {
+            margin: 15px 0;
+        }
+
+            .sidebar ul li a {
+                text-decoration: none;
+                color: #fff;
+                font-size: 16px;
+                display: block;
+                padding: 10px;
+                border-radius: 5px;
+                transition: background-color 0.3s;
+            }
+
+                .sidebar ul li a:hover,
+                .sidebar ul li a.active {
+                    background-color: #5ca0d3;
+                }
+
+
+button[data-bs-target="#sidebarMenu"] {
+    visibility: visible; /* Default state */
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #2C2C2C;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: visibility 0.2s ease-in-out;
+}
+
+    button[data-bs-target="#sidebarMenu"]:hover {
+        background-color: #5ca0d3;
+        transform: scale(1.05);
+    }

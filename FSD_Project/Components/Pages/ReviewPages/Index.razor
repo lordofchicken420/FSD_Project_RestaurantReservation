@@ -1,48 +1,178 @@
 ﻿@page "/reviews"
 @using Microsoft.EntityFrameworkCore
-@using Microsoft.AspNetCore.Components.QuickGrid
 @using FSD_Project.Domain
 @using FSD_Project.Data
 @implements IAsyncDisposable
-@inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
+@inject IDbContextFactory<FSD_ProjectContext> DbFactory
 
-<link rel="stylesheet" href="_content/Microsoft.AspNetCore.Components.QuickGrid/Microsoft.AspNetCore.Components.QuickGrid.bundle.scp.css" asp-append-version="true" />
+<PageTitle>Reviews</PageTitle>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
 
 
-<PageTitle>Index</PageTitle>
-<section class="page-background">
-<h1>See what our customers have to say</h1>
-<hr />
-<p>
-    <a href="reviews/create">CLick here to leave a review!</a>
-</p>
-<div class="quickgrid-container">
+    <!-- Sidebar -->
+    <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="sidebarMenuLabel">Athens Admin</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link active" href="/staffpage">Home</a></li>
 
-    <QuickGrid Class="table" Items="context.Reviews">
-        <PropertyColumn Property="review => review.Score" />
-        <PropertyColumn Property="review => review.Comment" />
-        <PropertyColumn Property="review => review.ReservationId" />
-        <PropertyColumn Property="review => review.DateCreated" />
-        <PropertyColumn Property="review => review.DateUpdated" />
-        <PropertyColumn Property="review => review.CreatedBy" />
-        <PropertyColumn Property="review => review.UpdatedBy" />
+                <!-- Dropdown for Reservation -->
+                <li class="nav-item">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#reservationDropdown" aria-expanded="false">
+                        Reservation
+                    </a>
+                    <ul class="collapse list-unstyled ms-3" id="reservationDropdown">
+                        <li class="nav-item"><a class="nav-link" href="/reservations">View Reservations</a></li>
+                    </ul>
+                </li>
 
-        <TemplateColumn Context="review">
-            <a href="@($"reviews/edit?id={review.Id}")">Edit</a> |
-            <a href="@($"reviews/details?id={review.Id}")">Details</a> |
-            <a href="@($"reviews/delete?id={review.Id}")">Delete</a>
-        </TemplateColumn>
-    </QuickGrid>
-</div>
+                <!-- Dropdown for Customers -->
+                <li class="nav-item">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#customersDropdown" aria-expanded="false">
+                        Customers
+                    </a>
+                    <ul class="collapse list-unstyled ms-3" id="customersDropdown">
+                        <li class="nav-item"><a class="nav-link" href="/customers">View Customers</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/customers/create">Add Customers</a></li>
+                    </ul>
+                </li>
 
-</section>
+                <!-- Dropdown for Staff -->
+                <li class="nav-item">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#staffDropdown" aria-expanded="false">
+                        Staffs
+                    </a>
+                    <ul class="collapse list-unstyled ms-3" id="staffDropdown">
+                        <li class="nav-item"><a class="nav-link" href="/staff">View Staffs</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/staff/create">Add Staffs</a></li>
+                    </ul>
+                </li>
+
+
+                <!-- Dropdown for Review -->
+                <li class="nav-item">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#reviewDropdown" aria-expanded="false">
+                        Reviews
+                    </a>
+                    <ul class="collapse list-unstyled ms-3" id="reviewDropdown">
+                        <li class="nav-item"><a class="nav-link" href="/reviews">View Reviews</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/reviews/create">Add Reviews</a></li>
+                    </ul>
+                </li>
+
+
+                <!-- Dropdown for Branch -->
+                <li class="nav-item">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#branchDropdown" aria-expanded="false">
+                        Branches
+                    </a>
+                    <ul class="collapse list-unstyled ms-3" id="branchDropdown">
+                        <li class="nav-item"><a class="nav-link" href="/branches">View Branches</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/branches/create">Add Branches</a></li>
+                    </ul>
+                </li>
+
+                <!-- Dropdown for Table -->
+                <li class="nav-item">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#tableDropdown" aria-expanded="false">
+                        Tables
+                    </a>
+                    <ul class="collapse list-unstyled ms-3" id="tableDropdown">
+                        <li class="nav-item"><a class="nav-link" href="/tables">View Tables</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/tables/create">Add Tables</a></li>
+                    </ul>
+                </li>
+
+
+
+
+                <li class="nav-item"><a class="nav-link" href="/">Webpage</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Toggle Button -->
+    <div class="row">
+        <div class="col-md-12 text-center mb-4">
+            <button class="btn btn-dark mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+                Toggle Sidebar
+            </button>
+            <h1 class="display-6">Reviews Dashboard</h1>
+            <p class="text-muted">See customer feedback and manage reviews.</p>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <h1>Review List</h1>
+        <a href="reviews/create" class="btn btn-success">Leave a Review</a>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Score</th>
+                    <th>Comment</th>
+                    <th>Reservation ID</th>
+                    <th>Date Created</th>
+                    <th>Date Updated</th>
+                    <th>Created By</th>
+                    <th>Updated By</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (reviews == null || reviews.Count == 0)
+                {
+                    <tr>
+                        <td colspan="8" class="text-center">No reviews found.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var review in reviews)
+                    {
+                        <tr>
+                            <td>@review.Score</td>
+                            <td>@review.Comment</td>
+                            <td>@review.ReservationId</td>
+                            <td>@review.DateCreated</td>
+                            <td>@review.DateUpdated</td>
+                            <td>@review.CreatedBy</td>
+                            <td>@review.UpdatedBy</td>
+                            <td>
+                                <a href="@($"reviews/edit?id={review.Id}")">Edit</a> |
+                                <a href="@($"reviews/details?id={review.Id}")">Details</a> |
+                                <a href="@($"reviews/delete?id={review.Id}")">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
 
 @code {
     private FSD_ProjectContext context = default!;
+    private List<Review> reviews = new();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         context = DbFactory.CreateDbContext();
+        reviews = await context.Reviews.ToListAsync();
     }
 
     public async ValueTask DisposeAsync() => await context.DisposeAsync();

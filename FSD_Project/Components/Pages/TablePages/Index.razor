@@ -1,41 +1,178 @@
 ﻿@page "/tables"
 @using Microsoft.EntityFrameworkCore
-@using Microsoft.AspNetCore.Components.QuickGrid
 @using FSD_Project.Domain
 @using FSD_Project.Data
 @implements IAsyncDisposable
-@inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
+@inject IDbContextFactory<FSD_ProjectContext> DbFactory
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Tables</PageTitle>
 
-<h1>Index</h1>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tables</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
 
-<p>
-    <a href="tables/create">Create New</a>
-</p>
 
-<QuickGrid Class="table" Items="context.Table">
-    <PropertyColumn Property="table => table.Capacity" />
-    <PropertyColumn Property="table => table.Status" />
-    <PropertyColumn Property="table => table.BranchId" />
-    <PropertyColumn Property="table => table.DateCreated" />
-    <PropertyColumn Property="table => table.DateUpdated" />
-    <PropertyColumn Property="table => table.CreatedBy" />
-    <PropertyColumn Property="table => table.UpdatedBy" />
+    <!-- Sidebar -->
+    <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="sidebarMenuLabel">Athens Admin</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link active" href="/staffpage">Home</a></li>
 
-    <TemplateColumn Context="table">
-        <a href="@($"tables/edit?id={table.Id}")">Edit</a> |
-        <a href="@($"tables/details?id={table.Id}")">Details</a> |
-        <a href="@($"tables/delete?id={table.Id}")">Delete</a>
-    </TemplateColumn>
-</QuickGrid>
+                <!-- Dropdown for Reservation -->
+                <li class="nav-item">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#reservationDropdown" aria-expanded="false">
+                        Reservation
+                    </a>
+                    <ul class="collapse list-unstyled ms-3" id="reservationDropdown">
+                        <li class="nav-item"><a class="nav-link" href="/reservations">View Reservations</a></li>
+                    </ul>
+                </li>
+
+                <!-- Dropdown for Customers -->
+                <li class="nav-item">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#customersDropdown" aria-expanded="false">
+                        Customers
+                    </a>
+                    <ul class="collapse list-unstyled ms-3" id="customersDropdown">
+                        <li class="nav-item"><a class="nav-link" href="/customers">View Customers</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/customers/create">Add Customers</a></li>
+                    </ul>
+                </li>
+
+                <!-- Dropdown for Staff -->
+                <li class="nav-item">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#staffDropdown" aria-expanded="false">
+                        Staffs
+                    </a>
+                    <ul class="collapse list-unstyled ms-3" id="staffDropdown">
+                        <li class="nav-item"><a class="nav-link" href="/staff">View Staffs</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/staff/create">Add Staffs</a></li>
+                    </ul>
+                </li>
+
+
+                <!-- Dropdown for Review -->
+                <li class="nav-item">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#reviewDropdown" aria-expanded="false">
+                        Reviews
+                    </a>
+                    <ul class="collapse list-unstyled ms-3" id="reviewDropdown">
+                        <li class="nav-item"><a class="nav-link" href="/reviews">View Reviews</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/reviews/create">Add Reviews</a></li>
+                    </ul>
+                </li>
+
+
+                <!-- Dropdown for Branch -->
+                <li class="nav-item">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#branchDropdown" aria-expanded="false">
+                        Branches
+                    </a>
+                    <ul class="collapse list-unstyled ms-3" id="branchDropdown">
+                        <li class="nav-item"><a class="nav-link" href="/branches">View Branches</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/branches/create">Add Branches</a></li>
+                    </ul>
+                </li>
+
+                <!-- Dropdown for Table -->
+                <li class="nav-item">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#tableDropdown" aria-expanded="false">
+                        Tables
+                    </a>
+                    <ul class="collapse list-unstyled ms-3" id="tableDropdown">
+                        <li class="nav-item"><a class="nav-link" href="/tables">View Tables</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/tables/create">Add Tables</a></li>
+                    </ul>
+                </li>
+
+
+
+
+                <li class="nav-item"><a class="nav-link" href="/">Webpage</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Toggle Button -->
+    <div class="row">
+        <div class="col-md-12 text-center mb-4">
+            <button class="btn btn-dark mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+                Toggle Sidebar
+            </button>
+            <h1 class="display-6">Tables Dashboard</h1>
+            <p class="text-muted">Manage table information and updates.</p>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <h1>Table List</h1>
+        <a href="tables/create" class="btn btn-success">Create New</a>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Capacity</th>
+                    <th>Status</th>
+                    <th>Branch ID</th>
+                    <th>Date Created</th>
+                    <th>Date Updated</th>
+                    <th>Created By</th>
+                    <th>Updated By</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (tables == null || tables.Count == 0)
+                {
+                    <tr>
+                        <td colspan="8" class="text-center">No tables found.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var table in tables)
+                    {
+                        <tr>
+                            <td>@table.Capacity</td>
+                            <td>@table.Status</td>
+                            <td>@table.BranchId</td>
+                            <td>@table.DateCreated</td>
+                            <td>@table.DateUpdated</td>
+                            <td>@table.CreatedBy</td>
+                            <td>@table.UpdatedBy</td>
+                            <td>
+                                <a href="@($"tables/edit?id={table.Id}")">Edit</a> |
+                                <a href="@($"tables/details?id={table.Id}")">Details</a> |
+                                <a href="@($"tables/delete?id={table.Id}")">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
 
 @code {
     private FSD_ProjectContext context = default!;
+    private List<Table> tables = new();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         context = DbFactory.CreateDbContext();
+        tables = await context.Table.ToListAsync();
     }
 
     public async ValueTask DisposeAsync() => await context.DisposeAsync();
