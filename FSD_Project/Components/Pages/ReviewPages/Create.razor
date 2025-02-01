@@ -149,6 +149,7 @@
                     // Pre-fill metadata
                     Review.DateCreated = DateTime.Now;
                     Review.CreatedBy = user.Identity.Name;
+                    Review.UpdatedBy = user.Identity.Name;
                 }
                 else
                 {
@@ -170,8 +171,16 @@
     private async Task AddReview()
     {
         using var context = DbFactory.CreateDbContext();
+        // Get the authenticated user
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
         Review.DateCreated = DateTime.Now;
         Review.DateUpdated = DateTime.Now;
+
+        Review.CreatedBy = user.Identity.Name;
+        Review.UpdatedBy = user.Identity.Name;
+
         context.Reviews.Add(Review);
         await context.SaveChangesAsync();
         LeftReview = true;

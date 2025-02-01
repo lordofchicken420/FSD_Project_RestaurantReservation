@@ -11,6 +11,7 @@
 @inject RoleManager<IdentityRole> RoleManager
 @using Microsoft.AspNetCore.Authorization
 
+
 @attribute [Authorize(Roles = "Admin, Staff")]
 
 <PageTitle>Create Customer</PageTitle>
@@ -124,7 +125,11 @@
                     Gender = FormModel.Gender,
                     UserId = user.Id,
                     DateCreated = DateTime.Now,
-                    DateUpdated = DateTime.Now
+                    DateUpdated = DateTime.Now,
+                    CreatedBy = FormModel.Name,
+                    UpdatedBy = FormModel.Name
+
+
                 };
 
             context.Customer.Add(customer);
@@ -137,6 +142,8 @@
             ErrorMessage = "You have successfully created an account.";
         }
     }
+
+
 
     private sealed class InputModel
     {

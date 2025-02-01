@@ -130,8 +130,8 @@
                     UserId = user.Id,  // Link staff to the identity user
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
-                    CreatedBy = "System", // Or get from logged-in user
-                    UpdatedBy = "System"
+                    CreatedBy = FormModel.Name,
+                    UpdatedBy = FormModel.Name
                 };
 
             context.Staff.Add(staff);

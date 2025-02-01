@@ -3,6 +3,7 @@
 @using FSD_Project.Domain
 @inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 @using Microsoft.AspNetCore.Authorization
 
@@ -34,6 +35,9 @@
                 <InputNumber id="contactnumber" @bind-Value="Branch.contactNumber" class="form-control" /> 
                 <ValidationMessage For="() => Branch.contactNumber" class="text-danger" /> 
             </div>        
+
+            <div class="useless">
+
             <div class="mb-3">
                 <label for="datecreated" class="form-label">DateCreated:</label> 
                 <InputDate id="datecreated" @bind-Value="Branch.DateCreated" class="form-control" /> 
@@ -53,7 +57,8 @@
                 <label for="updatedby" class="form-label">UpdatedBy:</label> 
                 <InputText id="updatedby" @bind-Value="Branch.UpdatedBy" class="form-control" /> 
                 <ValidationMessage For="() => Branch.UpdatedBy" class="text-danger" /> 
-            </div>        
+            </div>       
+            </div>
             <button type="submit" class="btn btn-primary">Create</button>
         </EditForm>
     </div>
@@ -67,12 +72,33 @@
     [SupplyParameterFromForm]
     private Branch Branch { get; set; } = new();
 
+    protected override async Task OnInitializedAsync()
+    {
+        // Get the authenticated user
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            // Pre-fill metadata
+            Branch.CreatedBy = user.Identity.Name;
+            Branch.UpdatedBy = user.Identity.Name;
+        }
+    }
+
     // To protect from overposting attacks, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
     private async Task AddBranch()
     {
         using var context = DbFactory.CreateDbContext();
+        // Get the authenticated user
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
         Branch.DateCreated = DateTime.Now;
         Branch.DateUpdated = DateTime.Now;
+        Branch.CreatedBy = user.Identity.Name;
+        Branch.UpdatedBy = user.Identity.Name;
+
         context.Branch.Add(Branch);
         await context.SaveChangesAsync();
         NavigationManager.NavigateTo("/branches");

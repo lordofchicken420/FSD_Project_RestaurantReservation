@@ -203,7 +203,9 @@
                     Gender = "Not Specified", // Default gender value; can be customized
                     UserId = user.Id, // Link to AspNetUser
                     DateCreated = DateTime.Now,
-                    DateUpdated = DateTime.Now
+                    DateUpdated = DateTime.Now,
+                    CreatedBy = Input.Username,
+                    UpdatedBy = Input.Email
                 };
 
             DbContext.Customer.Add(customer);
