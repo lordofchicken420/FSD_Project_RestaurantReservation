@@ -71,6 +71,8 @@
     private async Task AddBranch()
     {
         using var context = DbFactory.CreateDbContext();
+        Branch.DateCreated = DateTime.Now;
+        Branch.DateUpdated = DateTime.Now;
         context.Branch.Add(Branch);
         await context.SaveChangesAsync();
         NavigationManager.NavigateTo("/branches");

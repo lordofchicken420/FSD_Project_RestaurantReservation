@@ -201,7 +201,9 @@
                     Name = Input.Username,
                     Email = Input.Email,
                     Gender = "Not Specified", // Default gender value; can be customized
-                    UserId = user.Id // Link to AspNetUser
+                    UserId = user.Id, // Link to AspNetUser
+                    DateCreated = DateTime.Now,
+                    DateUpdated = DateTime.Now
                 };
 
             DbContext.Customer.Add(customer);

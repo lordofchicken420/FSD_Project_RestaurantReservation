@@ -69,6 +69,8 @@
     private async Task AddTable()
     {
         using var context = DbFactory.CreateDbContext();
+        Table.DateCreated = DateTime.Now;
+        Table.DateUpdated = DateTime.Now;
         context.Table.Add(Table);
         await context.SaveChangesAsync();
         NavigationManager.NavigateTo("/tables");

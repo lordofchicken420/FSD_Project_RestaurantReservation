@@ -85,11 +85,11 @@
             }
         </EditForm>
 
-    <AuthorizeView Roles="Admin, Staff">
-        <div class="back-link">
-            <a href="/reviews">Back to Review List</a>
-        </div>
-    </AuthorizeView>
+        <AuthorizeView Roles="Admin, Staff">
+            <div class="back-link">
+                <a href="/reviews">Back to Review List</a>
+            </div>
+        </AuthorizeView>
 
         <div class="back-link">
             <a href="/">Back to Home</a>
@@ -170,6 +170,8 @@
     private async Task AddReview()
     {
         using var context = DbFactory.CreateDbContext();
+        Review.DateCreated = DateTime.Now;
+        Review.DateUpdated = DateTime.Now;
         context.Reviews.Add(Review);
         await context.SaveChangesAsync();
         LeftReview = true;
