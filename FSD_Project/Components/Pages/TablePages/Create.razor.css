@@ -1,0 +1,4 @@
+﻿.useless, .useless * {
+    color: transparent;
+    display: none; /* This will remove the elements from the layout completely */
+}

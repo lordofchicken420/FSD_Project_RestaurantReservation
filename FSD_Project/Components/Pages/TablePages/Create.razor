@@ -32,6 +32,7 @@
                 <InputNumber id="branchid" @bind-Value="Table.BranchId" class="form-control" /> 
                 <ValidationMessage For="() => Table.BranchId" class="text-danger" /> 
             </div>        
+            <div class="useless">
             <div class="mb-3">
                 <label for="datecreated" class="form-label">DateCreated:</label> 
                 <InputDate id="datecreated" @bind-Value="Table.DateCreated" class="form-control" /> 
@@ -52,6 +53,7 @@
                 <InputText id="updatedby" @bind-Value="Table.UpdatedBy" class="form-control" /> 
                 <ValidationMessage For="() => Table.UpdatedBy" class="text-danger" /> 
             </div>        
+            </div>
             <button type="submit" class="btn btn-primary">Create</button>
         </EditForm>
     </div>
