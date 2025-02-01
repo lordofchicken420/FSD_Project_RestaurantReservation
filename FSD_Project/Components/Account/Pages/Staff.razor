@@ -1,5 +1,13 @@
 ﻿@page "/staffpage"
+@using Microsoft.EntityFrameworkCore
+@using FSD_Project.Domain
+@using FSD_Project.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<FSD_ProjectContext> DbFactory
+@rendermode InteractiveServer
 @using Microsoft.AspNetCore.Authorization
+@inject NavigationManager Navigation
+
 
 @attribute [Authorize(Roles = "Admin, Staff")]
 
@@ -178,7 +186,7 @@
         <div>
             <h2>Disclaimer</h2> <br />
             <ul>
-                <li> All employees are encouraged to refresh when navigating to a new page. Use (Ctrl + R) for refresh</li>
+                <li> All employees are encouraged to refresh when navigating to a new page. (Ctrl + R) to reload the page</li>
                 <li> Certain pages are not accessible to staff. Only Admins/Managers can access them. </li>
             </ul>
         </div>
@@ -202,3 +210,46 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
+
+@code {
+    private List<Reservation> reservations = new();
+    private FSD_ProjectContext context = default!;
+
+    // Fetch reservations from the database on initialization
+    protected override async Task OnInitializedAsync()
+    {
+        context = await DbFactory.CreateDbContextAsync();
+        reservations = await context.Reservation
+            .OrderBy(r => r.ReservedDateTime)
+            .ToListAsync();
+    }
+
+    // Navigate to the Create Reservation page
+    private void NavigateToCreateReservation()
+    {
+        Navigation.NavigateTo("/reservations/create");
+    }
+
+    // Navigate to the Edit Reservation page with the reservation ID
+    private void NavigateToEditReservation(int reservationId)
+    {
+        Navigation.NavigateTo($"/reservations/edit/{reservationId}");
+    }
+
+    // Delete a reservation by ID
+    private async Task DeleteReservation(int reservationId)
+    {
+        var reservation = await context.Reservation.FindAsync(reservationId);
+        if (reservation != null)
+        {
+            context.Reservation.Remove(reservation);
+            await context.SaveChangesAsync();
+
+            // Refresh the list after deletion
+            reservations = await context.Reservation.ToListAsync();
+        }
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}
