@@ -31,6 +31,8 @@ builder.Services.AddAuthentication(options =>
 })
     .AddIdentityCookies();
 builder.Services.AddScoped<IReservationService, ReservationService>();
+builder.Services.AddScoped<TableService>();
+
 builder.Services.AddIdentityCore<FSD_ProjectUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<FSD_ProjectContext>()

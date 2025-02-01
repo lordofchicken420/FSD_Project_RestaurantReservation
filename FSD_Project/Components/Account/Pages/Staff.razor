@@ -2,11 +2,15 @@
 @using Microsoft.EntityFrameworkCore
 @using FSD_Project.Domain
 @using FSD_Project.Data
+@using FSD_Project.Services
+
 @implements IAsyncDisposable
 @inject IDbContextFactory<FSD_ProjectContext> DbFactory
 @rendermode InteractiveServer
 @using Microsoft.AspNetCore.Authorization
 @inject NavigationManager Navigation
+@inject TableService TableService
+
 
 
 @attribute [Authorize(Roles = "Admin, Staff")]
@@ -174,9 +178,12 @@
                     </div>
                     <div class="card-body">
                         <div class="progress mb-3">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75% Occupied</div>
+                            <div class="progress-bar bg-success" role="progressbar" style="width: @availabilityPercentage%;" aria-valuenow="@availabilityPercentage" aria-valuemin="0" aria-valuemax="100">
+                                @availabilityPercentage.ToString("F1")% Available
+                            </div>
                         </div>
-                        <p class="text-muted">Keep track of table availability in real time.</p>
+                        <p class="text-muted">Total Tables: @totalTables</p>
+                        <p class="text-muted">Available Tables: @availableTables</p>
                     </div>
                 </div>
             </div>
@@ -232,10 +239,19 @@
 @code {
     private List<Reservation> reservations = new();
     private FSD_ProjectContext context = default!;
+    private int totalTables;
+    private int availableTables;
+    private double availabilityPercentage;
+
 
     // Fetch reservations from the database on initialization
     protected override async Task OnInitializedAsync()
     {
+        var tableAvailability = await TableService.GetTableAvailabilityAsync();
+        totalTables = tableAvailability.TotalTables;
+        availableTables = tableAvailability.AvailableTables;
+        availabilityPercentage = tableAvailability.AvailabilityPercentage;
+
         context = await DbFactory.CreateDbContextAsync();
         reservations = await context.Reservation
             .OrderBy(r => r.ReservedDateTime)
