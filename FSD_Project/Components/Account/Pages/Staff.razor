@@ -118,54 +118,71 @@
             </div>
 
             <div class="row mb-3">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header bg-primary text-white">
-                            <h5>Today's Reservations</h5>
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-group">
-                                <li class="list-group-item">Reservation #1: John Doe - 6:00 PM</li>
-                                <li class="list-group-item">Reservation #2: Jane Smith - 7:30 PM</li>
-                                <li class="list-group-item">Reservation #3: Michael Tan - 8:00 PM</li>
-                                <li class="list-group-item text-center text-muted">More...</li>
-                            </ul>
+                <div class="reservation-list">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                <h5>Reservations List</h5>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 1%;">Reservation ID</th>
+                                            <th style="width: 1%;">Customer Name</th>
+                                            <th style="width: 2%;">Reserved Date</th>
+                                            <th style="width: 1%;">Table Number</th>
+                                            <th style="width: 1%;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (reservations == null || reservations.Count == 0)
+                                        {
+                                            <tr>
+                                                <td colspan="6" class="text-center text-muted">No reservations available.</td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            @foreach (var reservation in reservations)
+                                            {
+                                                <tr>
+                                                    <td>@reservation.Id</td>
+                                                    <td>@reservation.CustomerId</td>
+                                                    <td>@reservation.ReservedDateTime.ToString("f")</td>
+                                                    <td>@reservation.TableID</td>
+                                                    <td>
+                                                        <a href="@($"reservations/edit?id={reservation.Id}")">Edit</a> |
+                                                        <a href="@($"reservations/details?id={reservation.Id}")">Details</a> |
+                                                        <a href="@($"reservations/delete?id={reservation.Id}")">Delete</a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </div>   
+            </div>
 
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header bg-success text-white">
-                            <h5>Table Availability</h5>
+            <div class="col-md-6 table-availability">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5>Table Availability</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75% Occupied</div>
                         </div>
-                        <div class="card-body">
-                            <div class="progress mb-3">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75% Occupied</div>
-                            </div>
-                            <p class="text-muted">Keep track of table availability in real time.</p>
-                        </div>
+                        <p class="text-muted">Keep track of table availability in real time.</p>
                     </div>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header bg-warning text-dark">
-                            <h5>Notifications</h5>
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-group">
-                                <li class="list-group-item">New reservation from James Lee at 9:00 PM</li>
-                                <li class="list-group-item">Cancelled reservation: Sarah Wong</li>
-                                <li class="list-group-item text-center text-muted">No more notifications.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
+                <div class="col-md-6 action">
                     <div class="card">
                         <div class="card-header bg-danger text-white">
                             <h5>Actions</h5>

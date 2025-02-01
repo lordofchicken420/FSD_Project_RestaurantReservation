@@ -139,3 +139,20 @@ button[data-bs-target="#sidebarMenu"] {
         list-style-type: disc;
         margin-left: 20px;
     }
+
+.d-flex .reservation-list{
+    width: 100%;
+}
+
+.d-flex .col-md-6.table-availability {
+    margin-top: 10px;
+    position: relative;
+    left: 660px;
+    width:49%;
+}
+
+.d-flex .col-md-6.action {
+    margin-top: 10px;
+    position: relative;
+    bottom: 140px;
+}
