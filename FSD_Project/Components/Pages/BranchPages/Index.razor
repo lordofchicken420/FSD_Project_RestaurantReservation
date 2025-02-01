@@ -4,6 +4,11 @@
 @using FSD_Project.Data
 @implements IAsyncDisposable
 @inject IDbContextFactory<FSD_ProjectContext> DbFactory
+@rendermode InteractiveServer
+
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize(Roles = "Admin, Staff")]
 
 <PageTitle>Branches</PageTitle>
 

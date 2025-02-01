@@ -8,7 +8,9 @@
 @inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
 @inject IReservationService ReservationService
+@using Microsoft.AspNetCore.Authorization
 
+@attribute [Authorize(Roles = "Admin, Staff")]
 <PageTitle>Delete</PageTitle>
 
 <h1>Delete</h1>

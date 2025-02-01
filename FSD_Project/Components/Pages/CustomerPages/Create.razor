@@ -9,6 +9,9 @@
 @inject NavigationManager NavigationManager
 @inject UserManager<FSD_ProjectUser> UserManager
 @inject RoleManager<IdentityRole> RoleManager
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize(Roles = "Admin, Staff")]
 
 <PageTitle>Create Customer</PageTitle>
 

@@ -119,3 +119,13 @@ button[data-bs-target="#sidebarMenu"] {
         transform: scale(1.05);
     }
 
+.disclaimers {
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    margin-top: 50px;
+}
+
+.disclaimers h2 {
+    color:#cf1010;
+}
