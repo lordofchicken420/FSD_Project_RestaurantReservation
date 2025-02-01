@@ -6,6 +6,8 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @using System.Security.Claims
 @using System.ComponentModel.DataAnnotations
+@using FSD_Project.Data
+
 @inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -91,9 +93,9 @@
                 <div class="form-group">
                     <label for="reserveddatetime" class="form-label">Reservation Date & Time:</label>
                     <InputText id="reserveddatetime"
-                               @bind-Value="FormModel.ReservationDateTimeString"
-                               type="datetime-local"
-                               class="form-control" />
+                    @bind-Value="FormModel.ReservationDateTimeString"
+                    type="datetime-local"
+                    class="form-control" />
                     <ValidationMessage For="() => FormModel.ReservationDateTimeString" class="text-danger" />
                 </div>
 
@@ -128,7 +130,11 @@
 
 
                 <div class="useless">
-
+                    <div class="form-group">
+                        <label for="customerid" class="form-label">CustomerId:</label>
+                        <InputText id="customerid" @bind-Value="Reservation.CustomerId" class="form-control" />
+                        <ValidationMessage For="() => Reservation.CustomerId" class="text-danger" />
+                    </div>
 
                     <div class="form-group">
                         <label for="datecreated" class="form-label">DateCreated:</label>
@@ -147,6 +153,64 @@
         </div>
     </div>
 
+    <section class="current-booking">
+        <h3>Your Current Booking</h3>
+        <hr />
+        <h5>
+            View and amend your current booking.
+        </h5>
+        <hr />
+        <div class="row mb-3">
+            <div class="reservation-list">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5>Reservations List</h5>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 1%;">Reservation ID</th>
+                                        <th style="width: 1%;">Customer Name</th>
+                                        <th style="width: 2%;">Reserved Date</th>
+                                        <th style="width: 1%;">Table Number</th>
+                                        <th style="width: 1%;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (reservations == null || reservations.Count == 0)
+                                    {
+                                        <tr>
+                                            <td colspan="6" class="text-center text-muted">No reservations available.</td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        @foreach (var reservation in reservations)
+                                        {
+                                            <tr>
+                                                <td>@reservation.Id</td>
+                                                <td>@reservation.CreatedBy</td>
+                                                <td>@reservation.ReservedDateTime.ToString("f")</td>
+                                                <td>@reservation.TableID</td>
+                                                <td>
+                                                    <a href="@($"reservations/edit?id={reservation.Id}")">Edit</a> |
+                                                    <a href="@($"reservations/details?id={reservation.Id}")">Details</a> |
+                                                    <a href="@($"reservations/delete?id={reservation.Id}")">Delete</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <div class="review">
         <h3>
             Leave a Review
@@ -160,6 +224,8 @@
 
     </div>
 </section>
+
+
 
 <footer>
     <p>
@@ -180,9 +246,12 @@
     [SupplyParameterFromForm]
     private InputModel FormModel { get; set; } = new();
 
+    private List<Reservation> reservations = new();
     private Reservation Reservation { get; set; } = new();
     private string userId;
     private bool HasReservation;
+    private FSD_ProjectContext context = default!;
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -192,15 +261,30 @@
         if (user.Identity.IsAuthenticated)
         {
             userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            context = await DbFactory.CreateDbContextAsync();
+            reservations = await context.Reservation
+                .Where(r => r.CustomerId == userId)
+                .OrderBy(r => r.ReservedDateTime)
+                .ToListAsync();
+
         }
+
+
+
+
+
+
     }
 
     private async Task AddReservation()
     {
         if (string.IsNullOrEmpty(userId)) return; // Prevent unauthenticated users from booking
 
+
         // Map FormModel to Reservation
         Reservation.ReservedDateTime = DateTime.Parse(FormModel.ReservationDateTimeString);
+        // Reservation.CustomerId = Customer.Id;
         Reservation.CreatedBy = FormModel.CreatedBy; // Use the name from the form
         Reservation.UpdatedBy = userId; // Use the logged-in user's ID
         Reservation.DateCreated = DateTime.Now;

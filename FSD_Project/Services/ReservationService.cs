@@ -10,6 +10,8 @@ namespace FSD_Project.Services
         Task<List<Reservation>> GetReservationsAsync();
         Task<bool> IsTableAvailableAsync(int tableId, DateTime reservationTime);
         Task<bool> CancelReservationAsync(int reservationId);
+
+        Task<List<Reservation>> GetReservationsByCustomerIdAsync(string customerId);
     }
 
     public class ReservationService : IReservationService
@@ -63,6 +65,15 @@ namespace FSD_Project.Services
             using var context = await _contextFactory.CreateDbContextAsync();
             return await context.Reservation
                 .Include(r => r.Table) // Ensure Table details are loaded
+                .OrderByDescending(r => r.ReservedDateTime)
+                .ToListAsync();
+        }
+        public async Task<List<Reservation>> GetReservationsByCustomerIdAsync(string customerId)
+        {
+            using var context = await _contextFactory.CreateDbContextAsync();
+            return await context.Reservation
+                .Include(r => r.Table) // Include related table details if needed
+                .Where(r => r.CustomerId == customerId) // Filter by customer
                 .OrderByDescending(r => r.ReservedDateTime)
                 .ToListAsync();
         }

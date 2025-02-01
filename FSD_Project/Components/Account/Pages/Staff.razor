@@ -133,6 +133,7 @@
                                     <thead>
                                         <tr>
                                             <th style="width: 1%;">Reservation ID</th>
+                                            <th style="width: 1%;">Customer ID</th>
                                             <th style="width: 1%;">Customer Name</th>
                                             <th style="width: 2%;">Reserved Date</th>
                                             <th style="width: 1%;">Table Number</th>
@@ -152,6 +153,7 @@
                                             {
                                                 <tr>
                                                     <td>@reservation.Id</td>
+                                                    <td>@reservation.CustomerId</td>
                                                     <td>@reservation.CreatedBy</td>
                                                     <td>@reservation.ReservedDateTime.ToString("f")</td>
                                                     <td>@reservation.TableID</td>

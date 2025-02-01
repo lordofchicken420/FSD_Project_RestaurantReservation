@@ -127,6 +127,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
+                <th>Customer ID</th>
                 <th>Name</th>
                 <th>Gender</th>
                 <th>Email</th>
@@ -149,6 +150,7 @@
                 @foreach (var customer in customers)
                 {
                     <tr>
+                        <td>@customer.Id</td>
                         <td>@customer.Name</td>
                         <td>@customer.Gender</td>
                         <td>@customer.Email</td>
