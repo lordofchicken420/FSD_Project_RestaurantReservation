@@ -154,7 +154,7 @@
     </div>
 
     <section class="current-booking">
-        <h3>Your Current Booking</h3>
+        <h3>Your Current Reservation</h3>
         <hr />
         <h5>
             View and amend your current booking.
@@ -166,6 +166,7 @@
                     <div class="card">
                         <div class="card-header text-white">
                             <h5>Reservations List</h5>
+                            <h5>__________________</h5>
                         </div>
                         <div class="card-body">
                             <table class="table table-striped">
@@ -195,9 +196,9 @@
                                                 <td>@reservation.ReservedDateTime.ToString("f")</td>
                                                 <td>@reservation.TableID</td>
                                                 <td>
-                                                    <a href="@($"reservations/edit?id={reservation.Id}")">Edit</a> |
-                                                    <a href="@($"reservations/details?id={reservation.Id}")">Details</a> |
-                                                    <a href="@($"reservations/delete?id={reservation.Id}")">Delete</a>
+                                                    <a href="@($"customerreservation/edit?id={reservation.Id}")">Edit</a> |
+                                                    <a href="@($"/customerreservation/details?id={reservation.Id}")">Details</a> |
+                                                    <a href="@($"customerreservation/delete?id={reservation.Id}")">Delete</a>
                                                 </td>
                                             </tr>
                                         }

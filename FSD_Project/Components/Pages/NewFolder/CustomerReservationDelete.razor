@@ -1,0 +1,91 @@
+﻿@page "/customerreservation/delete"
+@using Microsoft.EntityFrameworkCore
+@using FSD_Project.Domain
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
+@using FSD_Project.Services
+
+@inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
+@inject NavigationManager NavigationManager
+@inject IReservationService ReservationService
+@using Microsoft.AspNetCore.Authorization
+
+<PageTitle>Delete</PageTitle>
+
+<h1>Delete</h1>
+
+<p>Are you sure you want to delete this?</p>
+<div>
+    <h2>Reservation</h2>
+    <hr />
+    @if (reservation is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <dl class="row">
+            <dt class="col-sm-2">ReservedDateTime</dt>
+            <dd class="col-sm-10">@reservation.ReservedDateTime</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">CustomerId</dt>
+            <dd class="col-sm-10">@reservation.CustomerId</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">DateCreated</dt>
+            <dd class="col-sm-10">@reservation.DateCreated</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">DateUpdated</dt>
+            <dd class="col-sm-10">@reservation.DateUpdated</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">CreatedBy</dt>
+            <dd class="col-sm-10">@reservation.CreatedBy</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">UpdatedBy</dt>
+            <dd class="col-sm-10">@reservation.UpdatedBy</dd>
+        </dl>
+        <EditForm method="post" Model="reservation" OnValidSubmit="DeleteReservation" FormName="delete" Enhance>
+            <button type="submit" class="btn btn-danger" disabled="@(reservation is null)">Delete</button> |
+            <a href="/reservations/create">Back to Reservations</a>
+        </EditForm>
+    }
+</div>
+
+@code {
+    private Reservation? reservation;
+
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = await DbFactory.CreateDbContextAsync();
+
+        reservation = await context.Reservation.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (reservation is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+
+    private async Task DeleteReservation()
+    {
+        var success = await ReservationService.CancelReservationAsync(Id); // Pass the reservation ID
+
+        if (success)
+        {
+            NavigationManager.NavigateTo("/reservations"); // Redirect to the reservations list
+        }
+        else
+        {
+            Console.WriteLine("Error: Unable to cancel the reservation.");
+        }
+    }
+
+}
