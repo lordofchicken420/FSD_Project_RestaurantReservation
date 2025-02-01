@@ -44,12 +44,7 @@ namespace FSD_Project.Services
                 // ✅ Mark the table as unavailable
                 availableTable.Status = false;
 
-                // Set audit fields
-                reservation.DateCreated = DateTime.Now;
-                reservation.DateUpdated = DateTime.Now;
-                reservation.CreatedBy = "System"; // Replace with logged-in user
-                reservation.UpdatedBy = "System";
-
+                // Save the reservation and update table status
                 context.Reservation.Add(reservation);
                 await context.SaveChangesAsync();
                 return true;
@@ -60,6 +55,7 @@ namespace FSD_Project.Services
                 return false;
             }
         }
+
 
 
         public async Task<List<Reservation>> GetReservationsAsync()
