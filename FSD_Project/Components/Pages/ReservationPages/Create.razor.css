@@ -14,7 +14,8 @@ a {
 
 ul {
     list-style: none;
-    left: 20px: padding: 0;
+    left: 20px; 
+    padding: 0;
     margin: 0;
 }
 
@@ -276,3 +277,65 @@ footer {
         color: #FFFFFF;
     }
 
+
+
+/* Card styling overrides */
+.reservation-list .card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+
+}
+
+/* Card header customizations */
+.reservation-list .card-header {
+    background-color: #2C2C2C;
+    padding: 1rem;
+    text-align: center;
+}
+
+    .reservation-list .card-header h5 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-family: 'Trajan Pro', serif;
+        color: #E7E2B5;
+    }
+
+/* Card body styling */
+.reservation-list .card-body {
+    padding: 1.5rem;
+    background-color: #2C2C2C;
+}
+
+/* Table styling */
+.reservation-list .table {
+    font-family: 'Trajan Pro', serif;
+    color: #E7E2B5;
+    margin-bottom: 0;
+}
+
+    .reservation-list .table th,
+    .reservation-list .table td {
+        padding: 0.75rem;
+        vertical-align: middle;
+        text-align: center;
+
+
+    }
+
+/* Table row striping custom color (if you wish to override Bootstrap default) */
+.reservation-list .table-striped tbody tr:nth-of-type(odd) {
+    background-color: ghostwhite;
+}
+
+/* Action links styling */
+.reservation-list a {
+    color: #007bff;
+    transition: color 0.2s;
+
+}
+
+    .reservation-list a:hover {
+        color: #0056b3;
+    }
