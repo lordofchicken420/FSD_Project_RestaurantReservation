@@ -7,7 +7,7 @@
 @using System.Security.Claims
 @using System.ComponentModel.DataAnnotations
 @using FSD_Project.Data
-
+@inject ILogger<Index> Logger
 @inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -236,16 +236,12 @@
     </p>
 </footer>
 
-<AuthorizeView Roles="Admin, Staff">
-    <div class="admin">
-        <a href="/reservations">Click for Admin Page</a>
-    </div>
-</AuthorizeView>
+
 
 @code {
     [SupplyParameterFromForm]
     private InputModel FormModel { get; set; } = new();
-
+    private List<Customer> customers = new();
     private List<Reservation> reservations = new();
     private Reservation Reservation { get; set; } = new();
     private string userId;
@@ -255,40 +251,76 @@
 
     protected override async Task OnInitializedAsync()
     {
+        // Retrieve the authenticated user
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
 
-        if (user.Identity.IsAuthenticated)
+        if (user.Identity?.IsAuthenticated == true)
         {
-            userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            // Retrieve UserId (AspNetUser Id) from claims
+            var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            context = await DbFactory.CreateDbContextAsync();
-            reservations = await context.Reservation
-                .Where(r => r.CustomerId == userId)
-                .OrderBy(r => r.ReservedDateTime)
-                .ToListAsync();
+            if (!string.IsNullOrEmpty(userId))
+            {
+                // Ensure the DbContext is initialized
+                context = await DbFactory.CreateDbContextAsync();
 
+                // Query the Customer table to fetch the CustomerId
+                var customer = await context.Customer
+                    .FirstOrDefaultAsync(c => c.UserId == userId);
+
+                if (customer != null)
+                {
+                    var customerId = customer.Id.ToString(); // Convert int to string
+
+                    // Fetch reservations for this customer using the service
+                    reservations = await ReservationService.GetReservationsByCustomerIdAsync(customerId);
+                }
+                else
+                {
+                    Console.WriteLine("No matching customer found for the logged-in user.");
+                    reservations = new List<Reservation>();
+                }
+            }
+            else
+            {
+                Console.WriteLine("UserId claim is missing.");
+                reservations = new List<Reservation>();
+            }
         }
-
-
-
-
-
-
+        else
+        {
+            Console.WriteLine("User is not authenticated.");
+            reservations = new List<Reservation>();
+        }
     }
+
 
     private async Task AddReservation()
     {
         if (string.IsNullOrEmpty(userId)) return; // Prevent unauthenticated users from booking
 
+        // Retrieve the Customer record associated with the logged-in user's AspNetUser Id
+        var customer = await context.Customer
+            .FirstOrDefaultAsync(c => c.UserId == userId);
 
-        // Map FormModel to Reservation
-        Reservation.ReservedDateTime = DateTime.Parse(FormModel.ReservationDateTimeString);
-        // Reservation.CustomerId = Customer.Id;
-        Reservation.CreatedBy = FormModel.CreatedBy; // Use the name from the form
-        Reservation.UpdatedBy = userId; // Use the logged-in user's ID
-        Reservation.DateCreated = DateTime.Now;
-        Reservation.DateUpdated = DateTime.Now;
+
+        if (customer != null)
+        {
+            // Map FormModel to Reservation
+            Reservation.ReservedDateTime = DateTime.Parse(FormModel.ReservationDateTimeString);
+            Reservation.CustomerId = customer.Id.ToString(); // Convert int to string
+            Reservation.CreatedBy = FormModel.CreatedBy; // Use the name from the form
+            Reservation.UpdatedBy = userId; // Use the logged-in user's ID
+            Reservation.DateCreated = DateTime.Now;
+            Reservation.DateUpdated = DateTime.Now;
+        }
+        else
+        {
+            Logger.LogInformation("Customer is null. Cannot create reservation.");
+            // Handle the null case appropriately (e.g., show an error message or stop execution)
+        }
+
 
         // Call the service to create the reservation
         var success = await ReservationService.CreateReservationAsync(Reservation);
@@ -299,7 +331,7 @@
         }
         else
         {
-            Console.WriteLine("No available tables.");
+            Logger.LogInformation("No available tables.");
         }
     }
 

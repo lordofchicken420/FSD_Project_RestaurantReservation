@@ -8,7 +8,6 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @using Microsoft.AspNetCore.Authorization
 
-@attribute [Authorize(Roles = "Admin, Staff")]
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 
@@ -114,42 +113,60 @@
 
         if (user.Identity?.IsAuthenticated == true)
         {
-            // Get the user's CustomerId from their claims
-            var customerId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            // Retrieve UserId from claims
+            var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            using var context = DbFactory.CreateDbContext();
-
-            // Find the most recent reservation for this customer
-            var reservation = await context.Reservation
-                .Where(r => r.CustomerId == customerId)
-                .OrderByDescending(r => r.DateCreated) // Assuming most recent reservation
-                .FirstOrDefaultAsync();
-
-            if (reservation != null)
+            if (!string.IsNullOrEmpty(userId))
             {
-                // Automatically set the ReservationId for the Review
-                Review.ReservationId = reservation.Id.ToString(); // Use ToString() if it's an int
-                HasReservation = true;
-            }
+                using var context = DbFactory.CreateDbContext();
 
-            if (reservation == null)
+                // Query the Customer table to fetch the CustomerId
+                var customer = await context.Customer
+                    .FirstOrDefaultAsync(c => c.UserId == userId);
+
+                if (customer != null)
+                {
+                    // Store the CustomerId
+                    var customerId = customer.Id;
+
+                    // Check for the most recent reservation by this customer
+                    var reservation = await context.Reservation
+                        .Where(r => r.CustomerId == customerId.ToString()) // Convert int to string
+                        .OrderByDescending(r => r.DateCreated) // Assuming most recent reservation
+                        .FirstOrDefaultAsync();
+
+                    if (reservation != null)
+                    {
+                        // Set Review properties
+                        Review.ReservationId = reservation.Id.ToString();
+                        HasReservation = true;
+                    }
+                    else
+                    {
+                        HasReservation = false;
+                    }
+
+                    // Pre-fill metadata
+                    Review.DateCreated = DateTime.Now;
+                    Review.CreatedBy = user.Identity.Name;
+                }
+                else
+                {
+                    Console.WriteLine("No customer record found for the current user.");
+                }
+            }
+            else
             {
-                HasReservation = false;
+                Console.WriteLine("UserId claim is missing.");
             }
-
-
-            // Pre-fill metadata
-            Review.DateCreated = DateTime.Now;
-            Review.CreatedBy = user.Identity.Name;
         }
-
-
         else
         {
             // Redirect to login if the user is not authenticated
             NavigationManager.NavigateTo("/login");
         }
     }
+
     private async Task AddReview()
     {
         using var context = DbFactory.CreateDbContext();

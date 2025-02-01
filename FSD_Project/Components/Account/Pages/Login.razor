@@ -8,6 +8,9 @@
 @inject ILogger<Login> Logger
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject UserManager<FSD_ProjectUser> UserManager
+
 
 <PageTitle>Login - Athens</PageTitle>
 <div class="page-background">
@@ -156,14 +159,52 @@
         {
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
         }
+
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+
+        if (user.Identity?.IsAuthenticated == true)
+        {
+            foreach (var claim in user.Claims)
+            {
+                Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("User is not authenticated.");
+        }
     }
 
     public async Task LoginUser()
     {
-        var result = await SignInManager.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberMe, lockoutOnFailure: false); if (result.Succeeded)
+        var result = await SignInManager.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
+        if (result.Succeeded)
         {
-            Logger.LogInformation("User logged in.");
-            RedirectManager.RedirectTo(ReturnUrl ?? "/");
+            // Retrieve the authenticated user object
+            var user = await SignInManager.UserManager.FindByNameAsync(Input.Username);
+            if (user != null)
+            {
+                // Re-sign the user to refresh claims if needed
+                await SignInManager.SignInAsync(user, isPersistent: Input.RememberMe);
+
+                // Retrieve and log claims (optional)
+                var claims = await SignInManager.UserManager.GetClaimsAsync(user);
+                foreach (var claim in claims)
+                {
+                    Logger.LogInformation($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
+                }
+
+                Logger.LogInformation("User logged in successfully.");
+                RedirectManager.RedirectTo(ReturnUrl ?? "/");
+            }
+            else
+            {
+                errorMessage = "Error: Unable to find the user.";
+                Logger.LogWarning(errorMessage);
+            }
         }
         else if (result.RequiresTwoFactor)
         {
@@ -179,8 +220,12 @@
         else
         {
             errorMessage = "Error: Invalid login attempt.";
+            Logger.LogWarning(errorMessage);
         }
     }
+
+
+
 
     private sealed class InputModel
     {

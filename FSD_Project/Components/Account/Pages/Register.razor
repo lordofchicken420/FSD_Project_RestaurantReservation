@@ -7,7 +7,9 @@
 @using FSD_Project.Data
 @using FSD_Project.Domain;
 @inject FSD_ProjectContext DbContext
+@inject ILogger<Index> Logger
 
+@using System.Security.Claims;
 
 
 @inject UserManager<FSD_ProjectUser> UserManager
@@ -103,12 +105,16 @@
 
     private readonly FSD_ProjectContext _dbContext; // Declare the instance variable
 
+    private string? ErrorMessage { get; set; }
+
+
 
     public async Task RegisterUser(EditContext editContext)
     {
         // Validate email domain
         string email = Input.Email;
         string[] allowedDomains = { "gmail.com", "yahoo.com", "hotmail.com", "icloud.com", "outlook.com" };
+
         if (!allowedDomains.Any(domain => email.EndsWith(domain, StringComparison.OrdinalIgnoreCase)))
         {
             identityErrors = new[] { new IdentityError { Description = "This is not a valid email format." } };
@@ -122,51 +128,84 @@
             return;
         }
 
-        var user = CreateUser();
+        // Check for duplicate email
+        var existingUser = await UserManager.FindByEmailAsync(Input.Email);
+        if (existingUser != null)
+        {
+            identityErrors = new[] { new IdentityError { Description = "A user with this email address already exists." } };
+            return;
+        }
 
+        // Create user instance
+        var user = CreateUser();
         await UserStore.SetUserNameAsync(user, Input.Username, CancellationToken.None);
 
         var emailStore = GetEmailStore();
         await emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
 
-        user.UserName = Input.Username;
+        user.UserName = Input.Username; // Set username explicitly
 
-        // Create the user in AspNetUsers
+        // Create user in AspNetUsers
         var result = await UserManager.CreateAsync(user, Input.Password);
-
         if (!result.Succeeded)
         {
-            identityErrors = result.Errors;
+            identityErrors = result.Errors; // Capture errors if user creation fails
             return;
         }
 
-        // Create the "User" role if it doesn't exist
+        // Add custom claims after user is createdS
+        await UserManager.AddClaimAsync(user, new System.Security.Claims.Claim(ClaimTypes.NameIdentifier, user.Id)); // Standard claim for user ID
+        await UserManager.AddClaimAsync(user, new System.Security.Claims.Claim("userId", user.Id)); // Custom claim (optional, if you need it for other logic)
+        
+        // Re-sign the user to ensure claims are part of the authentication cookie/session
+        await SignInManager.SignInAsync(user, isPersistent: false);
+
+        var result1 = await UserManager.AddClaimAsync(user, new System.Security.Claims.Claim(ClaimTypes.NameIdentifier, user.Id));
+        var result2 = await UserManager.AddClaimAsync(user, new System.Security.Claims.Claim("userId", user.Id));
+
+        if (!result1.Succeeded || !result2.Succeeded)
+        {
+            Logger.LogInformation("Failed to add claims.");
+            foreach (var error in result1.Errors.Concat(result2.Errors))
+            {
+                Logger.LogInformation($"Error: {error.Description}");
+            }
+        }
+        else
+        {
+            Logger.LogInformation("Claims added successfully.");
+        }
+
+        var claims = await UserManager.GetClaimsAsync(user);
+
+        
+        foreach (var claim in claims)
+        {
+            Logger.LogInformation($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
+        }
+
+        // Create the "User" role if it doesn't exist and assign the user
         if (!await RoleManager.RoleExistsAsync("User"))
         {
             await RoleManager.CreateAsync(new IdentityRole("User"));
         }
-
-        // Add the user to the "User" role
         await UserManager.AddToRoleAsync(user, "User");
-
-        // Add the user ID as a claim
-        await UserManager.AddClaimAsync(user, new System.Security.Claims.Claim("userId", user.Id));
 
         Logger.LogInformation("User created a new account with password.");
 
-        // Add the new user to the Customer table
+        // Add the user to the Customer table
         try
         {
             var customer = new Customer
                 {
-                    Name = Input.Username, // Or ask for additional name input
+                    Name = Input.Username,
                     Email = Input.Email,
-                    Gender = "Not Specified", // If gender is required, collect it in the UI
+                    Gender = "Not Specified", // Default gender value; can be customized
                     UserId = user.Id // Link to AspNetUser
                 };
 
-            DbContext.Customer.Add(customer); // Use DbContext instead of _dbContext
-            await DbContext.SaveChangesAsync(); // Use DbContext instead of _dbContext
+            DbContext.Customer.Add(customer);
+            await DbContext.SaveChangesAsync();
         }
         catch (Exception ex)
         {
@@ -175,6 +214,7 @@
             return;
         }
 
+        // Send email confirmation link
         var userId = await UserManager.GetUserIdAsync(user);
         var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -191,9 +231,12 @@
                 new() { ["email"] = Input.Email, ["returnUrl"] = ReturnUrl });
         }
 
+        // Sign in the user and redirect
+        ErrorMessage = null;
         await SignInManager.SignInAsync(user, isPersistent: false);
         RedirectManager.RedirectTo(ReturnUrl);
     }
+
 
 
     private FSD_ProjectUser CreateUser()

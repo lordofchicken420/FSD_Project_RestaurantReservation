@@ -4,6 +4,7 @@ body {
     font-family: 'Trajan Pro', serif;
     color: #333;
     background-color: #2C2C2C;
+    overflow-x: hidden;
 }
 
 a {
@@ -225,6 +226,8 @@ footer {
     text-align: center;
     padding: 20px;
     font-size: 0.9rem;
+    margin-top: 60px;
+    padding-top:200px;
 }
 
 .admin {
@@ -241,7 +244,16 @@ footer {
 
 .review {
     margin-top: 150px;
-
+    background-color: #333;
+    width: 105.6%;
+    position: relative;
+    margin-bottom: -30px;
+    padding-bottom: 100px;
+}
+.review hr{
+    position: relative;
+    left:780px;
+    width:17%;
 }
 
 
