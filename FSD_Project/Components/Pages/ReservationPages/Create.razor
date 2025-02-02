@@ -248,90 +248,110 @@
     private bool HasReservation;
     private FSD_ProjectContext context = default!;
 
-
     protected override async Task OnInitializedAsync()
     {
-        // Retrieve the authenticated user
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-
-        if (user.Identity?.IsAuthenticated == true)
+        try
         {
-            // Retrieve UserId (AspNetUser Id) from claims
-            var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            // Initialize context regardless of authentication
+            context = await DbFactory.CreateDbContextAsync();
 
-            if (!string.IsNullOrEmpty(userId))
+            // Retrieve the authenticated user
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+
+            if (user.Identity?.IsAuthenticated == true)
             {
-                // Ensure the DbContext is initialized
-                context = await DbFactory.CreateDbContextAsync();
+                // Store userId in the class-level field
+                userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-                // Query the Customer table to fetch the CustomerId
-                var customer = await context.Customer
-                    .FirstOrDefaultAsync(c => c.UserId == userId);
-
-                if (customer != null)
+                if (!string.IsNullOrEmpty(userId))
                 {
-                    var customerId = customer.Id.ToString(); // Convert int to string
+                    // Query the Customer table to fetch the CustomerId
+                    var customer = await context.Customer
+                        .FirstOrDefaultAsync(c => c.UserId == userId);
 
-                    // Fetch reservations for this customer using the service
-                    reservations = await ReservationService.GetReservationsByCustomerIdAsync(customerId);
+                    if (customer != null)
+                    {
+                        var customerId = customer.Id.ToString();
+                        reservations = await ReservationService.GetReservationsByCustomerIdAsync(customerId);
+                    }
+                    else
+                    {
+                        Logger.LogWarning($"No customer found for user {userId}");
+                        reservations = new List<Reservation>();
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("No matching customer found for the logged-in user.");
+                    Logger.LogWarning("UserId claim is missing for authenticated user");
                     reservations = new List<Reservation>();
                 }
             }
             else
             {
-                Console.WriteLine("UserId claim is missing.");
+                Logger.LogInformation("User is not authenticated");
                 reservations = new List<Reservation>();
             }
         }
-        else
+        catch (Exception ex)
         {
-            Console.WriteLine("User is not authenticated.");
+            Logger.LogError(ex, "Error in OnInitializedAsync");
             reservations = new List<Reservation>();
         }
     }
 
-
     private async Task AddReservation()
     {
-        if (string.IsNullOrEmpty(userId)) return; // Prevent unauthenticated users from booking
-
-        // Retrieve the Customer record associated with the logged-in user's AspNetUser Id
-        var customer = await context.Customer
-            .FirstOrDefaultAsync(c => c.UserId == userId);
-
-
-        if (customer != null)
+        try
         {
+            if (string.IsNullOrEmpty(userId))
+            {
+                Logger.LogWarning("Attempt to add reservation without authentication");
+                return;
+            }
+
+            // Ensure context is available
+            if (context == null)
+            {
+                context = await DbFactory.CreateDbContextAsync();
+            }
+
+            // Retrieve the Customer record associated with the logged-in user's AspNetUser Id
+            var customer = await context.Customer
+                .FirstOrDefaultAsync(c => c.UserId == userId);
+
+            if (customer == null)
+            {
+                Logger.LogWarning($"No customer found for user {userId}");
+                return;
+            }
+
             // Map FormModel to Reservation
             Reservation.ReservedDateTime = DateTime.Parse(FormModel.ReservationDateTimeString);
-            Reservation.CustomerId = customer.Id.ToString(); // Convert int to string
-            Reservation.CreatedBy = FormModel.CreatedBy; // Use the name from the form
-            Reservation.UpdatedBy = userId; // Use the logged-in user's ID
+            Reservation.CustomerId = customer.Id.ToString();
+            Reservation.CreatedBy = FormModel.CreatedBy;
+            Reservation.UpdatedBy = userId;
             Reservation.DateCreated = DateTime.Now;
             Reservation.DateUpdated = DateTime.Now;
-        }
-        else
-        {
-            Logger.LogInformation("Customer is null. Cannot create reservation.");
-            // Handle the null case appropriately (e.g., show an error message or stop execution)
-        }
 
+            // Call the service to create the reservation
+            var success = await ReservationService.CreateReservationAsync(Reservation);
 
-        // Call the service to create the reservation
-        var success = await ReservationService.CreateReservationAsync(Reservation);
-
-        if (success)
-        {
-            HasReservation = true;
+            if (success)
+            {
+                HasReservation = true;
+                // Refresh the reservations list
+                reservations = await ReservationService.GetReservationsByCustomerIdAsync(customer.Id.ToString());
+                StateHasChanged();
+            }
+            else
+            {
+                Logger.LogWarning("No available tables for reservation");
+            }
         }
-        else
+        catch (Exception ex)
         {
-            Logger.LogInformation("No available tables.");
+            Logger.LogError(ex, "Error in AddReservation");
         }
     }
 
