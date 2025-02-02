@@ -160,14 +160,18 @@
             View and amend your current booking.
         </h5>
         <hr />
+
+
         <div class="row mb-3">
             <div class="reservation-list">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header text-white">
+
                             <h5>Reservations List</h5>
                             <h5>__________________</h5>
                         </div>
+
                         <div class="card-body">
                             <table class="table table-striped">
                                 <thead>
@@ -183,7 +187,7 @@
                                     @if (reservations == null || reservations.Count == 0)
                                     {
                                         <tr>
-                                            <td colspan="6" class="text-center text-muted">No reservations available.</td>
+                                            <td colspan="6" class="text-center text-muted">You do not have any reservations.</td>
                                         </tr>
                                     }
                                     else

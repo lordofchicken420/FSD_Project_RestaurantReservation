@@ -1,4 +1,9 @@
 ﻿@page "/"
+@using FSD_Project.Domain
+@using Microsoft.EntityFrameworkCore
+@using FSD_Project.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<FSD_ProjectContext> DbFactory
 
 <PageTitle>HomePage</PageTitle>
 
@@ -96,9 +101,9 @@
 
     <section class="reviewer-reviews">
         <h3>
-            See what our reviewers have to say
+            See what world class food critics have to say
         </h3>
-        <p>_______________________________________________________________</p>
+        <p>_______________________________________________________________________________________</p>
         <div class="reviewer-rating1">
             @for (int i = 1; i <= 5; i++)
             {
@@ -125,6 +130,69 @@
                 The Souvlakis were grilled to absolute perfection! - Anthony Bourdain
             </p>
         </div>
+
+        <div class="row mb-3">
+
+
+            <div class="review-list">
+                <div class="col-md-12">
+                    <h3>
+                        See our glowing reviews from hundreds of satisfied customers
+                    </h3>
+
+                    <p>_______________________________________________________________________________________</p>
+                    <div class="card">
+
+                        <div class="card-header text-white">
+
+                            <h5> Review List </h5>
+                            <h5>__________________</h5>
+                            <button type="button" class="btn-container" onclick="window.location.href='/reviews/create'">Leave your Review</button>
+
+
+                        </div>
+
+
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Score</th>
+                                    <th>Comment</th>
+                                    <th>Date of Review</th>
+                                    <th>Customer's Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @if (reviews == null || reviews.Count == 0)
+                            {
+                                <tr>
+                                    <td colspan="8" class="text-center">No reviews found.</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var review in reviews)
+                                {
+                                    <tr>
+                                        <td>@review.Score</td>
+                                        <td>@review.Comment</td>
+                                        <td>@review.DateCreated</td>
+                                        <td>@review.CreatedBy</td>
+                                    
+                                </tr>
+                            }
+                        }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </section>
 
     <section class="more">
@@ -189,3 +257,16 @@
         logoutButton.addEventListener('click', handleLogout);
     }
 </script>
+
+@code {
+    private FSD_ProjectContext context = default!;
+    private List<Review> reviews = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        context = DbFactory.CreateDbContext();
+        reviews = await context.Reviews.ToListAsync();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}

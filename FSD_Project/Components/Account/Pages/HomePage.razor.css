@@ -275,3 +275,88 @@ footer {
     padding: 20px;
     font-size: 0.9rem;
 }
+
+.review-button{
+    display: flex;
+    background-color: #333;
+}
+
+.review-list {
+    margin-top: 10rem;
+}
+
+/* Card styling overrides */
+.review-list .card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Card header customizations */
+.review-list .card-header {
+    background-color: #2C2C2C;
+    padding: 1rem;
+    text-align: center;
+}
+
+    .review-list .card-header h5 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-family: 'Trajan Pro', serif;
+        color: #E7E2B5;
+    }
+
+/* Card body styling */
+.review-list .card-body {
+    padding: 1.5rem;
+    background-color: #2C2C2C;
+}
+
+/* Table styling */
+.review-list .table {
+    font-family: 'Trajan Pro', serif;
+    color: #E7E2B5;
+    margin-bottom: 0;
+}
+
+    .review-list .table th,
+    .review-list .table td {
+        padding: 0.75rem;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+/* Table row striping custom color (if you wish to override Bootstrap default) */
+.review-list .table-striped tbody tr:nth-of-type(odd) {
+    background-color: ghostwhite;
+}
+
+/* Action links styling */
+.review-list a {
+    color: #007bff;
+    transition: color 0.2s;
+}
+
+    .review-list a:hover {
+        color: #0056b3;
+    }
+
+
+.review-list .btn-container {
+    background-color: #2C2C2C;
+    color: #E7E2B5;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: 1px solid #E7E2B5;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    display: flex;
+}
+
+    .review-list .btn-container:hover {
+        background-color: #444;
+        color: #FFFFFF;
+    }
