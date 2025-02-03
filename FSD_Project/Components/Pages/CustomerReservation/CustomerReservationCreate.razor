@@ -1,4 +1,4 @@
-﻿@page "/reservations/create"
+﻿@page "/customerreservation/create"
 @using FSD_Project.Services
 @using Microsoft.Build.Framework
 @using Microsoft.EntityFrameworkCore
@@ -31,7 +31,7 @@
     <nav>
         <ul class="nav-links">
             <li><button class="nav-button" onclick="window.location.href='/'">Home</button></li>
-            <li><button class="nav-button" onclick="window.location.href='/reservations/create'">Reservations</button></li>
+            <li><button class="nav-button" onclick="window.location.href='/customerreservation/create'">Reservations</button></li>
             <li><button class="nav-button" onclick="window.location.href='/Menu'">Menu</button></li>
             <li>
                 <ul class="icon">
@@ -170,7 +170,7 @@
                         <div class="card-header text-white">
 
                             <h5>Reservations List</h5>
-                            <h5></h5>
+                            <h5>__________________</h5>
                         </div>
 
                         <div class="card-body">
@@ -275,13 +275,10 @@
                     var customer = await context.Customer
                         .FirstOrDefaultAsync(c => c.UserId == userId);
 
-
-
                     if (customer != null)
                     {
                         var customerId = customer.Id.ToString();
                         reservations = await ReservationService.GetReservationsByCustomerIdAsync(customerId);
-
                     }
                     else
                     {
@@ -324,16 +321,9 @@
                 context = await DbFactory.CreateDbContextAsync();
             }
 
-            // Retrieve the authenticated user
-            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            var user = authState.User;
-
             // Retrieve the Customer record associated with the logged-in user's AspNetUser Id
             var customer = await context.Customer
                 .FirstOrDefaultAsync(c => c.UserId == userId);
-
-            var isStaff = user.IsInRole("Staff");
-            var isAdmin = user.IsInRole("Admin");
 
             if (customer == null)
             {
@@ -341,51 +331,28 @@
                 return;
             }
 
+            // Map FormModel to Reservation
+            Reservation.ReservedDateTime = DateTime.Parse(FormModel.ReservationDateTimeString);
+            Reservation.CustomerId = customer.Id.ToString();
+            Reservation.CreatedBy = FormModel.CreatedBy;
+            Reservation.UpdatedBy = userId;
+            Reservation.DateCreated = DateTime.Now;
+            Reservation.DateUpdated = DateTime.Now;
 
+            // Call the service to create the reservation
+            var success = await ReservationService.CreateReservationAsync(Reservation);
 
-
-            if (customer != null)
+            if (success)
             {
-                // Map FormModel to Reservation
-                Reservation.ReservedDateTime = DateTime.Parse(FormModel.ReservationDateTimeString);
-                Reservation.CustomerId = customer.Id.ToString();
-                Reservation.CreatedBy = FormModel.CreatedBy;
-                Reservation.UpdatedBy = userId;
-                Reservation.DateCreated = DateTime.Now;
-                Reservation.DateUpdated = DateTime.Now;
-
-                // Call the service to create the reservation
-                var success = await ReservationService.CreateReservationAsync(Reservation);
-
-                if (success)
-                {
-                    HasReservation = true;
-                    // Refresh the reservations list
-                    reservations = await ReservationService.GetReservationsByCustomerIdAsync(customer.Id.ToString());
-                    StateHasChanged();
-                }
-                else
-                {
-                    Logger.LogWarning("No available tables for reservation");
-                }
-
+                HasReservation = true;
+                // Refresh the reservations list
+                reservations = await ReservationService.GetReservationsByCustomerIdAsync(customer.Id.ToString());
+                StateHasChanged();
             }
-
-            else if (isStaff || isAdmin)
+            else
             {
-                // Map FormModel to Reservation
-                Reservation.ReservedDateTime = DateTime.Parse(FormModel.ReservationDateTimeString);
-                Reservation.CustomerId = Reservation.CustomerId;
-                Reservation.CreatedBy = FormModel.CreatedBy;
-                Reservation.UpdatedBy = userId;
-                Reservation.DateCreated = DateTime.Now;
-                Reservation.DateUpdated = DateTime.Now;
-
-                //More backend logic for staff and admin creation
-
+                Logger.LogWarning("No available tables for reservation");
             }
-
-
         }
         catch (Exception ex)
         {
