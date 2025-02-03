@@ -29,6 +29,7 @@ ul {
     position: relative;
     top: 9px;
     left: 86px;
+    visibility: hidden;
 }
 
 .reservations {
@@ -41,6 +42,7 @@ ul {
     position: relative;
     top: 9px;
     left: 86px;
+    visibility: hidden;
 }
 
 .icon {
@@ -211,7 +213,7 @@ button.btn-submit {
     text-transform: uppercase;
     transition: all 0.3s ease;
     position: relative;
-    top: 10px;
+    top: 10rem;
 }
 
     button.btn-submit:hover {
