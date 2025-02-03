@@ -7,6 +7,8 @@
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @using Microsoft.AspNetCore.Authorization
+@inject ILogger<Index> Logger
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
@@ -124,26 +126,44 @@
                 var customer = await context.Customer
                     .FirstOrDefaultAsync(c => c.UserId == userId);
 
-                if (customer != null)
+                var isStaff = user.IsInRole("Staff");
+                var isAdmin = user.IsInRole("Admin");
+
+                if (customer != null || isStaff || isAdmin)
+
                 {
-                    // Store the CustomerId
-                    var customerId = customer.Id;
+                    
 
-                    // Check for the most recent reservation by this customer
-                    var reservation = await context.Reservation
-                        .Where(r => r.CustomerId == customerId.ToString()) // Convert int to string
-                        .OrderByDescending(r => r.DateCreated) // Assuming most recent reservation
-                        .FirstOrDefaultAsync();
+                    
 
-                    if (reservation != null)
-                    {
-                        // Set Review properties
-                        Review.ReservationId = reservation.Id.ToString();
-                        HasReservation = true;
+                    if (!isStaff && !isAdmin) {
+
+                        // Store the CustomerId
+                        var customerId = customer.Id;
+
+                        // Check for the most recent reservation by this customer
+                        var reservation = await context.Reservation
+                            .Where(r => r.CustomerId == customerId.ToString()) // Convert int to string
+                            .OrderByDescending(r => r.DateCreated) // Assuming most recent reservation
+                            .FirstOrDefaultAsync();
+
+                        Logger.LogInformation("User is a customer");
+
+                        if (reservation != null)
+                        {
+                            // Set Review properties
+                            Review.ReservationId = reservation.Id.ToString();
+                            HasReservation = true;
+                        }
+                        else
+                        {
+                            HasReservation = false;
+                        }
                     }
-                    else
-                    {
-                        HasReservation = false;
+
+                    else {
+                        Logger.LogInformation("User is an admin or a staff");
+                        HasReservation = true;
                     }
 
                     // Pre-fill metadata
