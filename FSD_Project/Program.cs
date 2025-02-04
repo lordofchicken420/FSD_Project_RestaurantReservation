@@ -25,7 +25,8 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 
 builder.Services.AddScoped<EmailService>();  // Register EmailService
-builder.Services.AddScoped<IEmailSender, EmailSender>(); // Register your custom implementation
+builder.Services.AddScoped<IEmailSender<FSD_ProjectUser>, EmailSender>();
+
 
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
@@ -44,7 +45,7 @@ builder.Services.AddIdentityCore<FSD_ProjectUser>(options => options.SignIn.Requ
     .AddSignInManager()
     .AddDefaultTokenProviders();
 
-builder.Services.AddSingleton<IEmailSender<FSD_ProjectUser>, IdentityNoOpEmailSender>();
+//builder.Services.AddSingleton<IEmailSender<FSD_ProjectUser>, IdentityNoOpEmailSender>();
 
 builder.Logging.ClearProviders(); // Optional: Clear default providers
 builder.Logging.AddConsole();    // Add console logging

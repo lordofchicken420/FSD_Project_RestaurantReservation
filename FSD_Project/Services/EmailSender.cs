@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace FSD_Project.Services
 {
-    public class EmailSender : IEmailSender  // Corrected to implement the regular IEmailSender interface
+    public class EmailSender : IEmailSender<FSD_ProjectUser>  // Corrected to implement the regular IEmailSender interface
     {
         private readonly EmailService _emailService;  // Your actual email service for sending emails
 

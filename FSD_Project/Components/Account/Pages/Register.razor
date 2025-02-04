@@ -6,13 +6,10 @@
 @using Microsoft.AspNetCore.WebUtilities
 @using FSD_Project.Data
 @using FSD_Project.Domain;
-@inject FSD_ProjectContext DbContext
-@inject ILogger<Index> Logger
-@inject IEmailSender<FSD_ProjectUser> EmailSender
-
 @using System.Security.Claims;
 
-
+@inject FSD_ProjectContext DbContext
+@inject ILogger<Index> Logger
 @inject UserManager<FSD_ProjectUser> UserManager
 @inject IUserStore<FSD_ProjectUser> UserStore
 @inject SignInManager<FSD_ProjectUser> SignInManager
