@@ -19,13 +19,9 @@
     {
         <div class="confirmation-message">
             <p>
-                This application does not currently have a real email sender configured. See
-                <a href="https://aka.ms/aspaccountconf" target="_blank">these docs</a> for guidance on setting up a real email sender.
+                Please check your email for a registration confirmation.
             </p>
-            <p>
-                Normally, the confirmation link would be sent to your email. Since this is a demo, you can confirm your email by clicking the link below:
-            </p>
-            <a class="confirmation-link" href="@emailConfirmationLink">Confirm Your Email</a>
+            
         </div>
         <div class="manual-redirect">
             <p>If you have already confirmed your email, click the button below to go to the login page:</p>
@@ -117,16 +113,16 @@
             HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
             statusMessage = "Error finding user for unspecified email";
         }
-        else if (EmailSender is IdentityNoOpEmailSender)
-        {
+        // else if (EmailSender is IdentityNoOpEmailSender)
+        // {
             // Generate email confirmation link
-            var userId = await UserManager.GetUserIdAsync(user);
-            var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            emailConfirmationLink = NavigationManager.GetUriWithQueryParameters(
-                NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
-                new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code, ["returnUrl"] = ReturnUrl ?? "/Login" });
-        }
+        //     var userId = await UserManager.GetUserIdAsync(user);
+        //     var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
+        //     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+        //     emailConfirmationLink = NavigationManager.GetUriWithQueryParameters(
+        //         NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
+        //         new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code, ["returnUrl"] = ReturnUrl ?? "/Login" });
+        // }
     }
 
     private void RedirectToLogin()

@@ -6,6 +6,7 @@ using FSD_Project.Components.Account;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using FSD_Project.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddDbContextFactory<FSD_ProjectContext>(options =>
@@ -22,6 +23,11 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
+
+builder.Services.AddScoped<EmailService>();  // Register EmailService
+builder.Services.AddScoped<IEmailSender<FSD_ProjectUser>, EmailSender>();
+
+
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
 builder.Services.AddAuthentication(options =>
@@ -39,7 +45,7 @@ builder.Services.AddIdentityCore<FSD_ProjectUser>(options => options.SignIn.Requ
     .AddSignInManager()
     .AddDefaultTokenProviders();
 
-builder.Services.AddSingleton<IEmailSender<FSD_ProjectUser>, IdentityNoOpEmailSender>();
+//builder.Services.AddSingleton<IEmailSender<FSD_ProjectUser>, IdentityNoOpEmailSender>();
 
 builder.Logging.ClearProviders(); // Optional: Clear default providers
 builder.Logging.AddConsole();    // Add console logging
