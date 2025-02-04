@@ -8,6 +8,7 @@
 @using FSD_Project.Domain;
 @inject FSD_ProjectContext DbContext
 @inject ILogger<Index> Logger
+@inject IEmailSender<FSD_ProjectUser> EmailSender
 
 @using System.Security.Claims;
 
@@ -26,69 +27,69 @@
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <div class="page-background">
-<div class="alert">
-    <div id="liveAlertPlaceholder"></div>
-</div>
-
-<header>
-    <h1>Athens.</h1>
-</header>
-<p class="paragraph">Your choice of premium Greek food.</p>
-
-<div class="row">
-    <div class="col-md-4">
-        <StatusMessage Message="@Message" />
-        <EditForm Model="Input" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
-            <DataAnnotationsValidator />
-            <h2 class="subheading">Register</h2>
-            <hr />
-            <ValidationSummary class="text-danger" role="alert" />
-            <div class="form-container">
-                <div class="form-floating mb-3">
-                    <InputText @bind-Value="Input.Email" class="form-control text-field" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                    <label for="email">Email</label>
-                    <ValidationMessage For="() => Input.Email" class="text-danger" />
-                </div>
-                <div class="form-floating mb-3">
-                    <InputText @bind-Value="Input.Username" class="form-control text-field" autocomplete="username" aria-required="true" placeholder="username" />
-                    <label for="username">Username</label>
-                    <ValidationMessage For="() => Input.Username" class="text-danger" />
-                </div>
-                <div class="form-floating mb-3">
-                    <InputText type="password" @bind-Value="Input.Password" class="form-control text-field" autocomplete="new-password" aria-required="true" placeholder="password" />
-                    <label for="password">Password</label>
-                    <ValidationMessage For="() => Input.Password" class="text-danger" />
-                </div>
-                <div class="form-floating mb-3">
-                    <InputText type="password" @bind-Value="Input.ConfirmPassword" class="form-control text-field" autocomplete="new-password" aria-required="true" placeholder="password" />
-                    <label for="confirm-password">Confirm Password</label>
-                    <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" />
-                </div>
-                <div class="submit-button-container">
-                    <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
-                </div>
-            </div>
-        </EditForm>
+    <div class="alert">
+        <div id="liveAlertPlaceholder"></div>
     </div>
-    @*     <div class="col-md-6 col-md-offset-2">
+
+    <header>
+        <h1>Athens.</h1>
+    </header>
+    <p class="paragraph">Your choice of premium Greek food.</p>
+
+    <div class="row">
+        <div class="col-md-4">
+            <StatusMessage Message="@Message" />
+            <EditForm Model="Input" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
+                <DataAnnotationsValidator />
+                <h2 class="subheading">Register</h2>
+                <hr />
+                <ValidationSummary class="text-danger" role="alert" />
+                <div class="form-container">
+                    <div class="form-floating mb-3">
+                        <InputText @bind-Value="Input.Email" class="form-control text-field" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                        <label for="email">Email</label>
+                        <ValidationMessage For="() => Input.Email" class="text-danger" />
+                    </div>
+                    <div class="form-floating mb-3">
+                        <InputText @bind-Value="Input.Username" class="form-control text-field" autocomplete="username" aria-required="true" placeholder="username" />
+                        <label for="username">Username</label>
+                        <ValidationMessage For="() => Input.Username" class="text-danger" />
+                    </div>
+                    <div class="form-floating mb-3">
+                        <InputText type="password" @bind-Value="Input.Password" class="form-control text-field" autocomplete="new-password" aria-required="true" placeholder="password" />
+                        <label for="password">Password</label>
+                        <ValidationMessage For="() => Input.Password" class="text-danger" />
+                    </div>
+                    <div class="form-floating mb-3">
+                        <InputText type="password" @bind-Value="Input.ConfirmPassword" class="form-control text-field" autocomplete="new-password" aria-required="true" placeholder="password" />
+                        <label for="confirm-password">Confirm Password</label>
+                        <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger" />
+                    </div>
+                    <div class="submit-button-container">
+                        <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+        @*     <div class="col-md-6 col-md-offset-2">
         <section>
             <h3>Use another service to register.</h3>
             <hr />
             <ExternalLoginPicker />
         </section>
     </div> *@
-</div>
+    </div>
 
-<div class="button-container">
-    <button type="button" class="btn btn-secondary" onclick="window.location.href='/Login'">Login</button>
-</div>
-<div class="login-button-container">
-    <button type="button" class="btn btn-secondary" onclick="window.location.href='/Admin'">Back</button>
-</div>
+    <div class="button-container">
+        <button type="button" class="btn btn-secondary" onclick="window.location.href='/Login'">Login</button>
+    </div>
+    <div class="login-button-container">
+        <button type="button" class="btn btn-secondary" onclick="window.location.href='/Admin'">Back</button>
+    </div>
 
-<footer>
-    <small><i>Copyright &copy; 2025 Ruben x John</i></small>
-</footer>
+    <footer>
+        <small><i>Copyright &copy; 2025 Ruben x John</i></small>
+    </footer>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
@@ -139,11 +140,10 @@
         // Create user instance
         var user = CreateUser();
         await UserStore.SetUserNameAsync(user, Input.Username, CancellationToken.None);
-
         var emailStore = GetEmailStore();
         await emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-
-        user.UserName = Input.Username; // Set username explicitly
+        user.UserName = Input.Username;
+        var userEmail = Input.Email;
 
         // Create user in AspNetUsers
         var result = await UserManager.CreateAsync(user, Input.Password);
@@ -153,36 +153,9 @@
             return;
         }
 
-        // Add custom claims after user is createdS
-        await UserManager.AddClaimAsync(user, new System.Security.Claims.Claim(ClaimTypes.NameIdentifier, user.Id)); // Standard claim for user ID
-        await UserManager.AddClaimAsync(user, new System.Security.Claims.Claim("userId", user.Id)); // Custom claim (optional, if you need it for other logic)
-        
-        // Re-sign the user to ensure claims are part of the authentication cookie/session
-        await SignInManager.SignInAsync(user, isPersistent: false);
-
-        var result1 = await UserManager.AddClaimAsync(user, new System.Security.Claims.Claim(ClaimTypes.NameIdentifier, user.Id));
-        var result2 = await UserManager.AddClaimAsync(user, new System.Security.Claims.Claim("userId", user.Id));
-
-        if (!result1.Succeeded || !result2.Succeeded)
-        {
-            Logger.LogInformation("Failed to add claims.");
-            foreach (var error in result1.Errors.Concat(result2.Errors))
-            {
-                Logger.LogInformation($"Error: {error.Description}");
-            }
-        }
-        else
-        {
-            Logger.LogInformation("Claims added successfully.");
-        }
-
-        var claims = await UserManager.GetClaimsAsync(user);
-
-        
-        foreach (var claim in claims)
-        {
-            Logger.LogInformation($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
-        }
+        // Add claims after user creation
+        await UserManager.AddClaimAsync(user, new System.Security.Claims.Claim(ClaimTypes.NameIdentifier, user.Id));
+        await UserManager.AddClaimAsync(user, new System.Security.Claims.Claim("userId", user.Id));
 
         // Create the "User" role if it doesn't exist and assign the user
         if (!await RoleManager.RoleExistsAsync("User"))
@@ -200,14 +173,13 @@
                 {
                     Name = Input.Username,
                     Email = Input.Email,
-                    Gender = "Not Specified", // Default gender value; can be customized
+                    Gender = "Not Specified", // Default gender value
                     UserId = user.Id, // Link to AspNetUser
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
                     CreatedBy = Input.Username,
                     UpdatedBy = Input.Email
                 };
-
             DbContext.Customer.Add(customer);
             await DbContext.SaveChangesAsync();
         }
@@ -218,27 +190,32 @@
             return;
         }
 
-        // Send email confirmation link
+        // Generate email confirmation token and send email
         var userId = await UserManager.GetUserIdAsync(user);
         var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+        
+
         var callbackUrl = NavigationManager.GetUriWithQueryParameters(
             NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
             new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code, ["returnUrl"] = ReturnUrl });
 
-        await EmailSender.SendConfirmationLinkAsync(user, Input.Email, HtmlEncoder.Default.Encode(callbackUrl));
+        await EmailSender.SendConfirmationLinkAsync(user, userEmail, HtmlEncoder.Default.Encode(callbackUrl));
+        Logger.LogInformation("Sending email confirmation to {Email}", userEmail);
 
+        // If email confirmation is required, redirect to RegisterConfirmation page
         if (UserManager.Options.SignIn.RequireConfirmedAccount)
         {
-            RedirectManager.RedirectTo(
-                "/Account/RegisterConfirmation",
-                new() { ["email"] = Input.Email, ["returnUrl"] = ReturnUrl });
+            // Redirect to the RegisterConfirmation page to let the user know to check their email
+            RedirectManager.RedirectTo("/Account/RegisterConfirmation", new() { ["email"] = userEmail, ["returnUrl"] = ReturnUrl });
+            return; // Don't sign the user in yet; they need to confirm their email
         }
 
-        // Sign in the user and redirect
+        // Sign in the user if email confirmation is not required
         ErrorMessage = null;
         await SignInManager.SignInAsync(user, isPersistent: false);
-        RedirectManager.RedirectTo(ReturnUrl);
+        RedirectManager.RedirectTo(ReturnUrl); // Redirect to the original page
     }
 
 
