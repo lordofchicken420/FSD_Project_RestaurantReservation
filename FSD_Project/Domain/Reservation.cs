@@ -3,7 +3,7 @@
 public class Reservation : BaseDomainModel
 {
     public DateTime ReservedDateTime { get; set; }
-
+    public string Time { get; set; }
     // In your Reservation model
     public string? CustomerId { get; set; }
     public int TableID { get; set; } // Foreign key
