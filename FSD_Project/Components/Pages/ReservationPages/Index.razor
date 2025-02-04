@@ -62,7 +62,6 @@
                     </ul>
                 </li>
 
-
                 <!-- Dropdown for Review -->
                 <li class="nav-item">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#reviewDropdown" aria-expanded="false">
@@ -73,7 +72,6 @@
                         <li class="nav-item"><a class="nav-link" href="/reviews/create">Add Reviews</a></li>
                     </ul>
                 </li>
-
 
                 <!-- Dropdown for Branch -->
                 <li class="nav-item">
@@ -97,9 +95,6 @@
                     </ul>
                 </li>
 
-
-
-
                 <li class="nav-item"><a class="nav-link" href="/">Webpage</a></li>
             </ul>
         </div>
@@ -121,18 +116,18 @@
     <!-- Main Content -->
     <div class="container mt-4">
         <h1>Reservation List</h1>
-                <p>
-                    <a href="reservations/create" class="btn btn-success">Create New</a>
-                </p>
-
+        <p>
+            <a href="reservations/create" class="btn btn-success">Create New</a>
+        </p>
 
         <table class="table">
             <thead>
                 <tr>
-                    <th>Reserved Date & Time</th>
-                    <th>Reservation ID </th>
+                    <th>Reserved Date</th> <!-- Changed to Reserved Date -->
+                    <th>Reservation ID</th>
                     <th>Customer ID</th>
-                    <th>Table ID </th>
+                    <th>Table ID</th>
+                    <th>Time</th>
                     <th>Date Created</th>
                     <th>Date Updated</th>
                     <th>Created By</th>
@@ -144,7 +139,7 @@
                 @if (reservations == null || reservations.Count == 0)
                 {
                     <tr>
-                        <td colspan="7" class="text-center">No reservations found.</td>
+                        <td colspan="10" class="text-center">No reservations found.</td>
                     </tr>
                 }
                 else
@@ -152,12 +147,14 @@
                     @foreach (var reservation in reservations)
                     {
                         <tr>
-                            <td>@reservation.ReservedDateTime</td>
+                            <!-- Display only the date part of ReservedDateTime -->
+                            <td>@reservation.ReservedDateTime.ToString("dd/MM/yyyy")</td> <!-- Only date displayed -->
                             <td>@reservation.Id</td>
                             <td>@reservation.CustomerId</td>
                             <td>@reservation.TableID</td>
-                            <td>@reservation.DateCreated</td>
-                            <td>@reservation.DateUpdated</td>
+                            <td>@reservation.Time</td>
+                            <td>@reservation.DateCreated.ToString("dd/MM/yyyy")</td>
+                            <td>@reservation.DateUpdated.ToString("dd/MM/yyyy")</td>
                             <td>@reservation.CreatedBy</td>
                             <td>@reservation.UpdatedBy</td>
                             <td>
@@ -197,7 +194,7 @@
     protected override async Task OnInitializedAsync()
     {
         context = DbFactory.CreateDbContext();
-        reservations = await context.Reservation.ToListAsync();
+        reservations = await context.Reservation.ToListAsync(); // Query for all reservations
     }
 
     public async ValueTask DisposeAsync() => await context.DisposeAsync();

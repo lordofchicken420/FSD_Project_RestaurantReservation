@@ -26,7 +26,6 @@
     </div>
 }
 
-
 <header class="navbar">
     <nav>
         <ul class="nav-links">
@@ -66,12 +65,6 @@
     <p>We welcome all dietary needs — let us know your preferences 4 days in advance through your dining survey.</p>
 </section>
 
-@* All of Create's fields *@
-@* ReservedDateTime *@
-@* Name *@
-@* DateCreated (Hidden) *@
-@* DateUpdated (Hidden) *@
-
 <!-- Reservation Form Section -->
 <section class="reservation-section">
     <div class="form-container">
@@ -83,21 +76,32 @@
                 and is allocated a two-hour time slot.
             </h5>
 
-
             <hr />
             <br />
             <EditForm Model="FormModel" OnValidSubmit="AddReservation" FormName="ReservationForm">
-
                 <DataAnnotationsValidator />
                 <ValidationSummary class="text-danger" role="alert" />
 
                 <div class="form-group">
-                    <label for="reserveddatetime" class="form-label">Reservation Date & Time:</label>
-                    <InputText id="reserveddatetime"
-                               @bind-Value="FormModel.ReservationDateTimeString"
-                               type="datetime-local"
+                    <label for="reservationdate" class="form-label">Reservation Date:</label>
+                    <InputDate id="reservationdate"
+                               @bind-Value="FormModel.ReservationDate"
                                class="form-control" />
-                    <ValidationMessage For="() => FormModel.ReservationDateTimeString" class="text-danger" />
+                    <ValidationMessage For="() => FormModel.ReservationDate" class="text-danger" />
+                </div>
+
+                <div class="form-group">
+                    <label for="reservationtime" class="form-label">Reservation Time:</label>
+                    <InputSelect id="reservationtime"
+                                 @bind-Value="FormModel.ReservationTime"
+                                 class="form-control">
+                        <option value="">Select a time</option>
+                        @foreach (var time in TimeOptions)
+                        {
+                            <option value="@time">@time</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="() => FormModel.ReservationTime" class="text-danger" />
                 </div>
 
                 <div class="form-group">
@@ -105,15 +109,6 @@
                     <InputText id="createdby" @bind-Value="FormModel.CreatedBy" class="form-control" />
                     <ValidationMessage For="() => FormModel.CreatedBy" class="text-danger" />
                 </div>
-
-
-                @* <div class="form-group"> *@
-                @*     <label for="updatedby" class="form-label">UpdatedBy:</label> *@
-                @*     <InputText id="updatedby" @bind-Value="Reservation.UpdatedBy" class="form-control" /> *@
-                @*     <ValidationMessage For="() => Reservation.UpdatedBy" class="text-danger" /> *@
-                @* </div> *@
-
-
 
                 <br />
 
@@ -126,29 +121,7 @@
                             Please login before reserving a table!
                         </h5>
                     </NotAuthorized>
-
                 </AuthorizeView>
-
-
-                <div class="useless">
-                    <div class="form-group">
-                        <label for="customerid" class="form-label">CustomerId:</label>
-                        <InputText id="customerid" @bind-Value="Reservation.CustomerId" class="form-control" />
-                        <ValidationMessage For="() => Reservation.CustomerId" class="text-danger" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="datecreated" class="form-label">DateCreated:</label>
-                        <InputDate id="datecreated" @bind-Value="Reservation.DateCreated" class="form-control" />
-                        <ValidationMessage For="() => Reservation.DateCreated" class="text-danger" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="dateupdated" class="form-label">DateUpdated:</label>
-                        <InputDate id="dateupdated" @bind-Value="Reservation.DateUpdated" class="form-control" />
-                        <ValidationMessage For="() => Reservation.DateUpdated" class="text-danger" />
-                    </div>
-                </div>
 
             </EditForm>
         </div>
@@ -162,13 +135,11 @@
         </h5>
         <hr />
 
-
         <div class="row mb-3">
             <div class="reservation-list">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header text-white">
-
                             <h5>Reservations List</h5>
                             <h5>__________________</h5>
                         </div>
@@ -201,7 +172,6 @@
                                                 <td>@reservation.ReservedDateTime.ToString("f")</td>
                                                 <td>@reservation.TableID</td>
                                                 <td>
-                                                    <a href="@($"customerreservation/edit?id={reservation.Id}")">Edit</a> |
                                                     <a href="@($"/customerreservation/details?id={reservation.Id}")">Details</a> |
                                                     <a href="@($"customerreservation/delete?id={reservation.Id}")">Delete</a>
                                                 </td>
@@ -230,18 +200,11 @@
     </div>
 </section>
 
-
-
 <footer>
     <p>
         © @DateTime.Now.Year Ruben x John. All rights reserved.
-        <!--
-        <a href="/Admin" style="color: #FFFFFF; text-decoration: underline; margin-left: 10px;">Admin Page</a>
-        -->
     </p>
 </footer>
-
-
 
 @code {
     [SupplyParameterFromForm]
@@ -253,6 +216,13 @@
     private bool HasReservation;
     private FSD_ProjectContext context = default!;
 
+    private List<string> TimeOptions = new List<string>
+    {
+        "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM",
+        "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM",
+        "6:00 PM", "6:30 PM", "7:00 PM", "7:30 PM", "8:00 PM", "8:30 PM", "9:00 PM", "9:30 PM", "10:00 PM"
+    };
+
     protected override async Task OnInitializedAsync()
     {
         try
@@ -260,18 +230,19 @@
             // Initialize context regardless of authentication
             context = await DbFactory.CreateDbContextAsync();
 
+            // Set the current date as the default for ReservationDate
+            FormModel.ReservationDate = DateTime.Today;
+
             // Retrieve the authenticated user
             var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authState.User;
 
             if (user.Identity?.IsAuthenticated == true)
             {
-                // Store userId in the class-level field
                 userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
                 if (!string.IsNullOrEmpty(userId))
                 {
-                    // Query the Customer table to fetch the CustomerId
                     var customer = await context.Customer
                         .FirstOrDefaultAsync(c => c.UserId == userId);
 
@@ -315,13 +286,11 @@
                 return;
             }
 
-            // Ensure context is available
             if (context == null)
             {
                 context = await DbFactory.CreateDbContextAsync();
             }
 
-            // Retrieve the Customer record associated with the logged-in user's AspNetUser Id
             var customer = await context.Customer
                 .FirstOrDefaultAsync(c => c.UserId == userId);
 
@@ -331,21 +300,22 @@
                 return;
             }
 
-            // Map FormModel to Reservation
-            Reservation.ReservedDateTime = DateTime.Parse(FormModel.ReservationDateTimeString);
+            // Set Time if not already set
+            Reservation.Time = FormModel.ReservationTime ?? "12:00 PM"; // Default to "12:00 PM" if null
+            // Combine Date and Time for ReservedDateTime
+            var dateTimeString = $"{FormModel.ReservationDate:yyyy-MM-dd} {Reservation.Time}";
+            Reservation.ReservedDateTime = DateTime.Parse(dateTimeString);
             Reservation.CustomerId = customer.Id.ToString();
             Reservation.CreatedBy = FormModel.CreatedBy;
             Reservation.UpdatedBy = userId;
             Reservation.DateCreated = DateTime.Now;
             Reservation.DateUpdated = DateTime.Now;
 
-            // Call the service to create the reservation
             var success = await ReservationService.CreateReservationAsync(Reservation);
 
             if (success)
             {
                 HasReservation = true;
-                // Refresh the reservations list
                 reservations = await ReservationService.GetReservationsByCustomerIdAsync(customer.Id.ToString());
                 StateHasChanged();
             }
@@ -362,10 +332,14 @@
 
     private sealed class InputModel
     {
-        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Reservation's Date and Time is required")]
-        public string ReservationDateTimeString { get; set; } = string.Empty;
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Reservation's Date is required")]
+        public DateTime ReservationDate { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Reservation's Time is required")]
+        public string ReservationTime { get; set; } = string.Empty;
 
         [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Name is required")]
         public string CreatedBy { get; set; } = string.Empty;
     }
 }
+

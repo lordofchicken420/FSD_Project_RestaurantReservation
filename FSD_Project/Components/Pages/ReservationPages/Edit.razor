@@ -4,6 +4,8 @@
 @inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
 @using Microsoft.AspNetCore.Authorization
+@inject ILogger<FSD_Project.Data.FSD_ProjectContext> Logger
+
 
 @attribute [Authorize(Roles = "Admin, Staff")]
 <PageTitle>Edit</PageTitle>
@@ -22,47 +24,71 @@ else
         <div class="col-md-4">
             <EditForm method="post" Model="Reservation" OnValidSubmit="UpdateReservation" FormName="edit" Enhance>
                 <DataAnnotationsValidator />
-                <ValidationSummary role="alert"/>
+                <ValidationSummary role="alert" />
                 <input type="hidden" name="Reservation.Id" value="@Reservation.Id" />
+
+                <!-- ReservedDateTime - Date Picker only -->
                 <div class="mb-3">
-                    <label for="reserveddatetime" class="form-label">ReservedDateTime:</label>
+                    <label for="reserveddatetime" class="form-label">Reservation Date:</label>
                     <InputDate id="reserveddatetime" @bind-Value="Reservation.ReservedDateTime" class="form-control" />
                     <ValidationMessage For="() => Reservation.ReservedDateTime" class="text-danger" />
                 </div>
 
+                <!-- Reservation Time Picker (Presets from 10:00 AM to 10:00 PM) -->
+                <div class="mb-3">
+                    <label for="reservationtime" class="form-label">Reservation Time:</label>
+                    <InputSelect id="reservationtime" @bind-Value="Reservation.Time" class="form-control">
+                        <option value="">Select a time</option>
+                        @foreach (var time in TimeOptions)
+                        {
+                            <option value="@time">@time</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="() => Reservation.Time" class="text-danger" />
+                </div>
+
+                <!-- Table ID Input -->
+                <div class="mb-3">
+                    <label for="tableid" class="form-label">Table ID:</label>
+                    <InputNumber id="tableid" @bind-Value="Reservation.TableID" class="form-control" />
+                    <ValidationMessage For="() => Reservation.TableID" class="text-danger" />
+                </div>
+
+                <!-- Customer Name -->
                 <div class="form-group">
                     <label for="createdby" class="form-label">Your Name:</label>
                     <InputText id="createdby" @bind-Value="Reservation.CreatedBy" class="form-control" />
                     <ValidationMessage For="() => Reservation.CreatedBy" class="text-danger" />
                 </div>
 
-
+                <!-- Date Created -->
                 <div class="mb-3">
-                    <label for="datecreated" class="form-label">DateCreated:</label>
+                    <label for="datecreated" class="form-label">Date Created:</label>
                     <InputDate id="datecreated" @bind-Value="Reservation.DateCreated" class="form-control" />
                     <ValidationMessage For="() => Reservation.DateCreated" class="text-danger" />
                 </div>
+
+                <!-- Date Updated -->
                 <div class="mb-3">
-                    <label for="dateupdated" class="form-label">DateUpdated:</label>
+                    <label for="dateupdated" class="form-label">Date Updated:</label>
                     <InputDate id="dateupdated" @bind-Value="Reservation.DateUpdated" class="form-control" />
                     <ValidationMessage For="() => Reservation.DateUpdated" class="text-danger" />
                 </div>
+
+                <!-- CreatedBy -->
                 <div class="mb-3">
                     <label for="createdby" class="form-label">CreatedBy:</label>
                     <InputText id="createdby" @bind-Value="Reservation.CreatedBy" class="form-control" />
                     <ValidationMessage For="() => Reservation.CreatedBy" class="text-danger" />
                 </div>
+
+                <!-- UpdatedBy -->
                 <div class="mb-3">
                     <label for="updatedby" class="form-label">UpdatedBy:</label>
                     <InputText id="updatedby" @bind-Value="Reservation.UpdatedBy" class="form-control" />
                     <ValidationMessage For="() => Reservation.UpdatedBy" class="text-danger" />
                 </div>
 
-                @* <div class="mb-3"> *@
-                @*     <label for="customerid" class="form-label">CustomerId:</label> *@
-                @*     <InputNumber id="customerid" @bind-Value="Reservation.CustomerId" class="form-control" /> *@
-                @*     <ValidationMessage For="() => Reservation.CustomerId" class="text-danger" /> *@
-                @* </div> *@
                 <button type="submit" class="btn btn-primary">Save</button>
             </EditForm>
         </div>
@@ -74,11 +100,24 @@ else
 </div>
 
 @code {
+    private bool ReservationExists(int id)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.Reservation.Any(e => e.Id == id);
+    }
+
     [SupplyParameterFromQuery]
     private int Id { get; set; }
 
     [SupplyParameterFromForm]
     private Reservation? Reservation { get; set; }
+
+    private List<string> TimeOptions = new List<string>
+    {
+        "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM",
+        "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM",
+        "6:00 PM", "6:30 PM", "7:00 PM", "7:30 PM", "8:00 PM", "8:30 PM", "9:00 PM", "9:30 PM", "10:00 PM"
+    };
 
     protected override async Task OnInitializedAsync()
     {
@@ -89,13 +128,28 @@ else
         {
             NavigationManager.NavigateTo("notfound");
         }
+
+        // Check if the ReservedDateTime is set to the default value (0001-01-01)
+        if (Reservation.ReservedDateTime == DateTime.MinValue)
+        {
+            // Set ReservedDateTime to current date (today) if it is invalid
+            Reservation.ReservedDateTime = DateTime.Today;
+        }
     }
 
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
     private async Task UpdateReservation()
     {
         using var context = DbFactory.CreateDbContext();
+
+        // Check if the table ID is valid
+        var tableExists = await context.Table.AnyAsync(t => t.Id == Reservation.TableID);
+        if (!tableExists)
+        {
+            // Handle the case where the TableID is invalid (e.g., show an error)
+            Logger.LogError($"Invalid TableID: {Reservation.TableID}");
+            return;
+        }
+
         context.Attach(Reservation!).State = EntityState.Modified;
 
         try
@@ -115,11 +169,5 @@ else
         }
 
         NavigationManager.NavigateTo("/reservations");
-    }
-
-    private bool ReservationExists(int id)
-    {
-        using var context = DbFactory.CreateDbContext();
-        return context.Reservation.Any(e => e.Id == id);
     }
 }
