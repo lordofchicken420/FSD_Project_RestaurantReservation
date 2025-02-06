@@ -76,7 +76,7 @@ namespace FSD_Project.Configurations.Entities
                     Id = 6,
                     Capacity = 10,
                     Status = true,
-                    BranchId = 1,
+                    BranchId = 2,
 
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
@@ -88,7 +88,7 @@ namespace FSD_Project.Configurations.Entities
                     Id = 7,
                     Capacity = 10,
                     Status = true,
-                    BranchId = 1,
+                    BranchId = 2,
 
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
@@ -100,7 +100,7 @@ namespace FSD_Project.Configurations.Entities
                     Id = 8,
                     Capacity = 10,
                     Status = true,
-                    BranchId = 1,
+                    BranchId = 2,
 
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
@@ -113,7 +113,7 @@ namespace FSD_Project.Configurations.Entities
                     Id = 9,
                     Capacity = 10,
                     Status = true,
-                    BranchId = 1,
+                    BranchId = 2,
 
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
@@ -126,7 +126,7 @@ namespace FSD_Project.Configurations.Entities
                     Id = 10,
                     Capacity = 10,
                     Status = true,
-                    BranchId = 1,
+                    BranchId = 2,
 
                     DateCreated = DateTime.Now,
                     DateUpdated = DateTime.Now,
