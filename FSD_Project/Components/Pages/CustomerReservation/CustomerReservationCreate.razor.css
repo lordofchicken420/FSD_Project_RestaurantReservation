@@ -111,7 +111,7 @@ ul {
 
 
 /* Reservation Form Section */
-.reservation-section {
+.reservationdescription-section {
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -122,6 +122,34 @@ ul {
     background-color: #333;
     color: #FFFFFF;
     font-family: 'Trajan Pro', serif;
+}
+
+    .reservationdescription-section h2 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        color: #E7E2B5;
+    }
+
+    .reservationdescription-section h3 {
+        color: #E7E2B5;
+    }
+
+    .reservationdescription-section h5 {
+        color: #E7E2B5;
+    }
+
+.reservation-section {
+    height: 150vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #333;
+    color: #FFFFFF;
+    font-family: 'Trajan Pro', serif;
+    padding-top: 20rem;
+    padding-bottom: 20rem;
 }
 
     .reservation-section h2 {
@@ -149,6 +177,7 @@ ul {
     .reservation-section .form-container {
         position: relative;
         bottom: 150px;
+        padding-top:20rem;
     }
 
     .reservation-section label {
@@ -227,7 +256,7 @@ footer {
     padding: 20px;
     font-size: 0.9rem;
     margin-top: 60px;
-    padding-top: 200px;
+    padding-top: 20rem;
 }
 
 .admin {
@@ -243,12 +272,12 @@ footer {
 }
 
 .review {
-    margin-top: 150px;
     background-color: #333;
-    width: 105.6%;
+    width: 100%;
     position: relative;
     margin-bottom: -30px;
     padding-bottom: 100px;
+    padding-top:10rem;
 }
 
     .review hr {

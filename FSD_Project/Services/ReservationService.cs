@@ -6,7 +6,7 @@ namespace FSD_Project.Services
 {
     public interface IReservationService
     {
-        Task<bool> CreateReservationAsync(Reservation reservation);
+        Task<bool> CreateReservationAsync(Reservation reservation, string reservationBranch);
         Task<List<Reservation>> GetReservationsAsync();
         Task<bool> IsTableAvailableAsync(int tableId, DateTime reservationTime);
         Task<bool> CancelReservationAsync(int reservationId);
@@ -23,17 +23,42 @@ namespace FSD_Project.Services
             _contextFactory = contextFactory;
         }
 
-        public async Task<bool> CreateReservationAsync(Reservation reservation)
+        public async Task<bool> CreateReservationAsync(Reservation reservation, string reservationBranch)
         {
             try
             {
                 using var context = await _contextFactory.CreateDbContextAsync();
 
+
+                // Determine the table range based on the selected branch
+                int startTableId = 0;
+                int endTableId = 0;
+
+                if (reservationBranch == "1") // Branch 1
+                {
+                    startTableId = 1;
+                    endTableId = 5;
+                }
+                else if (reservationBranch == "2") // Branch 2
+                {
+                    startTableId = 6;
+                    endTableId = 10;
+                }
+                else
+                {
+                    // Invalid branch value, handle error or return false
+                    Console.WriteLine("Invalid branch selected");
+                    return false;
+                }
+
+
+
+
                 // ✅ Find the lowest available table ID
                 var availableTable = await context.Table
-                    .Where(t => t.Status == true) // Only available tables
-                    .OrderBy(t => t.Id)           // Get the lowest table ID
-                    .FirstOrDefaultAsync();
+            .Where(t => t.Status == true && t.Id >= startTableId && t.Id <= endTableId) // Only available tables in the specified range
+            .OrderBy(t => t.Id) // Get the lowest table ID
+            .FirstOrDefaultAsync();
 
                 if (availableTable == null)
                 {

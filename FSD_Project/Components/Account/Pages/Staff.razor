@@ -137,6 +137,7 @@
                                             <th style="width: 1%;">Reservation ID</th>
                                             <th style="width: 1%;">Customer ID</th>
                                             <th style="width: 1%;">Customer Name</th>
+                                            <th style="width: 1%;">Branch Name</th>
                                             <th style="width: 2%;">Reserved Date</th>
                                             <th style="width: 1%;">Table Number</th>
                                             <th style="width: 1%;">Actions</th>
@@ -156,6 +157,7 @@
                                                 <tr>
                                                     <td>@reservation.Id</td>
                                                     <td>@reservation.CustomerId</td>
+                                                    <td>@GetBranchName(reservation.TableID)</td>
                                                     <td>@reservation.CreatedBy</td>
                                                     <td>@reservation.ReservedDateTime.ToString("f")</td>
                                                     <td>@reservation.TableID</td>
@@ -285,6 +287,23 @@
 
             // Refresh the list after deletion
             reservations = await context.Reservation.ToListAsync();
+        }
+    }
+
+    private string GetBranchName(int tableId)
+    {
+        // TableID 1-5 -> Branch 1, TableID 6-10 -> Branch 2
+        if (tableId >= 1 && tableId <= 5)
+        {
+            return "The Shoppes at Marina Bay Sands";
+        }
+        else if (tableId >= 6 && tableId <= 10)
+        {
+            return "Jewel at Changi Airport";
+        }
+        else
+        {
+            return "Unknown Branch"; // In case of unexpected tableId
         }
     }
 

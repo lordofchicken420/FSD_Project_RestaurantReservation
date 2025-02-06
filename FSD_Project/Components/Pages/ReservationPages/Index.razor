@@ -126,6 +126,7 @@
                     <th>Reserved Date</th> <!-- Changed to Reserved Date -->
                     <th>Reservation ID</th>
                     <th>Customer ID</th>
+                    <th>Branch Name</th>
                     <th>Table ID</th>
                     <th>Time</th>
                     <th>Date Created</th>
@@ -151,6 +152,7 @@
                             <td>@reservation.ReservedDateTime.ToString("dd/MM/yyyy")</td> <!-- Only date displayed -->
                             <td>@reservation.Id</td>
                             <td>@reservation.CustomerId</td>
+                            <td>@GetBranchName(reservation.TableID)</td> 
                             <td>@reservation.TableID</td>
                             <td>@reservation.Time</td>
                             <td>@reservation.DateCreated.ToString("dd/MM/yyyy")</td>
@@ -195,6 +197,23 @@
     {
         context = DbFactory.CreateDbContext();
         reservations = await context.Reservation.ToListAsync(); // Query for all reservations
+    }
+
+    private string GetBranchName(int tableId)
+    {
+        // TableID 1-5 -> Branch 1, TableID 6-10 -> Branch 2
+        if (tableId >= 1 && tableId <= 5)
+        {
+            return "The Shoppes at Marina Bay Sands";
+        }
+        else if (tableId >= 6 && tableId <= 10)
+        {
+            return "Jewel at Changi Airport";
+        }
+        else
+        {
+            return "Unknown Branch"; // In case of unexpected tableId
+        }
     }
 
     public async ValueTask DisposeAsync() => await context.DisposeAsync();

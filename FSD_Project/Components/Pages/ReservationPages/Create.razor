@@ -79,6 +79,27 @@
                 <ValidationSummary class="text-danger" role="alert" />
 
                 <div class="form-group">
+                    <label for="createdby" class="form-label">Customer's Name:</label>
+                    <InputText id="createdby" @bind-Value="FormModel.CreatedBy" class="form-control" />
+                    <ValidationMessage For="() => FormModel.CreatedBy" class="text-danger" />
+                </div>
+
+                <div class="form-group">
+                    <label for="reservationbranch" class="form-label"> Restaurant Branch:</label>
+                    <InputSelect id="reservationbranch"
+                                 @bind-value="FormModel.ReservationBranch"
+                                 class="form-control">
+                        <option value="">Select a branch</option>
+                        <option value="1">
+                            The Shoppes at Marina Bay Sands
+                        </option>
+                        <option value="2">
+                            Jewel at Changi Airport
+                        </option>
+                    </InputSelect>
+                </div>
+
+                <div class="form-group">
                     <label for="reservationdate" class="form-label">Reservation Date:</label>
                     <InputDate id="reservationdate"
                                @bind-Value="FormModel.ReservationDate"
@@ -100,11 +121,7 @@
                     <ValidationMessage For="() => FormModel.ReservationTime" class="text-danger" />
                 </div>
 
-                <div class="form-group">
-                    <label for="createdby" class="form-label">Customer's Name:</label>
-                    <InputText id="createdby" @bind-Value="FormModel.CreatedBy" class="form-control" />
-                    <ValidationMessage For="() => FormModel.CreatedBy" class="text-danger" />
-                </div>
+                
 
 
                 @* <div class="form-group"> *@
@@ -288,7 +305,7 @@
             }
 
             // Call the service to create the reservation
-            var success = await ReservationService.CreateReservationAsync(Reservation);
+            var success = await ReservationService.CreateReservationAsync(Reservation, FormModel.ReservationBranch);
 
             if (success)
             {
@@ -334,5 +351,8 @@
 
         [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "CustomerId is required")]
         public string CustomerId { get; set; } = string.Empty;
+
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Name is required")]
+        public string ReservationBranch { get; set; } = string.Empty;
     }
 }

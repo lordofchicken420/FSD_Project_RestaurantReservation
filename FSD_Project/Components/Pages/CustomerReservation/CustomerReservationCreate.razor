@@ -57,7 +57,7 @@
 </header>
 
 <!-- Reservation Details Section -->
-<section class="reservation-section">
+<section class="reservationdescription-section">
     <h2>Reservations</h2>
     <hr />
     <p>February & March are now open! Reservations for April & May open February 1st at 2 PM SGT.</p>
@@ -83,6 +83,28 @@
                 <ValidationSummary class="text-danger" role="alert" />
 
                 <div class="form-group">
+                    <label for="createdby" class="form-label">Your Name:</label>
+                    <InputText id="createdby" @bind-Value="FormModel.CreatedBy" class="form-control" />
+                    <ValidationMessage For="() => FormModel.CreatedBy" class="text-danger" />
+                </div>
+
+
+                <div class="form-group">
+                    <label for="reservationbranch" class="form-label"> Restaurant Branch:</label>
+                    <InputSelect id="reservationbranch"
+                                 @bind-value="FormModel.ReservationBranch"
+                                 class="form-control">
+                        <option value="">Select a branch</option>
+                        <option value="1">
+                            The Shoppes at Marina Bay Sands
+                        </option>
+                        <option value="2">
+                            Jewel at Changi Airport
+                            </option>
+                    </InputSelect>
+                </div>
+
+                <div class="form-group">
                     <label for="reservationdate" class="form-label">Reservation Date:</label>
                     <InputDate id="reservationdate"
                                @bind-Value="FormModel.ReservationDate"
@@ -102,12 +124,6 @@
                         }
                     </InputSelect>
                     <ValidationMessage For="() => FormModel.ReservationTime" class="text-danger" />
-                </div>
-
-                <div class="form-group">
-                    <label for="createdby" class="form-label">Your Name:</label>
-                    <InputText id="createdby" @bind-Value="FormModel.CreatedBy" class="form-control" />
-                    <ValidationMessage For="() => FormModel.CreatedBy" class="text-danger" />
                 </div>
 
                 <br />
@@ -149,7 +165,8 @@
                                 <thead>
                                     <tr>
                                         <th style="width: 1%;">Reservation ID</th>
-                                        <th style="width: 1%;">Customer Name</th>
+                                        <th style="width: 1%;">Your Name</th>
+                                        <th style="width: 1%;">Branch Name</th>
                                         <th style="width: 2%;">Reserved Date</th>
                                         <th style="width: 1%;">Table Number</th>
                                         <th style="width: 1%;">Actions</th>
@@ -169,6 +186,7 @@
                                             <tr>
                                                 <td>@reservation.Id</td>
                                                 <td>@reservation.CreatedBy</td>
+                                                <td>@GetBranchName(reservation.TableID)</td>
                                                 <td>@reservation.ReservedDateTime.ToString("f")</td>
                                                 <td>@reservation.TableID</td>
                                                 <td>
@@ -311,7 +329,7 @@
             Reservation.DateCreated = DateTime.Now;
             Reservation.DateUpdated = DateTime.Now;
 
-            var success = await ReservationService.CreateReservationAsync(Reservation);
+            var success = await ReservationService.CreateReservationAsync(Reservation, FormModel.ReservationBranch);
 
             if (success)
             {
@@ -330,6 +348,23 @@
         }
     }
 
+    private string GetBranchName(int tableId)
+    {
+        // TableID 1-5 -> Branch 1, TableID 6-10 -> Branch 2
+        if (tableId >= 1 && tableId <= 5)
+        {
+            return "The Shoppes at Marina Bay Sands";
+        }
+        else if (tableId >= 6 && tableId <= 10)
+        {
+            return "Jewel at Changi Airport";
+        }
+        else
+        {
+            return "Unknown Branch"; // In case of unexpected tableId
+        }
+    }
+
     private sealed class InputModel
     {
         [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Reservation's Date is required")]
@@ -340,6 +375,9 @@
 
         [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Name is required")]
         public string CreatedBy { get; set; } = string.Empty;
+
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Name is required")]
+        public string ReservationBranch { get; set; } = string.Empty;
     }
 }
 

@@ -246,13 +246,31 @@ ul {
     background-size: cover;
     background-position: center;
     color: #FFFFFF;
+    padding-bottom: 50rem;
 }
 
-.hours, .contact {
+.hours {
     position: relative;
     top: 100px;
     margin: 0 20px; /* Add horizontal spacing between sections */
 }
+
+.contact {
+    position: relative;
+    top: 100px;
+    margin: 0 20px; /* Add horizontal spacing between sections */
+}
+
+    .contact .Branch1 h4 {
+        color: #E7E2B5;
+    }
+
+    .contact .Branch2 h4 {
+        
+        color: #E7E2B5;
+    }
+
+
 
     .hours h1 {
         color: #E7E2B5;
