@@ -13,7 +13,8 @@ a {
 
 ul {
     list-style: none;
-    left: 20px: padding: 0;
+    left: 20px;
+    padding: 0;
     margin: 0;
 }
 
@@ -102,7 +103,7 @@ ul {
 
 /* Hero Section */
 .hero-menu {
-    height: 60vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -113,7 +114,9 @@ ul {
     background-image: url('hero-menu.jpg'); /* Add your hero menu background image */
     background-size: cover;
     background-position: center;
+    
 }
+
 
     .hero-menu h1 {
         font-size: 3rem;
@@ -121,6 +124,7 @@ ul {
         letter-spacing: 2px;
         color: #E7E2B5;
         font-family: 'Trajan Pro', serif;
+        animation: fadeIn 2s ease-in-out;
     }
 
     .hero-menu p {
@@ -128,6 +132,7 @@ ul {
         max-width: 600px;
         line-height: 1.5;
         font-family: 'Trajan Pro', serif;
+        animation: fadeIn 2s ease-in-out;
     }
 
 /* Menu Section */
@@ -276,3 +281,13 @@ footer {
         left: 70px;
     }
 
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0; /* Start fully transparent */
+    }
+
+    100% {
+        opacity: 1; /* End fully opaque */
+    }
+}

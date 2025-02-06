@@ -128,6 +128,11 @@ ul {
         font-size: 2rem;
         margin-bottom: 20px;
         color: #E7E2B5;
+        animation: fadeIn 2s ease-in-out;
+    }
+
+    .reservationdescription-section p {
+        animation: fadeIn 2s ease-in-out;
     }
 
     .reservationdescription-section h3 {
@@ -364,3 +369,13 @@ footer {
     .reservation-list a:hover {
         color: #0056b3;
     }
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0; /* Start fully transparent */
+    }
+
+    100% {
+        opacity: 1; /* End fully opaque */
+    }
+}
