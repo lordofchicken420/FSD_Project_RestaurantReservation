@@ -54,13 +54,13 @@ ul {
 .logout-button {
     position: relative;
     left: 30px;
-    top: -35px; /* Moves the button upwards */
+    top: -9px; /* Moves the button upwards */
 }
 
 .login-button {
     position: relative;
     left: 30px;
-    top: -35px; /* Moves the button upwards */
+    top: -9px; /* Moves the button upwards */
 }
 
 
@@ -117,52 +117,33 @@ ul {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     text-align: center;
     padding: 50px;
     background-color: #333;
     color: #FFFFFF;
     font-family: 'Trajan Pro', serif;
-
 }
 
-    .reservation-section h2 {
-        font-size: 2rem;
-        margin-bottom: 20px;
-        color: #E7E2B5;
+    /* Move form higher */
+    .reservation-section .form-container {
+        position: relative;
+        margin-top: 40px; /* Reduced by 50px */
     }
 
+    /* Adjust h3 position */
     .reservation-section h3 {
         color: #E7E2B5;
+        margin-top: 30px;
     }
 
+    /* Ensure all text is visible */
     .reservation-section h5 {
         color: #E7E2B5;
     }
 
-    .reservation-section form {
-        max-width: 600px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .reservation-section .form-container {
-        position: relative;
-        bottom:150px;
-    }
-
-    .reservation-section label {
-        text-align: left;
-        font-weight: bold;
-    }
-
-    .reservation-section hr {
-        color: #E7E2B5;
-    }
-
+    /* Adjust input elements */
     .reservation-section input,
     .reservation-section textarea,
     .reservation-section select {
@@ -180,28 +161,7 @@ ul {
             outline: none;
         }
 
-    .reservation-section button {
-        background-color: #2C2C2C;
-        color: #FFFFFF;
-        font-weight: bold;
-        font-family: 'Trajan Pro', serif;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        position: relative;
-        top: 40px;
-    }
-
-        .reservation-section button:hover {
-            background-color: #444;
-        }
-
-        .reservation-section .error {
-            color: red;
-        }
-
+/* Adjust the submit button */
 button.btn-submit {
     background-color: #2C2C2C;
     color: #E7E2B5;
@@ -213,13 +173,14 @@ button.btn-submit {
     text-transform: uppercase;
     transition: all 0.3s ease;
     position: relative;
-    top: 10rem;
+    top: 5rem;
 }
 
     button.btn-submit:hover {
         background-color: #444;
         color: #FFFFFF;
     }
+
 
 
 /* Footer */
