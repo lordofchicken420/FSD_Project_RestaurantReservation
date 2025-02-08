@@ -58,19 +58,19 @@ namespace FSD_Project.Services
             }
         }
 
-        public async Task SendReservationEmailAsync(string recipientEmail, string reservationMessage)
+        public async Task SendReservationEmailAsync(string recipientEmail, string reservationMessage, string reservedDateTime)
         {
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("Athens", _senderEmail));
             message.To.Add(new MailboxAddress("", recipientEmail));
-            message.Subject = "Please confirm your registration";
+            message.Subject = "Please confirm your reservation";
 
             // Build the email content (HTML)
             var bodyBuilder = new BodyBuilder
             {
                 HtmlBody = $@"
                 <p>Thank you for reserving with us!</p>
-                <p>{reservationMessage}</p>
+                <p>{reservationMessage} at {reservedDateTime} </p>
                 <p>We look forward to welcoming you soon.</p>
                 "
             };

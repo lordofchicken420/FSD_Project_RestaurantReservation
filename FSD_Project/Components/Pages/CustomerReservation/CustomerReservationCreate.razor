@@ -384,7 +384,7 @@
                         userEmail = customer.Email;
                         reservationMessage = "You have reserved a table.";
                         reservations = await ReservationService.GetReservationsByCustomerIdAsync(customer.Id.ToString());
-                        await EmailSender.SendReservationConfirmation(projectUser, userEmail, reservationMessage);
+                        await EmailSender.SendReservationConfirmation(projectUser, userEmail, reservationMessage, Reservation.ReservedDateTime.ToString());
                         StateHasChanged();
                     }
                     else

@@ -7,7 +7,7 @@ namespace FSD_Project.Services
     public interface ICustomEmailSender<TUser> : IEmailSender<TUser> where TUser : class
     {
         Task SendConfirmationLinkAsync(TUser user, string email, string confirmationLink);
-        Task SendReservationConfirmation(TUser user, string email, string reservationMessage);
+        Task SendReservationConfirmation(TUser user, string email, string reservationMessage, string reservedDateTime);
         Task SendPasswordResetCodeAsync(TUser user, string email, string resetCode);
         Task SendPasswordResetLinkAsync(TUser user, string email, string resetLink);
     }
@@ -26,9 +26,9 @@ namespace FSD_Project.Services
             await _emailService.SendConfirmationEmailAsync(email, confirmationLink);
         }
 
-        public async Task SendReservationConfirmation(FSD_ProjectUser user, string email, string reservationMessage)
+        public async Task SendReservationConfirmation(FSD_ProjectUser user, string email, string reservationMessage, string reservedDateTime)
         {
-            await _emailService.SendReservationEmailAsync(email, reservationMessage);
+            await _emailService.SendReservationEmailAsync(email, reservationMessage, reservedDateTime);
         }
 
         public Task SendPasswordResetCodeAsync(FSD_ProjectUser user, string email, string resetCode)
