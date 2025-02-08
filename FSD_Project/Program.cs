@@ -28,7 +28,7 @@ builder.Services.AddScoped<IdentityUserAccessor>();
 
 builder.Services.AddScoped<EmailService>();  // Register EmailService
 builder.Services.AddScoped<IEmailSender<FSD_ProjectUser>, EmailSender>();
-
+builder.Services.AddScoped<ICustomEmailSender<FSD_ProjectUser>, EmailSender>();
 
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();

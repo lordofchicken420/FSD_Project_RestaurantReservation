@@ -1,5 +1,6 @@
 ﻿@page "/customerreservation/create"
 @using FSD_Project.Services
+@using Microsoft.AspNetCore.Identity
 @using Microsoft.Build.Framework
 @using Microsoft.EntityFrameworkCore
 @using FSD_Project.Domain
@@ -7,6 +8,8 @@
 @using System.Security.Claims
 @using System.ComponentModel.DataAnnotations
 @using FSD_Project.Data
+@using FSD_Project.Services
+
 @inject ILogger<Index> Logger
 @inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
@@ -246,12 +249,16 @@
     private List<Customer> customers = new();
     private List<Reservation> reservations = new();
     private Reservation Reservation { get; set; } = new();
+    [Inject]
+    private ICustomEmailSender<FSD_ProjectUser> EmailSender { get; set; } = default!;
     private string userId;
     private bool HasReservation;
     private bool TrackedHasReservation;
     private bool TriedBypass;
     private bool UnauthorizedReservation;
     private FSD_ProjectContext context = default!;
+    private string userEmail;
+    private string reservationMessage;
 
     private List<string> TimeOptions = new List<string>
     {
@@ -364,16 +371,26 @@
             TrackedHasReservation = await context.Reservation.AnyAsync(r => r.CustomerId == customer.Id.ToString());
 
             if (TrackedHasReservation==false){
+                // Creating new reservation
                 var success = await ReservationService.CreateReservationAsync(Reservation, FormModel.ReservationBranch);
                 if (success)
                 {
                     HasReservation = true;
-                    reservations = await ReservationService.GetReservationsByCustomerIdAsync(customer.Id.ToString());
-                    StateHasChanged();
-                }
-                else
-                {
-                    Logger.LogWarning("No available tables for reservation");
+                    var projectUser = await context.Users
+                        .FirstOrDefaultAsync(u => u.Id == userId) as FSD_ProjectUser;  // Cast to FSD_ProjectUser
+
+                    if (projectUser != null)  // Add null check
+                    {
+                        userEmail = customer.Email;
+                        reservationMessage = "You have reserved a table.";
+                        reservations = await ReservationService.GetReservationsByCustomerIdAsync(customer.Id.ToString());
+                        await EmailSender.SendReservationConfirmation(projectUser, userEmail, reservationMessage);
+                        StateHasChanged();
+                    }
+                    else
+                    {
+                        Logger.LogError("Could not find user as FSD_ProjectUser");
+                    }
                 }
             }
 

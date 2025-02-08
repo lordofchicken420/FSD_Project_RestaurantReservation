@@ -57,6 +57,51 @@ namespace FSD_Project.Services
                 }
             }
         }
+
+        public async Task SendReservationEmailAsync(string recipientEmail, string reservationMessage)
+        {
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Athens", _senderEmail));
+            message.To.Add(new MailboxAddress("", recipientEmail));
+            message.Subject = "Please confirm your registration";
+
+            // Build the email content (HTML)
+            var bodyBuilder = new BodyBuilder
+            {
+                HtmlBody = $@"
+                <p>Thank you for reserving with us!</p>
+                <p>{reservationMessage}</p>
+                <p>We look forward to welcoming you soon.</p>
+                "
+            };
+
+            message.Body = bodyBuilder.ToMessageBody();
+
+            // Send the email
+            using (var client = new SmtpClient())
+            {
+                try
+                {
+                    // Connect using STARTTLS
+                    await client.ConnectAsync(_smtpServer, _smtpPort, MailKit.Security.SecureSocketOptions.StartTls);
+
+                    // Authenticate with the SMTP server
+                    await client.AuthenticateAsync(_senderEmail, _senderPassword);
+
+                    // Send the email
+                    await client.SendAsync(message);
+
+                    // Disconnect cleanly
+                    await client.DisconnectAsync(true);
+
+                    Console.WriteLine("✅ Email sent successfully!");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"❌ SMTP send error: {ex.Message}");
+                }
+            }
+        }
     }
 
 }
