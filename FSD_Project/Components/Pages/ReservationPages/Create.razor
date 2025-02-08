@@ -259,8 +259,8 @@
                 context = await DbFactory.CreateDbContextAsync();
             }
 
-// Retrieve the authenticated user
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            // Retrieve the authenticated user
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authState.User;
 
             // Retrieve the Customer record associated with the logged-in user's AspNetUser Id

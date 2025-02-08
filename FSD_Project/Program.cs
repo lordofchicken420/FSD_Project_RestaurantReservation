@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using FSD_Project.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Blazored.LocalStorage;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddDbContextFactory<FSD_ProjectContext>(options =>
@@ -17,6 +18,7 @@ builder.Logging.AddDebug();      // Add debug logging
 builder.Services.AddQuickGridEntityFrameworkAdapter();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddBlazoredLocalStorage();
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();

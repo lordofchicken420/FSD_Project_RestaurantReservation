@@ -4,11 +4,13 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @using System.Security.Claims
 @using FSD_Project.Services
+@using FSD_Project.Components
+@using Microsoft.AspNetCore.Authorization
 
 @inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
 @inject IReservationService ReservationService
-@using Microsoft.AspNetCore.Authorization
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 <PageTitle>Delete</PageTitle>
 
@@ -80,7 +82,9 @@
 
         if (success)
         {
-            NavigationManager.NavigateTo("/reservations"); // Redirect to the reservations list
+            NavigationManager.NavigateTo("/customerreservation/create"); // Redirect to the reservations list
+            
+            
         }
         else
         {

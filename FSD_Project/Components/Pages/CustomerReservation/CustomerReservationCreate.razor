@@ -12,6 +12,7 @@
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IReservationService ReservationService
+@inject IJSRuntime JS
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
@@ -22,6 +23,21 @@
     <div class="alert alert-success alert-dismissable fixed-top" role="alert" id="success-alert" style="max-width:320px; margin: 0 auto; margin-top: 100px">
         You have booked a table! <br />
         An email will be sent to you
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="background-color: transparent;"></button>
+    </div>
+}
+
+@if (TrackedHasReservation == true && TriedBypass == true) {
+    <div class="alert alert-danger alert-dismissable fixed-top" role="alert" id="success-alert" style="max-width:320px; margin: 0 auto; margin-top: 100px">
+        You have already booked one table.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="background-color: transparent;"></button>
+    </div>
+}
+
+@if (UnauthorizedReservation == true)
+{
+    <div class="alert alert-danger alert-dismissable fixed-top" role="alert" id="success-alert" style="max-width:320px; margin: 0 auto; margin-top: 100px">
+        All Staffs are to make reservations through Admin Pages instead.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="background-color: transparent;"></button>
     </div>
 }
@@ -72,8 +88,8 @@
             <h3>Book Your Table</h3>
             <hr />
             <h5>
-                Each reservation is limited to booking only one table <br />
-                and is allocated a two-hour time slot.
+                Each customer may only reserve one table <br />
+                and is allocated a two-hour time slot due to high demand.
             </h5>
 
             <hr />
@@ -92,31 +108,31 @@
                 <div class="form-group">
                     <label for="reservationbranch" class="form-label"> Restaurant Branch:</label>
                     <InputSelect id="reservationbranch"
-                                 @bind-value="FormModel.ReservationBranch"
-                                 class="form-control">
+                    @bind-value="FormModel.ReservationBranch"
+                    class="form-control">
                         <option value="">Select a branch</option>
                         <option value="1">
                             The Shoppes at Marina Bay Sands
                         </option>
                         <option value="2">
                             Jewel at Changi Airport
-                            </option>
+                        </option>
                     </InputSelect>
                 </div>
 
                 <div class="form-group">
                     <label for="reservationdate" class="form-label">Reservation Date:</label>
                     <InputDate id="reservationdate"
-                               @bind-Value="FormModel.ReservationDate"
-                               class="form-control" />
+                    @bind-Value="FormModel.ReservationDate"
+                    class="form-control" />
                     <ValidationMessage For="() => FormModel.ReservationDate" class="text-danger" />
                 </div>
 
                 <div class="form-group">
                     <label for="reservationtime" class="form-label">Reservation Time:</label>
                     <InputSelect id="reservationtime"
-                                 @bind-Value="FormModel.ReservationTime"
-                                 class="form-control">
+                    @bind-Value="FormModel.ReservationTime"
+                    class="form-control">
                         <option value="">Select a time</option>
                         @foreach (var time in TimeOptions)
                         {
@@ -232,6 +248,9 @@
     private Reservation Reservation { get; set; } = new();
     private string userId;
     private bool HasReservation;
+    private bool TrackedHasReservation;
+    private bool TriedBypass;
+    private bool UnauthorizedReservation;
     private FSD_ProjectContext context = default!;
 
     private List<string> TimeOptions = new List<string>
@@ -268,6 +287,8 @@
                     {
                         var customerId = customer.Id.ToString();
                         reservations = await ReservationService.GetReservationsByCustomerIdAsync(customerId);
+                        TrackedHasReservation = await context.Reservation.AnyAsync(r => r.CustomerId == customer.Id.ToString());
+
                     }
                     else
                     {
@@ -309,8 +330,20 @@
                 context = await DbFactory.CreateDbContextAsync();
             }
 
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+
             var customer = await context.Customer
                 .FirstOrDefaultAsync(c => c.UserId == userId);
+
+            var isStaff = user.IsInRole("Staff");
+            var isAdmin = user.IsInRole("Admin");
+
+            if (isStaff == true || isAdmin == true){
+                Logger.LogInformation("Admins and Staff are to access Admin Pages to make reservations instead");
+                UnauthorizedReservation = true;
+                return;
+            }
 
             if (customer == null)
             {
@@ -320,7 +353,7 @@
 
             // Set Time if not already set
             Reservation.Time = FormModel.ReservationTime ?? "12:00 PM"; // Default to "12:00 PM" if null
-            // Combine Date and Time for ReservedDateTime
+                                                                        // Combine Date and Time for ReservedDateTime
             var dateTimeString = $"{FormModel.ReservationDate:yyyy-MM-dd} {Reservation.Time}";
             Reservation.ReservedDateTime = DateTime.Parse(dateTimeString);
             Reservation.CustomerId = customer.Id.ToString();
@@ -328,19 +361,29 @@
             Reservation.UpdatedBy = userId;
             Reservation.DateCreated = DateTime.Now;
             Reservation.DateUpdated = DateTime.Now;
+            TrackedHasReservation = await context.Reservation.AnyAsync(r => r.CustomerId == customer.Id.ToString());
 
-            var success = await ReservationService.CreateReservationAsync(Reservation, FormModel.ReservationBranch);
+            if (TrackedHasReservation==false){
+                var success = await ReservationService.CreateReservationAsync(Reservation, FormModel.ReservationBranch);
+                if (success)
+                {
+                    HasReservation = true;
+                    reservations = await ReservationService.GetReservationsByCustomerIdAsync(customer.Id.ToString());
+                    StateHasChanged();
+                }
+                else
+                {
+                    Logger.LogWarning("No available tables for reservation");
+                }
+            }
 
-            if (success)
-            {
-                HasReservation = true;
-                reservations = await ReservationService.GetReservationsByCustomerIdAsync(customer.Id.ToString());
-                StateHasChanged();
+            else if (TrackedHasReservation==true){
+                TriedBypass = true;
+                Logger.LogInformation("You can only book one table.");
             }
-            else
-            {
-                Logger.LogWarning("No available tables for reservation");
-            }
+            
+
+            
         }
         catch (Exception ex)
         {
