@@ -10,15 +10,11 @@
 @attribute [Authorize(Roles = "Admin, Staff")]
 <PageTitle>Reservations</PageTitle>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reservations</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="styles.css" rel="stylesheet">
+
+
+
     <!-- Sidebar -->
     <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
         <div class="offcanvas-header">
@@ -173,21 +169,23 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const toggleButton = document.querySelector('button[data-bs-target="#sidebarMenu"]');
-            const sidebar = document.getElementById('sidebarMenu');
+            const sidebar = new bootstrap.Offcanvas(document.getElementById('sidebarMenu'));
+            sidebar.show();
 
-            sidebar.addEventListener('shown.bs.offcanvas', () => {
+            const toggleButton = document.querySelector('button[data-bs-target="#sidebarMenu"]');
+            sidebar._element.addEventListener('shown.bs.offcanvas', () => {
                 toggleButton.style.visibility = 'hidden';
             });
 
-            sidebar.addEventListener('hidden.bs.offcanvas', () => {
+            sidebar._element.addEventListener('hidden.bs.offcanvas', () => {
                 toggleButton.style.visibility = 'visible';
             });
         });
     </script>
 
-</body>
-</html>
+
+
+
 
 @code {
     private FSD_ProjectContext context = default!;
