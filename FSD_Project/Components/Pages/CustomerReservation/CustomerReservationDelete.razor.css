@@ -1,0 +1,97 @@
+﻿/* General Styles */
+body {
+    background-color: #2C2C2C;
+    color: #E7E2B5;
+    font-family: 'Trajan Pro', serif;
+    margin: 0;
+    padding: 2rem;
+}
+
+/* Page Titles & Headings */
+h1, h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #E7E2B5;
+    padding: 1rem;
+    font-family: 'Trajan Pro', serif;
+}
+
+p {
+    text-align: center;
+    color: #FFFFFF;
+}
+
+/* Reservation Details Card */
+.reservation-details {
+    max-width: 600px;
+    margin: 2rem auto;
+    background-color: #333;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Description List Styling */
+dl.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    background-color: #444;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+    dl.row dt {
+        flex: 0 0 30%;
+        font-weight: bold;
+        color: #E7E2B5;
+        padding-right: 1rem;
+    }
+
+    dl.row dd {
+        flex: 1 0 70%;
+        margin: 0;
+        color: #FFFFFF;
+    }
+
+/* Form Styling */
+form[FormName="delete"] {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+/* Button Styling */
+button.btn-danger {
+    background-color: #2C2C2C;
+    color: #E7E2B5;
+    border: 1px solid #E7E2B5;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+    button.btn-danger:hover {
+        background-color: #444;
+        color: #FFFFFF;
+    }
+
+/* Link Styling */
+a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+    a:hover {
+        color: #0056b3;
+    }
+
+.page-background {
+    background-color: #2C2C2C;
+    color: #2C2C2C;
+    height: 100.7vh;
+    position: relative;
+    margin-top:-1.5rem;
+}
