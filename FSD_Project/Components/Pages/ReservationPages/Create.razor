@@ -290,13 +290,13 @@
             }
 
             else if (isStaff|| isAdmin)
-        {
+            {
                 // Set Time if not already set
                 Reservation.Time = FormModel.ReservationTime ?? "12:00 PM"; // Default to "12:00 PM" if null
                                                                             // Combine Date and Time for ReservedDateTime
                 var dateTimeString = $"{FormModel.ReservationDate:yyyy-MM-dd} {Reservation.Time}";
                 Reservation.ReservedDateTime = DateTime.Parse(dateTimeString);
-                Reservation.CustomerId = Reservation.CustomerId;
+                Reservation.CustomerId = FormModel.CustomerId;
                 Reservation.CreatedBy = FormModel.CreatedBy;
                 Reservation.UpdatedBy = userId;
                 Reservation.DateCreated = DateTime.Now;
