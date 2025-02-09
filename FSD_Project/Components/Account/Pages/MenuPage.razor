@@ -60,12 +60,12 @@
     <div class="swiper-container trending-slider">
         <div class="swiper-wrapper">
             <div class="swiper-slide">
-                <img src="/dish1.jpg" alt="Greek Salad">
-                <h3>Greek Salad</h3>
-                <p>$12.99</p>
+                <img src="/dish2.jpg" alt="Tzatziki">
+                <h3>Tzatziki</h3>
+                <p>$8.99</p>
             </div>
             <div class="swiper-slide">
-                <img src="/dish2.jpg" alt="Moussaka">
+                <img src="/dish4.jpg" alt="Moussaka">
                 <h3>Moussaka</h3>
                 <p>$18.99</p>
             </div>
@@ -73,6 +73,11 @@
                 <img src="/dish3.jpg" alt="Souvlaki">
                 <h3>Souvlaki</h3>
                 <p>$15.99</p>
+            </div>
+            <div class="swiper-slide">
+                <img src="/dish1.jpg" alt="Greek Salad">
+                <h3>Greek Salad</h3>
+                <p>$12.99</p>
             </div>
         </div>
         <!-- Add Pagination -->
@@ -172,13 +177,13 @@
 <script src="https://unpkg.com/swiper@10/swiper-bundle.min.js"></script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+       document.addEventListener("DOMContentLoaded", function () {
         var mySwiper = new Swiper('.trending-slider', {
             effect: 'coverflow',
             grabCursor: true,
             centeredSlides: true,
             loop: true,
-            slidesPerView: 'auto',
+            slidesPerView: 2, // Adjust to fit the layout
             coverflowEffect: {
                 rotate: 0,
                 stretch: 0,
@@ -195,6 +200,7 @@
             }
         });
     });
+
 </script>
 
 
