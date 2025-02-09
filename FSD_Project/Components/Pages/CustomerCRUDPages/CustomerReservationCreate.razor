@@ -8,7 +8,6 @@
 @using System.Security.Claims
 @using System.ComponentModel.DataAnnotations
 @using FSD_Project.Data
-@using FSD_Project.Services
 
 @inject ILogger<Index> Logger
 @inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
@@ -390,13 +389,6 @@
                         reservationMessage = "You have reserved a table.";
                         reservations = await ReservationService.GetReservationsByCustomerIdAsync(customer.Id.ToString());
                         branchName = AssigningBranch(FormModel.ReservationBranch);
-                        // if (FormModel.ReservationBranch == "1"){
-                        //     branchName = "The Shoppes at Marina Bay Sands";
-                        // }
-                        // else if (FormModel.ReservationBranch == "2"){
-                        //     branchName = "Jewel at Changi Airport";
-                        // }
-
                         await EmailSender.SendReservationConfirmation(projectUser, userEmail, reservationMessage, Reservation.ReservedDateTime.ToString(), branchName);
                         StateHasChanged();
                     }

@@ -1,0 +1,80 @@
+﻿<h3>Customer Account</h3>
+@page "/customer/account"
+
+@using FSD_Project.Services
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.Build.Framework
+@using Microsoft.EntityFrameworkCore
+@using FSD_Project.Domain
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
+@using System.ComponentModel.DataAnnotations
+@using FSD_Project.Data
+
+@inject ILogger<Index> Logger
+@inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IReservationService ReservationService
+@inject IJSRuntime JS
+
+<section class="page-background">
+    <p>Your User Name: @userName</p>
+    <p>Your User ID: @userId</p>
+    <p>Your Customer ID: @Customer?.Id</p>
+</section>
+
+
+
+@code {
+    private List<Customer> customers = new();
+    private List<Reservation> reservations = new();
+    private Reservation Reservation { get; set; } = new();
+    private Customer? Customer { get; set; } = new();
+    private FSD_ProjectContext context = default!;
+    private string userId;
+    private string? userName;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Initialize context
+        context = await DbFactory.CreateDbContextAsync();
+
+        // Retrieve the authenticated user
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        // Extract the user ID from the user's claims
+        userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        userName = user.Identity?.Name; // Alternatively: user.FindFirst(ClaimTypes.Name)?.Value;
+
+        // Retrieve and store the customer record in the Customer property
+        Customer = await context.Customer.FirstOrDefaultAsync(c => c.UserId == userId);
+
+        if (Customer != null)
+        {
+            var customerId = Customer.Id.ToString();
+            reservations = await ReservationService.GetReservationsByCustomerIdAsync(customerId);
+        }
+    }
+
+
+
+
+    private string GetBranchName(int tableId)
+    {
+        // TableID 1-5 -> Branch 1, TableID 6-10 -> Branch 2
+        if (tableId >= 1 && tableId <= 5)
+        {
+            return "The Shoppes at Marina Bay Sands";
+        }
+        else if (tableId >= 6 && tableId <= 10)
+        {
+            return "Jewel at Changi Airport";
+        }
+        else
+        {
+            return "Unknown Branch"; 
+        }
+    }
+}
