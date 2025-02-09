@@ -263,6 +263,7 @@
     private FSD_ProjectContext context = default!;
     private string userEmail;
     private string reservationMessage;
+    private string branchName;
 
     private List<string> TimeOptions = new List<string>
     {
@@ -388,7 +389,15 @@
                         userEmail = customer.Email;
                         reservationMessage = "You have reserved a table.";
                         reservations = await ReservationService.GetReservationsByCustomerIdAsync(customer.Id.ToString());
-                        await EmailSender.SendReservationConfirmation(projectUser, userEmail, reservationMessage, Reservation.ReservedDateTime.ToString());
+                        branchName = AssigningBranch(FormModel.ReservationBranch);
+                        // if (FormModel.ReservationBranch == "1"){
+                        //     branchName = "The Shoppes at Marina Bay Sands";
+                        // }
+                        // else if (FormModel.ReservationBranch == "2"){
+                        //     branchName = "Jewel at Changi Airport";
+                        // }
+
+                        await EmailSender.SendReservationConfirmation(projectUser, userEmail, reservationMessage, Reservation.ReservedDateTime.ToString(), branchName);
                         StateHasChanged();
                     }
                     else
@@ -428,6 +437,22 @@
             return "Unknown Branch"; // In case of unexpected tableId
         }
     }
+
+    private string AssigningBranch(string branchId)
+    {
+        if (branchId == "1")
+        {
+            return "The Shoppes at Marina Bay Sands";
+        }
+        else if (branchId == "2")
+        {
+            return "Jewel at Changi Airport";
+        }
+
+        // Default case for unknown branch IDs
+        return "Unknown Branch";
+    }
+
 
     private sealed class InputModel
     {

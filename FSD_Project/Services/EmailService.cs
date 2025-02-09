@@ -58,7 +58,7 @@ namespace FSD_Project.Services
             }
         }
 
-        public async Task SendReservationEmailAsync(string recipientEmail, string reservationMessage, string reservedDateTime)
+        public async Task SendReservationEmailAsync(string recipientEmail, string reservationMessage, string reservedDateTime, string branchName)
         {
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("Athens", _senderEmail));
@@ -70,7 +70,7 @@ namespace FSD_Project.Services
             {
                 HtmlBody = $@"
                 <p>Thank you for reserving with us!</p>
-                <p>{reservationMessage}at {reservedDateTime} </p>
+                <p>{reservationMessage}at {reservedDateTime} at our {branchName} branch</p>
                 <p>We look forward to welcoming you soon.</p>
                 "
             };
