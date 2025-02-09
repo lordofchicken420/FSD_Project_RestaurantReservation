@@ -171,13 +171,17 @@
 
 @code {
     [SupplyParameterFromForm]
-    private InputModel FormModel { get; set; } = new();
+    private InputModel FormModel { get; set; } = new InputModel
+        {
+            ReservationDate = DateTime.Today // Set default value here
+        };
     private List<Customer> customers = new();
     private List<Reservation> reservations = new();
     private Reservation Reservation { get; set; } = new();
     private string userId;
     private bool HasReservation;
     private FSD_ProjectContext context = default!;
+
 
     private List<string> TimeOptions = new List<string>
     {
@@ -193,7 +197,7 @@
             // Initialize context regardless of authentication
             context = await DbFactory.CreateDbContextAsync();
 
-            FormModel.ReservationDate = DateTime.Today;
+            //FormModel.ReservationDate = DateTime.Today;
 
             // Retrieve the authenticated user
             var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();

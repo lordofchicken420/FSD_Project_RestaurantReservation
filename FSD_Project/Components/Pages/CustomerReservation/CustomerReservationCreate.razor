@@ -245,7 +245,11 @@
 
 @code {
     [SupplyParameterFromForm]
-    private InputModel FormModel { get; set; } = new();
+    private InputModel FormModel { get; set; } = new InputModel
+        {
+            ReservationDate = DateTime.Today // Set default value here
+        };
+
     private List<Customer> customers = new();
     private List<Reservation> reservations = new();
     private Reservation Reservation { get; set; } = new();
@@ -275,7 +279,7 @@
             context = await DbFactory.CreateDbContextAsync();
 
             // Set the current date as the default for ReservationDate
-            FormModel.ReservationDate = DateTime.Today;
+            //FormModel.ReservationDate = DateTime.Today;
 
             // Retrieve the authenticated user
             var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -436,7 +440,7 @@
         [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Name is required")]
         public string CreatedBy { get; set; } = string.Empty;
 
-        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Name is required")]
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Branch is required")]
         public string ReservationBranch { get; set; } = string.Empty;
     }
 }

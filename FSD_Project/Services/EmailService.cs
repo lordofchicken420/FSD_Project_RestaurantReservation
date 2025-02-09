@@ -70,7 +70,7 @@ namespace FSD_Project.Services
             {
                 HtmlBody = $@"
                 <p>Thank you for reserving with us!</p>
-                <p>{reservationMessage} at {reservedDateTime} </p>
+                <p>{reservationMessage}at {reservedDateTime} </p>
                 <p>We look forward to welcoming you soon.</p>
                 "
             };
