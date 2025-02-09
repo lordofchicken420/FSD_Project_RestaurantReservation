@@ -1,0 +1,177 @@
+﻿/* General Body Styling */
+body {
+    background-color: #333;
+    font-family: 'Trajan Pro', serif;
+    color: ghostwhite;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Header Navbar */
+.navbar {
+    background-color: #2C2C2C;
+    padding: 20px;
+    text-align: center;
+}
+
+.page-background {
+    height: 100vh;
+    margin-top: -1.5rem;
+}
+.nav-button {
+    background-color: #444;
+    color: ghostwhite;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'Trajan Pro', serif;
+    color: #E7E2B5;
+}
+
+    .nav-button:hover {
+        background-color: #555;
+    }
+
+/* Page Content */
+.page-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: #2C2C2C;
+    background: linear-gradient(to bottom, #1e1e1e, #333333);
+    color: #f8f9fa;
+    font-family: 'Trajan Pro', serif;
+    height: 100vh;
+}
+
+    .page-content h1 {
+        color: #E7E2B5;
+    }
+
+/* Form Card */
+.user-details-card {
+    background-color: #444;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    width: 100%;
+}
+
+    .user-details-card label {
+        font-weight: bold;
+        color: #E7E2B5;
+    }
+
+    .user-details-card input,
+    .user-details-card select {
+        background-color: #555;
+        color: ghostwhite;
+        border: 1px solid #777;
+        border-radius: 4px;
+        padding: 10px;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+        .user-details-card input:focus,
+        .user-details-card select:focus {
+            outline: none;
+            border-color: #E7E2B5;
+            box-shadow: 0 0 5px rgba(231, 226, 181, 0.8);
+        }
+
+/* Buttons */
+.btn-primary {
+    background-color: #444;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+}
+
+    .btn-primary:hover {
+        background-color: #555;
+    }
+
+.text-danger {
+    color: #ff6666;
+    font-size: 0.9rem;
+}
+
+
+.useless {
+    display: none; 
+}
+
+/* Subtle, Professional Save Button */
+.btn-save {
+    background-color: #2C2C2C; /* Muted gold (not too bright) */
+    color: #E7E2B5; /* Darker text for readability */
+    font-size: 1.1rem; /* Slightly larger for emphasis */
+    font-weight: bold;
+    padding: 12px 22px; /* Comfortable padding */
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Soft shadow */
+}
+
+    /* Hover Effect - Slightly Darker */
+    .btn-save:hover {
+        background-color: #A8925A; /* Darker muted gold */
+        transform: translateY(-2px); /* Lift slightly */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+    }
+
+    /* Click Effect - Slight Press */
+    .btn-save:active {
+        background-color: #927D47;
+        transform: translateY(1px); /* Press down */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Focus Effect - Gentle Outline */
+    .btn-save:focus {
+        outline: 2px solid #A8925A;
+        box-shadow: 0 0 6px rgba(185, 165, 105, 0.6); /* Soft glow */
+    }
+
+    }
+
+/* Optional: Attention-Grabbing Pulse Animation */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 4px 8px rgba(231, 226, 181, 0.3);
+    }
+
+    50% {
+        transform: scale(1.08);
+        box-shadow: 0 6px 12px rgba(231, 226, 181, 0.5);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 4px 8px rgba(231, 226, 181, 0.3);
+    }
+}
+
+.btn-save.pulse {
+    animation: pulse 1.5s infinite ease-in-out;
+}
+

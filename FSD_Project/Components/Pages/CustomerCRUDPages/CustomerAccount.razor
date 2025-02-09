@@ -10,7 +10,7 @@
 @using System.Security.Claims
 @using System.ComponentModel.DataAnnotations
 @using FSD_Project.Data
-
+@inject NavigationManager NavigationManager
 @inject ILogger<Index> Logger
 @inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
@@ -46,10 +46,11 @@
             <p><i class="bi bi-card-text"></i> <span class="label">User ID:</span> @userId</p>
             <p><i class="bi bi-hash"></i> <span class="label">Customer ID:</span> @Customer?.Id</p>
 
-            <div class="action-buttons text-center">
-                <button class="btn btn-primary" onclick="window.location.href='/edit-account'">Edit Account</button>
-                <button class="btn btn-secondary" onclick="window.location.href='/reservations'">View Reservations</button>
-            </div>
+            @* <div class="action-buttons text-center"> *@
+            @*     <a href="@($"/customerdetails/edit?id={Customer?.Id}")" class="btn btn-primary">Edit Account</a> *@
+
+            @*     <button class="btn btn-secondary" onclick="window.location.href='/reservations'">View Reservations</button> *@
+            @* </div> *@
 
 
         </div>
@@ -109,5 +110,14 @@
         {
             return "Unknown Branch"; 
         }
+    }
+
+
+
+
+
+    private void NavigateToEditAccount()
+    {
+        NavigationManager.NavigateTo($"/customers/edit?id={Customer?.Id}");
     }
 }

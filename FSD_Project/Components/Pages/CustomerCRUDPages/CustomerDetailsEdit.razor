@@ -1,53 +1,48 @@
-﻿@page "/customers/edit"
+﻿@page "/customerdetails/edit"
 @using Microsoft.EntityFrameworkCore
 @using FSD_Project.Domain
 @using FSD_Project.Data
 @using System.ComponentModel.DataAnnotations
-@using System.Text
-@using System.Text.Encodings.Web
 @using Microsoft.AspNetCore.Identity
-@using Microsoft.AspNetCore.WebUtilities
-@using Microsoft.AspNetCore.Authorization
-
-@attribute [Authorize(Roles = "Admin, Staff")]
 
 @inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
 @inject UserManager<FSD_ProjectUser> UserManager
-@inject RoleManager<IdentityRole> RoleManager
 
-<PageTitle>Edit</PageTitle>
+<PageTitle>Edit Customer Details</PageTitle>
+<section class="page-background">
+<!-- Header -->
+<header class="navbar">
+    <nav>
+        <ul class="nav-links">
+            <li><button class="nav-button" onclick="window.location.href='/customer/account'">Back to Account</button></li>
+        </ul>
+    </nav>
+</header>
 
-<h1>Edit</h1>
+<!-- Main Content -->
+<section class="page-content">
+    <h1>Edit Account Details</h1>
 
-<h2>Customer</h2>
-<hr />
-@if (Customer is null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <div class="row">
-        <div class="col-md-4">
-            <EditForm method="post" Model="Customer" OnValidSubmit="UpdateCustomer" FormName="edit" Enhance>
+    @if (Customer is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <div class="user-details-card">
+                <EditForm method="post" Model="Customer" OnValidSubmit="UpdateCustomer" FormName="edit" Enhance>
                 <DataAnnotationsValidator />
                 <ValidationSummary role="alert" />
-                
+
+                <!-- Name -->
                 <div class="mb-3">
-                    <label for="name" class="form-label">Name:</label>
+                    <label for="name" class="form-label">User Name:</label>
                     <InputText id="name" @bind-Value="Customer.Name" class="form-control" />
                     <ValidationMessage For="() => Customer.Name" class="text-danger" />
                 </div>
 
-                <div class="mb-3">
-                    <label for="customerid" class="form-label">Customer ID:</label>
-                    <InputNumber id="customerid" @bind-Value="Customer.Id" class="form-control" readonly />
-                </div>
-
-
-
-
+                <!-- Gender -->
                 <div class="mb-3">
                     <label for="gender" class="form-label">Gender:</label>
                     <InputSelect id="gender" @bind-Value="Customer.Gender" class="form-control">
@@ -59,11 +54,14 @@ else
                     <ValidationMessage For="() => Customer.Gender" class="text-danger" />
                 </div>
 
+                <!-- New Password -->
                 <div class="mb-3">
                     <label for="password" class="form-label">New Password:</label>
                     <InputText id="password" type="password" @bind-Value="Password" class="form-control" />
                     <ValidationMessage For="() => Password" class="text-danger" />
                 </div>
+
+                <!-- Confirm Password -->
                 <div class="mb-3">
                     <label for="confirmPassword" class="form-label">Confirm Password:</label>
                     <InputText id="confirmPassword" type="password" @bind-Value="ConfirmPassword" class="form-control" />
@@ -71,7 +69,7 @@ else
                 </div>
 
 
-
+                <div class="useless">
                 <div class="mb-3">
                     <label for="datecreated" class="form-label">DateCreated:</label>
                     <InputDate id="datecreated" @bind-Value="Customer.DateCreated" class="form-control" />
@@ -92,16 +90,20 @@ else
                     <InputText id="updatedby" @bind-Value="Customer.UpdatedBy" class="form-control" />
                     <ValidationMessage For="() => Customer.UpdatedBy" class="text-danger" />
                 </div>
-                <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-save">💾 Save Changes</button>
+
             </EditForm>
         </div>
-    </div>
-}
+    }
+</section>
 
 <div>
     <a href="/customers">Back to List</a>
 </div>
-
+</section>
 @code {
     [SupplyParameterFromQuery]
     private int Id { get; set; }
@@ -116,9 +118,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         using var context = DbFactory.CreateDbContext();
-
-        // Retrieve the customer record by Id
-        Customer = await context.Customer.FirstOrDefaultAsync(m => m.Id == Id);
+        Customer ??= await context.Customer.FirstOrDefaultAsync(m => m.Id == Id);
 
         if (Customer is null)
         {
@@ -126,18 +126,9 @@ else
         }
     }
 
-
-
     private async Task UpdateCustomer()
     {
         using var context = DbFactory.CreateDbContext();
-
-        // Validate Customer.Id
-        if (Customer == null || Customer.Id <= 0)
-        {
-            ErrorMessage = "Invalid Customer ID.";
-            return;
-        }
 
         // Check if a new password is provided
         if (!string.IsNullOrWhiteSpace(Password))
@@ -149,7 +140,7 @@ else
             }
 
             // Fetch the associated user in the AspNetUsers table
-            var user = await UserManager.FindByIdAsync(Customer.UserId);
+            var user = await UserManager.FindByIdAsync(Customer!.UserId);
             if (user == null)
             {
                 ErrorMessage = "User not found in the Identity database.";
@@ -167,10 +158,8 @@ else
             }
         }
 
-        Customer.DateUpdated = DateTime.Now;
-
-        // Attach and update customer details
-        context.Attach(Customer).State = EntityState.Modified;
+        // Update customer details
+        context.Attach(Customer!).State = EntityState.Modified;
 
         try
         {
@@ -178,7 +167,7 @@ else
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!CustomerExists(Customer.Id))
+            if (!CustomerExists(Customer!.Id))
             {
                 NavigationManager.NavigateTo("notfound");
             }
@@ -190,7 +179,6 @@ else
 
         NavigationManager.NavigateTo("/customers");
     }
-
 
     private bool CustomerExists(int id)
     {
