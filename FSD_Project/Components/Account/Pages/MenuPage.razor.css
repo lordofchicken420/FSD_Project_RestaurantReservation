@@ -48,11 +48,18 @@ ul {
     top: -35px; /* Moves the button upwards */
 }
 
+.account {
+    position: relative;
+    left: 30px;
+    top: -35px; /* Moves the button upwards */
+}
+
 .logout-button {
     position: relative;
     left: 30px;
     top: -35px; /* Moves the button upwards */
 }
+
 
 .icon svg {
     fill: white;
@@ -77,6 +84,8 @@ ul {
     list-style: none; /* Removes bullets */
     padding: 0;
     margin: 0;
+    position: relative;
+    left: 4rem;
 }
 
 .nav-button {
@@ -90,6 +99,7 @@ ul {
     padding: 10px 20px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+
 }
 
     .nav-button:hover {
@@ -110,6 +120,7 @@ ul {
     align-items: center;
     text-align: center;
     background-color: #2C2C2C;
+
     color: #FFFFFF;
     background-image: url('hero-menu.jpg'); /* Add your hero menu background image */
     background-size: cover;

@@ -118,6 +118,8 @@ ul {
     list-style: none; /* Removes bullets */
     padding: 0;
     margin: 0;
+    position: relative;
+    left:4rem;
 }
 
 .nav-button {
@@ -150,8 +152,8 @@ ul {
     background-image: url('hero-image.jpg'); /* Replace with your hero image */
     background-size: cover;
     background-position: center;
-    background-color: #333;
-    color: #FFFFFF;
+    background: linear-gradient(to bottom, #1e1e1e, #333333);
+    color: #f8f9fa;
     animation: fadeIn 2s ease-in-out;
 }
 

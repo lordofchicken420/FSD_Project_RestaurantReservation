@@ -18,11 +18,44 @@
 @inject IReservationService ReservationService
 @inject IJSRuntime JS
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+<!-- Header with Back to Home Button -->
+<header class="navbar">
+    <nav>
+        <ul class="nav-links">
+            <li>
+                <button class="nav-button" onclick="window.location.href='/'">Back to Home</button>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+
+
+<!-- Main Content Section -->
 <section class="page-background">
-    <p>Your User Name: @userName</p>
-    <p>Your User ID: @userId</p>
-    <p>Your Customer ID: @Customer?.Id</p>
+    <div class="greetings">
+    <h1>Welcome, @userName!</h1>
+    <p>Your account details are listed below:</p>
+    </div>
+    <h3>Account Details</h3>
+    <div class="user-details-card">
+        <div class="card-body">
+            <p><i class="bi bi-person-fill"></i> <span class="label">User Name:</span> @userName</p>
+            <p><i class="bi bi-card-text"></i> <span class="label">User ID:</span> @userId</p>
+            <p><i class="bi bi-hash"></i> <span class="label">Customer ID:</span> @Customer?.Id</p>
+
+            <div class="action-buttons text-center">
+                <button class="btn btn-primary" onclick="window.location.href='/edit-account'">Edit Account</button>
+                <button class="btn btn-secondary" onclick="window.location.href='/reservations'">View Reservations</button>
+            </div>
+
+
+        </div>
+    </div>
 </section>
+
 
 
 

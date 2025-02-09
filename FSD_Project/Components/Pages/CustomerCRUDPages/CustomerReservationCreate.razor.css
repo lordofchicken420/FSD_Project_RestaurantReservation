@@ -61,6 +61,11 @@ ul {
     top: -35px; /* Moves the button upwards */
 }
 
+.account {
+    position: relative;
+    left: 30px;
+    top: -35px; /* Moves the button upwards */
+}
 
 .icon svg {
     fill: white;
@@ -85,7 +90,10 @@ ul {
     list-style: none; /* Removes bullets */
     padding: 0;
     margin: 0;
+    position: relative;
+    left: 4rem;
 }
+
 
 .nav-button {
     background-color: #2C2C2C; /* Matches the navbar background */

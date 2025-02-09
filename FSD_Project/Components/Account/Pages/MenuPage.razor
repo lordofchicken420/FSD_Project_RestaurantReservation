@@ -9,6 +9,8 @@
 <header class="navbar">
     <nav>
         <ul class="nav-links">
+
+            <!-- Other buttons -->
             <li>
                 <button class="nav-button home" onclick="window.location.href='/'">Home</button>
             </li>
@@ -18,6 +20,7 @@
             <li>
                 <button class="nav-button menu" onclick="window.location.href='/Menu'">Menu</button>
             </li>
+            <!-- User icon and login/logout buttons -->
             <li>
                 <ul class="icon">
                     <li>
@@ -30,9 +33,9 @@
                             <NotAuthorized>
                                 <button class="nav-button login-button" onclick="window.location.href='/Admin'">Login</button>
                             </NotAuthorized>
-
                             <Authorized>
                                 <button class="nav-button logout-button" onclick="window.location.href='/Logout'">Logout</button>
+                                <button class="nav-button account" onclick="window.location.href='/customer/account'">Account</button>
                             </Authorized>
                         </AuthorizeView>
                     </li>
