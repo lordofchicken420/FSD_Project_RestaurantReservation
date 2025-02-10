@@ -3,128 +3,159 @@
 @using FSD_Project.Domain
 @using FSD_Project.Data
 @using System.ComponentModel.DataAnnotations
-@using System.Text
-@using System.Text.Encodings.Web
 @using Microsoft.AspNetCore.Identity
-@using Microsoft.AspNetCore.WebUtilities
-@using Microsoft.AspNetCore.Authorization
-
-@attribute [Authorize(Roles = "Admin, Staff")]
 
 @inject IDbContextFactory<FSD_Project.Data.FSD_ProjectContext> DbFactory
 @inject NavigationManager NavigationManager
 @inject UserManager<FSD_ProjectUser> UserManager
-@inject RoleManager<IdentityRole> RoleManager
+@inject ILogger<Edit> Logger
+@rendermode InteractiveServer
 
-<PageTitle>Edit</PageTitle>
+<PageTitle>Edit Customer Details</PageTitle>
+<section class="page-background">
+    <!-- Header -->
+    <header class="navbar">
+        <nav>
+            <ul class="nav-links">
+                <li><button class="nav-button" onclick="window.location.href='/customer/account'">Back to Account</button></li>
+            </ul>
+        </nav>
+    </header>
 
-<h1>Edit</h1>
-
-<h2>Customer</h2>
-<hr />
-@if (Customer is null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <div class="row">
-        <div class="col-md-4">
-            <EditForm method="post" Model="Customer" OnValidSubmit="UpdateCustomer" FormName="edit" Enhance>
-                <DataAnnotationsValidator />
-                <ValidationSummary role="alert" />
-                
-                <div class="mb-3">
-                    <label for="name" class="form-label">Name:</label>
-                    <InputText id="name" @bind-Value="Customer.Name" class="form-control" />
-                    <ValidationMessage For="() => Customer.Name" class="text-danger" />
-                </div>
-
-                <div class="mb-3">
-                    <label for="customerid" class="form-label">Customer ID:</label>
-                    <InputNumber id="customerid" @bind-Value="Customer.Id" class="form-control" readonly />
-                </div>
-
-
-
-
-                <div class="mb-3">
-                    <label for="gender" class="form-label">Gender:</label>
-                    <InputSelect id="gender" @bind-Value="Customer.Gender" class="form-control">
-                        <option value="" disabled>Select Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
-                    </InputSelect>
-                    <ValidationMessage For="() => Customer.Gender" class="text-danger" />
-                </div>
-
-                <div class="mb-3">
-                    <label for="password" class="form-label">New Password:</label>
-                    <InputText id="password" type="password" @bind-Value="Password" class="form-control" />
-                    <ValidationMessage For="() => Password" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="confirmPassword" class="form-label">Confirm Password:</label>
-                    <InputText id="confirmPassword" type="password" @bind-Value="ConfirmPassword" class="form-control" />
-                    <ValidationMessage For="() => ConfirmPassword" class="text-danger" />
-                </div>
-
-
-
-                <div class="mb-3">
-                    <label for="datecreated" class="form-label">DateCreated:</label>
-                    <InputDate id="datecreated" @bind-Value="Customer.DateCreated" class="form-control" />
-                    <ValidationMessage For="() => Customer.DateCreated" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="dateupdated" class="form-label">DateUpdated:</label>
-                    <InputDate id="dateupdated" @bind-Value="Customer.DateUpdated" class="form-control" />
-                    <ValidationMessage For="() => Customer.DateUpdated" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="createdby" class="form-label">CreatedBy:</label>
-                    <InputText id="createdby" @bind-Value="Customer.CreatedBy" class="form-control" />
-                    <ValidationMessage For="() => Customer.CreatedBy" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="updatedby" class="form-label">UpdatedBy:</label>
-                    <InputText id="updatedby" @bind-Value="Customer.UpdatedBy" class="form-control" />
-                    <ValidationMessage For="() => Customer.UpdatedBy" class="text-danger" />
-                </div>
-                <button type="submit" class="btn btn-primary">Save</button>
-            </EditForm>
+    <!-- Success Alert -->
+    @if (ShowSuccessMessage)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Success!</strong> You have edited your details.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    </div>
-}
+    }
 
-<div>
-    <a href="/customers">Back to List</a>
-</div>
+    <!-- Main Content -->
+    <section class="page-content">
+        <h1>Edit Account Details</h1>
+
+        @if (Customer is null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            <div class="user-details-card">
+                <EditForm Model="Customer" OnValidSubmit="UpdateCustomer" FormName="edit" Enhance>
+                    <DataAnnotationsValidator />
+                    <ValidationSummary role="alert" />
+
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name:</label>
+                        <InputText id="name" @bind-Value="Customer.Name" class="form-control" />
+                        <ValidationMessage For="() => Customer.Name" class="text-danger" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="customerid" class="form-label">Customer ID:</label>
+                        <InputNumber id="customerid" @bind-Value="Customer.Id" class="form-control" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="gender" class="form-label">Gender:</label>
+                        <InputSelect id="gender" @bind-Value="Customer.Gender" class="form-control">
+                            <option value="" disabled>Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </InputSelect>
+                        <ValidationMessage For="() => Customer.Gender" class="text-danger" />
+                    </div>
+                    <div class="useless">
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">New Password:</label>
+                            <InputText id="password" type="password" @bind-Value="Password" class="form-control" />
+                            <ValidationMessage For="() => Password" class="text-danger" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm Password:</label>
+                            <InputText id="confirmPassword" type="password" @bind-Value="ConfirmPassword" class="form-control" />
+                            <ValidationMessage For="() => ConfirmPassword" class="text-danger" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="datecreated" class="form-label">DateCreated:</label>
+                            <InputDate id="datecreated" @bind-Value="Customer.DateCreated" class="form-control" />
+                            <ValidationMessage For="() => Customer.DateCreated" class="text-danger" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="dateupdated" class="form-label">DateUpdated:</label>
+                            <InputDate id="dateupdated" @bind-Value="Customer.DateUpdated" class="form-control" />
+                            <ValidationMessage For="() => Customer.DateUpdated" class="text-danger" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="createdby" class="form-label">CreatedBy:</label>
+                            <InputText id="createdby" @bind-Value="Customer.CreatedBy" class="form-control" />
+                            <ValidationMessage For="() => Customer.CreatedBy" class="text-danger" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="updatedby" class="form-label">UpdatedBy:</label>
+                            <InputText id="updatedby" @bind-Value="Customer.UpdatedBy" class="form-control" />
+                            <ValidationMessage For="() => Customer.UpdatedBy" class="text-danger" />
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </EditForm>
+            </div>
+        }
+    </section>
+
+
+</section>
+
 
 @code {
     [SupplyParameterFromQuery]
     private int Id { get; set; }
 
-    [SupplyParameterFromForm]
     private Customer? Customer { get; set; }
 
     private string Password { get; set; } = string.Empty;
     private string ConfirmPassword { get; set; } = string.Empty;
     private string? ErrorMessage { get; set; }
+    private bool ShowSuccessMessage { get; set; } = false;
+    private string CustomerName;
 
     protected override async Task OnInitializedAsync()
     {
         using var context = DbFactory.CreateDbContext();
 
-        // Retrieve the customer record by Id
-        Customer = await context.Customer.FirstOrDefaultAsync(m => m.Id == Id);
+        Logger.LogInformation("Fetching Customer with ID: {CustomerId}", Id);
 
-        if (Customer is null)
+        var customerFromDb = await context.Customer.AsNoTracking().FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (customerFromDb is null)
         {
+            Logger.LogWarning("Customer not found for ID: {CustomerId}", Id);
             NavigationManager.NavigateTo("notfound");
         }
+        else
+        {
+            Logger.LogInformation("Customer Loaded: Name = {Name}, Gender = {Gender}, UpdatedBy = {UpdatedBy}",
+                customerFromDb.Name, customerFromDb.Gender, customerFromDb.UpdatedBy);
+
+            Customer = new Customer
+                {
+                    Id = customerFromDb.Id,
+                    Name = customerFromDb.Name,
+                    Gender = customerFromDb.Gender,
+                    DateCreated = customerFromDb.DateCreated,
+                    DateUpdated = customerFromDb.DateUpdated,
+                    CreatedBy = customerFromDb.CreatedBy,
+                    UpdatedBy = customerFromDb.UpdatedBy,
+                    UserId = customerFromDb.UserId
+                };
+        }
     }
+
+
 
 
 
@@ -132,52 +163,36 @@ else
     {
         using var context = DbFactory.CreateDbContext();
 
-        // Validate Customer.Id
-        if (Customer == null || Customer.Id <= 0)
+        var existingCustomer = await context.Customer.FindAsync(Customer.Id);
+        if (existingCustomer == null)
         {
-            ErrorMessage = "Invalid Customer ID.";
+            Logger.LogWarning("Customer not found in database for ID: {CustomerId}", Customer.Id);
+            ErrorMessage = "Customer not found.";
             return;
         }
 
-        // Check if a new password is provided
-        if (!string.IsNullOrWhiteSpace(Password))
-        {
-            if (Password != ConfirmPassword)
-            {
-                ErrorMessage = "Passwords do not match.";
-                return;
-            }
+        // Update fields
+        existingCustomer.Name = Customer.Name;
+        existingCustomer.Gender = Customer.Gender;
+        existingCustomer.DateUpdated = DateTime.Now;
+        existingCustomer.UpdatedBy = Customer.UpdatedBy;
 
-            // Fetch the associated user in the AspNetUsers table
-            var user = await UserManager.FindByIdAsync(Customer.UserId);
-            if (user == null)
-            {
-                ErrorMessage = "User not found in the Identity database.";
-                return;
-            }
-
-            // Generate a password reset token and reset the password
-            var resetToken = await UserManager.GeneratePasswordResetTokenAsync(user);
-            var passwordResult = await UserManager.ResetPasswordAsync(user, resetToken, Password);
-
-            if (!passwordResult.Succeeded)
-            {
-                ErrorMessage = $"Password update failed: {string.Join(", ", passwordResult.Errors.Select(e => e.Description))}";
-                return;
-            }
-        }
-
-        Customer.DateUpdated = DateTime.Now;
-
-        // Attach and update customer details
-        context.Attach(Customer).State = EntityState.Modified;
+        // Mark the entity as modified
+        context.Entry(existingCustomer).State = EntityState.Modified;
 
         try
         {
             await context.SaveChangesAsync();
+            Logger.LogInformation("Successfully saved changes for Customer ID: {CustomerId}", Customer.Id);
+
+            ShowSuccessMessage = true;
+            
+            StateHasChanged();
         }
         catch (DbUpdateConcurrencyException)
         {
+            Logger.LogError("Concurrency error while updating Customer ID: {CustomerId}", Customer.Id);
+
             if (!CustomerExists(Customer.Id))
             {
                 NavigationManager.NavigateTo("notfound");
@@ -187,9 +202,10 @@ else
                 throw;
             }
         }
-
-        NavigationManager.NavigateTo("/customers");
     }
+
+
+
 
 
     private bool CustomerExists(int id)
