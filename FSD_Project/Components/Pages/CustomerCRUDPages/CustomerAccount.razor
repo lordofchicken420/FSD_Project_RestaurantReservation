@@ -43,8 +43,11 @@
     <div class="user-details-card">
         <div class="card-body">
             <p><i class="bi bi-person-fill"></i> <span class="label">User Name:</span> @userName</p>
+            <p><i class="bi bi-person-fill"></i> <span class="label">Name:</span> @Customer?.Name</p>
             <p><i class="bi bi-card-text"></i> <span class="label">User ID:</span> @userId</p>
             <p><i class="bi bi-hash"></i> <span class="label">Customer ID:</span> @Customer?.Id</p>
+            <p><i class="bi bi-person"></i> <span class="label"> Gender:</span> @Customer?.Gender</p>
+
 
              <div class="action-buttons text-center"> 
                  <a href="@($"/customerdetails/edit?id={Customer?.Id}")" class="btn btn-primary">Edit Account</a> 

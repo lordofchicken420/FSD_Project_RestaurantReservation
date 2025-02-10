@@ -17,7 +17,7 @@
     <header class="navbar">
         <nav>
             <ul class="nav-links">
-                <li><button class="nav-button" onclick="window.location.href='/customer/account'">Back to Account</button></li>
+                <li><button class="nav-button" onclick="window.location.href='/customers'">Back to Customers</button></li>
             </ul>
         </nav>
     </header>
@@ -55,6 +55,13 @@
                     <div class="mb-3">
                         <label for="customerid" class="form-label">Customer ID:</label>
                         <InputNumber id="customerid" @bind-Value="Customer.Id" class="form-control" readonly />
+                    </div>
+
+                    <!-- New Email Field -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email:</label>
+                        <InputText id="email" @bind-Value="Customer.Email" class="form-control" />
+                        <ValidationMessage For="() => Customer.Email" class="text-danger" />
                     </div>
 
                     <div class="mb-3">
@@ -106,10 +113,7 @@
             </div>
         }
     </section>
-
-
 </section>
-
 
 @code {
     [SupplyParameterFromQuery]
@@ -150,14 +154,11 @@
                     DateUpdated = customerFromDb.DateUpdated,
                     CreatedBy = customerFromDb.CreatedBy,
                     UpdatedBy = customerFromDb.UpdatedBy,
-                    UserId = customerFromDb.UserId
+                    UserId = customerFromDb.UserId,
+                    Email = customerFromDb.Email  // new field loaded
                 };
         }
     }
-
-
-
-
 
     private async Task UpdateCustomer()
     {
@@ -174,6 +175,7 @@
         // Update fields
         existingCustomer.Name = Customer.Name;
         existingCustomer.Gender = Customer.Gender;
+        existingCustomer.Email = Customer.Email;  // update email field
         existingCustomer.DateUpdated = DateTime.Now;
         existingCustomer.UpdatedBy = Customer.UpdatedBy;
 
@@ -186,7 +188,6 @@
             Logger.LogInformation("Successfully saved changes for Customer ID: {CustomerId}", Customer.Id);
 
             ShowSuccessMessage = true;
-            
             StateHasChanged();
         }
         catch (DbUpdateConcurrencyException)
@@ -203,10 +204,6 @@
             }
         }
     }
-
-
-
-
 
     private bool CustomerExists(int id)
     {
